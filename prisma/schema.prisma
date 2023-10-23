@@ -49,3 +49,5 @@ model ShoppingCart {
 
   @@id([idProduct, idClient])
 }
+
+//
