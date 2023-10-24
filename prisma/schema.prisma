@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")// uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+
+//Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
+model Accessibility {
+  id       String  @id @default(uuid())
+  status   Boolean
+  idClient String? @unique
+  Client   Client? @relation(fields: [idClient], references: [id])
+}
+
+model Client {
+  id            String         @id @default(uuid())
+  name          String
+  surname       String
+  email         String
+  password      String
+  Accessibility Accessibility?
+  ShoppingCart  ShoppingCart[]
+}
+
+//Node 2 - Integrated for  and  |  "one-to-one" 
+model Product {
+  id           String         @id @default(uuid())
+  price        Int
+  availability Int
+  brand        String
+  model        String
+  rating       Int
+  ShoppingCart ShoppingCart[]
+}
+
+//Node 3 - Integrated for Accessibility, Client and ShoppingCart | Product "one-to-many" ShoppingCart, Client "one-to-many" ShoppingCart, 
+model ShoppingCart {
+  idProduct String
+  Product   Product @relation(fields: [idProduct], references: [id])
+  idClient  String
+  Client    Client  @relation(fields: [idClient], references: [id])
+
+  @@id([idProduct, idClient])
+}
+
+//
+//
