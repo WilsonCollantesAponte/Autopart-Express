@@ -1,3 +1,3 @@
-export default function Form() {
-  return <div>This is the form</div>;
+export default function productForm() {
+  return <div>This is the product form</div>;
 }
