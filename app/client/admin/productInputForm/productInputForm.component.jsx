@@ -3,10 +3,10 @@ import { useState } from "react";
 import axios from "axios";
 export default function ProductInputForm() {
   const [product, setProduct] = useState({
+    model: "",
+    brand: "",
     price: "",
     availability: "",
-    brand: "",
-    model: "",
     img: "",
   });
 
@@ -39,10 +39,15 @@ export default function ProductInputForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(product);
-
-    // const productJSON = JSON.stringify(product);
+    if (
+      product.model === "" ||
+      product.brand === "" ||
+      product.price === 0 ||
+      product.availability === 0 ||
+      product.img === ""
+    ) {
+      return alert("faltan datos"); // Exit the function if any fields are empty
+    }
 
     await axios.post("http://localhost:3000/product/form/api", product);
 
