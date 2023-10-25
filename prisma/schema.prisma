@@ -6,12 +6,10 @@ generator client {
 }
 
 datasource db {
-
   provider  = "postgresql"
   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
-
 
 //Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
 model Accessibility {
@@ -28,31 +26,35 @@ model Client {
   email         String
   password      String
   Accessibility Accessibility?
-  ShoppingCart  ShoppingCart[]
+  Cart          Cart[]
 }
 
-//Node 2 - Integrated for  and  |  "one-to-one" 
+//Node 2 - Integrated for Client and Cart |  "one-to-many"
+model Cart {
+  id       String   @id @default(uuid())
+  idClient String
+  Client   Client   @relation(fields: [idClient], references: [id])
+  Detail   Detail[]
+}
+
+//Node 3 - Integrated for: Cart, Detail, Product || Cart "one-to-many" Detail, Product "one-to-many" Detail
 model Product {
-  id           String         @id @default(uuid())
+  id           String   @id @default(uuid())
   price        Int
   availability Int
   brand        String
   model        String
-  rating       Int
-  ShoppingCart ShoppingCart[]
+  rating       Int?
+  Detail       Detail[]
 }
 
-//Node 3 - Integrated for Accessibility, Client and ShoppingCart | Product "one-to-many" ShoppingCart, Client "one-to-many" ShoppingCart, 
-model ShoppingCart {
+model Detail {
   idProduct String
   Product   Product @relation(fields: [idProduct], references: [id])
-  idClient  String
-  Client    Client  @relation(fields: [idClient], references: [id])
+  idCart    String
+  Cart      Cart    @relation(fields: [idCart], references: [id])
 
-  @@id([idProduct, idClient])
+  @@id([idProduct, idCart])
 }
 
 //
-
-//
-
