@@ -1,58 +1,83 @@
 "use client";
-
+import { useState } from "react";
 export default function ProductInputForm() {
+  const [product, setProduct] = useState({
+    name: "",
+    price: "",
+    availability: "",
+    brand: "",
+    model: "",
+  });
+
+  const handleInputChange = (e) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+    console.log(product);
+  };
+  const handleSelectBrand = (e) => {
+    setProduct({ ...product, brand: e.target.value });
+    console.log(product);
+  };
   return (
-    <div className="container">
-      <form>
-        <label className="flex m-4">Nombre del Producto</label>
-        <input className="flex m-4 bg-midnight text-center text-tahiti"></input>
-        <label className="flex m-4">Precio del Producto</label>
-        <input className="flex m-4"></input>
-        <label className="flex m-4">Disponibilidad del Producto</label>
-        <input className="flex m-4"></input>
-        <label className="flex m-4">Marca del Producto</label>
-        <input className="flex m-4"></input>
-        <label className="flex m-4">Modelo del Producto</label>
-        <select className="flex m-4">
-          <option>Ford</option>
-          <option>Toyota</option>
-          <option>Nissan</option>
-          <option>Mazda</option>
-          <option>Honda</option>
-          <option>Hyundai</option>
-          <option>Volvo</option>
-          <option>BMW</option>
-          <option>Audi</option>
-          <option>Mercedes</option>
-          <option>Volkswagen</option>
-          <option>Peugeot</option>
-          <option>Renault</option>
-          <option>Fiat</option>
-          <option>Chevrolet</option>
-          <option>Kia</option>
-          <option>Daewoo</option>
-          <option>Suzuki</option>
-        </select>
-        <button className="flex m-4">Subir Imagen</button>
-        <button className="flex m-4">Borrar Imagen</button>
-        <button className="flex m-4">Enviar</button>
-        <button className="flex m-4">Cancelar</button>
+    <div className="container ">
+      <form class="mx-auto">
+        <label class="flex mx-auto border justify-center">
+          Nombre del Producto
+        </label>
+        <input
+          class="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 "
+          type="text"
+          placeholder="'Bujia'"
+          name="model"
+          onChange={handleInputChange}
+        ></input>
+        <label className="flex mx-auto border justify-center">
+          Precio del Producto
+        </label>
+        <input
+          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          type="text"
+          name="price"
+          onChange={handleInputChange}
+        ></input>
+        <label className="flex mx-auto border justify-center">
+          Disponibilidad del Producto
+        </label>
+        <input
+          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          type="text"
+          name="availability"
+          onChange={handleInputChange}
+        ></input>
+        <label className="flex mx-auto border justify-center">
+          Marca del Producto
+        </label>
+        <input
+          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          type="text"
+          name="brand"
+          onChange={handleInputChange}
+        ></input>
+        <button className="flex m-4 justify-center border">Subir Imagen</button>
+        <button className="flex m-4 border">Borrar Imagen</button>
+        <button className="flex m-4 border">Enviar</button>
+        <button className="flex m-4 border">Cancelar</button>
       </form>
     </div>
   );
 }
 
 //To-Do:
-//[] - escribir los <labels> de los inputs
-//  [] - price
-//  [] - availability
-//  [] - brand
-//  [] - model
-//[] - codear los inputs
-//[] - hacer el boton de submit
-//[] - hacer el boton de subir foto
-//[] - hacer el boton de borrar foto
-//[] - hacer el boton de cancelar
+//[x] - escribir los <labels> de los inputs
+//  [x] - price
+//  [x] - availability
+//  [x] - brand
+//  [x] - model
+//[x] - codear los inputs
+//[x] - hacer el boton de submit
+//[x] - hacer el boton de subir foto
+//[x] - hacer el boton de borrar foto
+//[x] - hacer el boton de cancelar
+//[] - crear los estados locales para guardar los inputs
 //[] - hacer que se reflejen los inputs en la pagina para que el usuario vea los datos
 //[] - configurar Cloudinary
 //[] - integrar cloudinary a la form
