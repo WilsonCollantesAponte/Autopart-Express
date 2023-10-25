@@ -1,8 +1,12 @@
 'use client'
 import styles from './styles.module.css';
-
+import { gapi } from 'gapi-script';
+import { GoogleLogin } from 'react-google-login';
 import { useEffect, useState } from 'react';
 export default function Register() {
+
+
+  const apiClient = "173444235507-cfg95v9p9u0lb0vbdnb7i583f15i8na1.apps.googleusercontent.com"
 
     const [formData, setFormData] = useState({
         name: '',
@@ -62,6 +66,31 @@ export default function Register() {
         validate();
         }
 
+
+
+
+        //a partir de aca todo lo de google
+
+        useEffect(() => {
+          gapi.load('client:auth2', () => {
+            gapi.client.init({
+              clientId: apiClient,
+              scope: 'email',
+            });
+          });
+      }, [])
+      const onSuccess = (res) => {
+
+        //de aca se puede obtener los datos para guardar en la base de datos
+          console.log(res)
+      }
+  
+      const onFailure = () => {
+          console.log("algo salio mal")
+          
+      }
+
+      // hasta aca GOOGLE
     const handleSubmit = (e) => {
         e.preventDefault();
         //aca se realiza la logica de envio de datos al servidor
@@ -131,7 +160,12 @@ export default function Register() {
   
         <button type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
         <br></br>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Registrarse con gmail</button>
+        <GoogleLogin
+                apiClient={apiClient}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_policy'}
+                />
       </form>
     )
 }
