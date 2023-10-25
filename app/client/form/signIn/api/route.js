@@ -5,11 +5,19 @@ export async function POST(request) {
   const { name, surname, email, password } = await request.json();
 
   const aNewClient = await DataBaseInteraction.client.create({
+    include: {
+      Accessibility: true,
+    },
     data: {
       name,
       surname,
       email,
       password,
+      Accessibility: {
+        create: {
+          status: true,
+        },
+      },
     },
   });
 

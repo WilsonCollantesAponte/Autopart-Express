@@ -14,7 +14,7 @@ datasource db {
 //Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
 model Accessibility {
   id       String  @id @default(uuid())
-  status   Boolean
+  status   Boolean @default(true)
   idClient String? @unique
   Client   Client? @relation(fields: [idClient], references: [id])
 }
