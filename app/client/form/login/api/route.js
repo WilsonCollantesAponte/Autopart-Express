@@ -1,23 +1,27 @@
 import DataBaseInteraction from "@/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  try {
-    const client = await DataBaseInteraction.client.findMany();
-    return NextResponse.json({ client });
-  } catch (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
-  }
+export async function GET(request) {
+  const email = request.nextUrl.searchParams.get("email");
+  const password = request.nextUrl.searchParams.get("password");
+
+  if (!email) return NextResponse.json({ message: "email can not be empty" });
+
+  const userFound = await DataBaseInteraction.client.findMany({
+    where: {
+      email,
+      password,
+    },
+  });
+
+  return NextResponse.json({ userFound });
 }
 
 export async function DELETE() {
   try {
-    const deleteUsers = await DataBaseInteraction.client.deleteMany({});
+    const deleteUsers = await DataBaseInteraction.client.deleteMany();
     return NextResponse.json({ deleteUsers });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-
 }
-
-
