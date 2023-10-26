@@ -6,10 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")  
+// }
 
 //Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
 model Accessibility {
@@ -21,10 +26,10 @@ model Accessibility {
 
 model Client {
   id            String         @id @default(uuid())
-  name          String
-  surname       String
-  email         String
-  password      String
+  name          String?
+  surname       String?
+  email         String?
+  password      String?
   Accessibility Accessibility?
   Cart          Cart[]
 }
@@ -40,10 +45,10 @@ model Cart {
 //Node 3 - Integrated for: Cart, Detail, Product || Cart "one-to-many" Detail, Product "one-to-many" Detail
 model Product {
   id           String   @id @default(uuid())
-  price        Int
-  availability Int
-  brand        String
-  model        String
+  price        Int?
+  availability Int?
+  brand        String?
+  model        String?
   rating       Int?
   Detail       Detail[]
 }
@@ -57,4 +62,3 @@ model Detail {
   @@id([idProduct, idCart])
 }
 
-//

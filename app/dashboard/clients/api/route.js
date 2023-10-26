@@ -7,6 +7,26 @@ export async function GET() {
   return NextResponse.json({ allClients });
 }
 
+export async function POST(request) {
+  const { name, surname, email, password } = await request.json();
+
+  const aNewClient = await DataBaseInteraction.client.create({
+    data: {
+      name,
+      surname,
+      email,
+      password,
+      Accessibility: {
+        create: {
+          status: true,
+        },
+      },
+    },
+  });
+
+  return NextResponse.json({ aNewClient });
+}
+
 export async function PUT(request) {
   const idClient = request.nextUrl.searchParams.get("id");
   const { name, surname, email, password, status } = await request.json();
