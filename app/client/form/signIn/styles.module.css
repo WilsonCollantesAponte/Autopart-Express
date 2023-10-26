@@ -1,0 +1,37 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 35%;
+    margin-top: 200px;
+    background-color: rgba(250, 235, 215, 0.247);
+    border-radius: 10px;
+    margin-left: 550px;
+
+
+}
+
+.form div{
+    margin-top: 20px;
+}
+.form label{
+    width: 20px;
+    
+}
+.form input{
+    border-radius: 6%;
+    width: 50%;
+    color: black;
+}
+
+.form p{
+    color: #ef0a0a;
+}
+
+
+.form h1{
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
