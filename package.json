@@ -16,7 +16,9 @@
     "prisma": "^5.5.2",
     "react": "^18",
     "react-dom": "^18",
-    "supports-color": "^9.4.0"
+    "supports-color": "^9.4.0",
+    "@react-oauth/google": "^0.11.1",
+    "next-auth": "^4.24.3"
   },
   "devDependencies": {
     "autoprefixer": "^10",
