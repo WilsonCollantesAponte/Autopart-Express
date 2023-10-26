@@ -1,14 +1,16 @@
 'use client'
 import styles from './styles.module.css';
-import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
-
-
+import {signIn, useSession} from 'next-auth/react'
 import { useEffect, useState } from 'react';
+
+
 export default function Register() {
 
 
-    
+    const {data: session} = useSession();
+    console.log(session);
+
+    //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
 
 
     const [formData, setFormData] = useState({
@@ -19,18 +21,7 @@ export default function Register() {
     })
 
     
-    fetch('http://localhost:3000/client/form/signIn/api', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        surname: formData.surname,
-        email: formData.email,
-        password: formData.password,
-      }),
-    })
+
 
 
     const saveDataToLocalStorage = () =>{
@@ -89,16 +80,28 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //aca se realiza la logica de envio de datos al servidor
+        const responde = await fetch('http://localhost:3000/client/form/signIn/api', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            surname: formData.surname,
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
         validate();
 
-        if (isFormValid){
+        if (isFormValid && responde.ok){
             saveDataToLocalStorage();
+            
             alert('formulario valido');
         }else{
             alert('formulario invalido');
         }
-        console.log(formData);
+        
 
         
         }
@@ -106,31 +109,7 @@ export default function Register() {
 
         //------------------------- cosas para registro por google---------------------------/
 
-        const [user, setUser] = useState({})
-        const clientID = "173444235507-cfg95v9p9u0lb0vbdnb7i583f15i8na1.apps.googleusercontent.com"
 
-        useEffect(() => {
-          const start = async () => {
-            await gapi.load('auth2', () => {
-              gapi.auth2.init({
-                client_id: clientID
-              })
-            })
-          }
-          start()
-        }
-        , [])
-        
-
-
-        const onSuccess = (res) => {
-            setUser(res.profileObj)
-            localStorage.setItem('user', JSON.stringify(res.profileObj));
-        }
-
-        const onFailure = (res) => {
-            console.log(res);
-        }
 
 
         //------------------------------------- hasta aca-----------------------------------/
@@ -138,7 +117,7 @@ export default function Register() {
 
 
     return(
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form}>
         <h1>Registro</h1>
         <br></br>
         <div>
@@ -189,21 +168,10 @@ export default function Register() {
             <p>{formError.password}</p>
         </div>
   
-        <button type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
+        <button  onSubmit={handleSubmit} type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
         <br></br>
-        <GoogleLogin
+        <button onClick={()=>signIn()} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Google</button>
 
-        clientId={clientID}
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={'single_host_policy'}
-          />
-
-          <div className={user? "profile" : "hidden"}>
-            <img src={user.imageUrl} alt={user.name}/>
-            <h3>{user.name}</h3>
-
-          </div>
       </form>
     )
 }
