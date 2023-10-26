@@ -12,7 +12,7 @@ export async function GET() {
 
 export async function DELETE() {
   try {
-    const deleteUsers = await DataBaseInteraction.client.deleteMany({});
+    const deleteUsers = await DataBaseInteraction.client.deleteMany();
     return NextResponse.json({ deleteUsers });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
