@@ -6,10 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")  
+// }
 
 //Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
 model Accessibility {
@@ -57,4 +62,3 @@ model Detail {
   @@id([idProduct, idCart])
 }
 
-//
