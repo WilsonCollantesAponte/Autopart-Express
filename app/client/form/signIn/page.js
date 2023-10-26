@@ -1,20 +1,36 @@
 'use client'
 import styles from './styles.module.css';
-
+import {signIn, useSession} from 'next-auth/react'
 import { useEffect, useState } from 'react';
+
+
 export default function Register() {
+
+
+    const {data: session} = useSession();
+    console.log(session);
+
+    //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
+
 
     const [formData, setFormData] = useState({
         name: '',
-        lastname: '',
+        surname: '',
         email: '',
         password: '',
     })
 
+    
+
+
+
+    const saveDataToLocalStorage = () =>{
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }
 
     const [formError, setFormError] = useState({
         name: '',
-        lastname: '',
+        surname: '',
         email: '',
         password: '',
     })
@@ -22,7 +38,7 @@ export default function Register() {
     const validate = () => {
         let validateErrors = {
             name: '',
-            lastname: '',
+            surname: '',
             email: '',
             password: '',
         }
@@ -31,8 +47,8 @@ export default function Register() {
             validateErrors.name = 'El nombre es requerido'
         }
 
-        if (!formData.lastname) {
-            validateErrors.lastname = 'El apellido es requerido'
+        if (!formData.surname) {
+            validateErrors.surname = 'El apellido es requerido'
         }
 
         if (!formData.email && !formData.email.includes(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test)) {
@@ -62,23 +78,46 @@ export default function Register() {
         validate();
         }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        //aca se realiza la logica de envio de datos al servidor
+        const responde = await fetch('http://localhost:3000/client/form/signIn/api', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            surname: formData.surname,
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
         validate();
 
-        if (isFormValid){
+        if (isFormValid && responde.ok){
+            saveDataToLocalStorage();
+            
             alert('formulario valido');
         }else{
             alert('formulario invalido');
         }
-        console.log(formData);
+        
+
+        
         }
+
+
+        //------------------------- cosas para registro por google---------------------------/
+
+
+
+
+        //------------------------------------- hasta aca-----------------------------------/
     
 
 
     return(
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form}>
         <h1>Registro</h1>
         <br></br>
         <div>
@@ -94,15 +133,15 @@ export default function Register() {
         </div>
 
         <div>
-          <label htmlFor="lastname">Apellido: </label>
+          <label htmlFor="surname">Apellido: </label>
           <input
             type="text"
-            id="lastname" //este id es para el label
-            name="lastname"
-            value={formData.lastname}
+            id="surname" //este id es para el label
+            name="surname"
+            value={formData.surname}
             onChange={handleInputChange}
           />
-          <p>{formError.lastname}</p>
+          <p>{formError.surname}</p>
         </div>
   
         <div>
@@ -129,9 +168,10 @@ export default function Register() {
             <p>{formError.password}</p>
         </div>
   
-        <button type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
+        <button  onSubmit={handleSubmit} type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
         <br></br>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Registrarse con gmail</button>
+        <button onClick={()=>signIn()} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Google</button>
+
       </form>
     )
 }
