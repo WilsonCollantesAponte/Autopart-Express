@@ -21,7 +21,13 @@ export default function Register() {
         password: '',
     })
 
-  
+    
+
+
+
+    const saveDataToLocalStorage = () =>{
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }
 
     const [formError, setFormError] = useState({
         name: '',
@@ -90,6 +96,7 @@ export default function Register() {
         validate();
 
         if (isFormValid && responde.ok){
+            saveDataToLocalStorage();
             
             alert('formulario valido');
         }else{
