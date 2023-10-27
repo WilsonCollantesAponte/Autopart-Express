@@ -5,7 +5,7 @@ import Nav from '../client/form/nav/page';
 const Home = () => {
   return (
     <div>
-      <Nav></Nav>
+      {/* <Nav></Nav> */}
       <ProductsCards/>
       
     </div>
