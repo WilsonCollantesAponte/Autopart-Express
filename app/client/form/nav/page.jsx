@@ -1,10 +1,8 @@
 'use client'
-
-
-import Link from "next/link";
 import { use, useState } from "react";
 import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 
 export default function Nav() {
 
@@ -25,10 +23,10 @@ export default function Nav() {
     }
     , []);
 
-    const handleLogout = () => {
+    const handleLogout = async() => {
         localStorage.removeItem('user');
         localStorage.removeItem('formData');
-        signOut();
+        await signOut({callbackUrl: "/home",});
         setFormData(null);
     }
 
@@ -38,9 +36,8 @@ export default function Nav() {
     return(
 
         
-
-        <div>
-            
+        <nav className="w-full bg-gray-200 shadow">
+        <div className="flex justify-between items-center w-full px-4 text-white">
             <Link href="/client/form/signIn"> Register</Link>
             <Link href="/"> inicio</Link>
             <Link href="/client/form/about"> About</Link>
@@ -52,9 +49,13 @@ export default function Nav() {
             <button onClick={handleLogout}>Logout</button>
             </div>
             ):
-            (
-                <Link href="/api/auth/signin">Sign in</Link>
+            (<button>
+                <Link href="/client/form/signIn">
+                 Sign In
+                </Link> 
+            </button>
             )}
         </div>
+        </nav>
     )
 }

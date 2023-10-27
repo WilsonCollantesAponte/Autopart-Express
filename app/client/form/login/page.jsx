@@ -1,6 +1,8 @@
 'use client'
 import { useState } from 'react';
 import { Redirect } from 'next';
+
+
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
@@ -47,12 +49,13 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="flex  w-full h-screen flex-col">
+      
+      <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center bg-gray px-10 py-20  '>
+        <div className=''>
           <label>Email:</label>
           <input
+          className='w-full border-2 border-gray-100 rounded-xl p-4 bg-transparent'
             type="email"
             name="email"
             value={formData.email}
@@ -62,13 +65,16 @@ export default function Login() {
         <div>
           <label>Contraseña:</label>
           <input
+          className='w-full border-2 border-gray-100 rounded-xl p-4 bg-transparent'
             type="password"
             name="password"
             value={formData.password}
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Iniciar Sesión</button>
+        <div className='mt-8 gap-y-4'>
+          <button type="submit" className='py-3 bg-black text-white font-bold text-lg'>Iniciar Sesión</button>
+        </div>
       </form>
       {loginError && <p>{loginError}</p>}
     </div>
