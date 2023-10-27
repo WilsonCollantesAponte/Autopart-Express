@@ -9,6 +9,7 @@ export default function Register() {
 
     const {data: session} = useSession();
     console.log(session);
+    
 
     //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
 
@@ -20,13 +21,7 @@ export default function Register() {
         password: '',
     })
 
-    
-
-
-
-    const saveDataToLocalStorage = () =>{
-        localStorage.setItem('formData', JSON.stringify(formData));
-    }
+  
 
     const [formError, setFormError] = useState({
         name: '',
@@ -95,7 +90,6 @@ export default function Register() {
         validate();
 
         if (isFormValid && responde.ok){
-            saveDataToLocalStorage();
             
             alert('formulario valido');
         }else{
@@ -108,6 +102,8 @@ export default function Register() {
 
 
         //------------------------- cosas para registro por google---------------------------/
+
+        
 
 
 
@@ -170,7 +166,20 @@ export default function Register() {
   
         <button  onSubmit={handleSubmit} type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
         <br></br>
-        <button onClick={async()=>await signIn(undefined, { callbackUrl: '/home' })} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Google</button>
+        <button onClick={async()=> {await  signIn(undefined, { callbackUrl: '/home' })
+        fetch('http://localhost:3000/client/form/signIn/api', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: session?.user?.name,
+            surname: session?.user?.name,
+            email: session.user.email,
+            password: session.user.email,
+          }),
+        });
+      }} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Google</button>
 
       </form>
     )

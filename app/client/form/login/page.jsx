@@ -11,6 +11,10 @@ export default function Login() {
 
   const [loginError, setLoginError] = useState(null);
 
+  const saveDataToLocalStorage = () =>{
+    localStorage.setItem('formData', JSON.stringify(formData));
+}
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -26,7 +30,7 @@ export default function Login() {
         method: 'GET',
       });
       const data = await response.json();
-      const dataArray = Object.keys(data).map(key => ({ key, value: data[key] }));
+      const dataArray = Object.keys(data).map(key => ({ key, value: data[key] })); // 
       const findEmail = dataArray[0].value.find(element => element.email === formData.email);
       const findPassword = dataArray[0].value.find(element => element.password === formData.password);
       console.log(findEmail);
@@ -36,6 +40,7 @@ export default function Login() {
       
 
       if (response.ok && findEmail && findPassword) {
+        saveDataToLocalStorage();
         // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
         alert('Inicio de sesión exitoso');
       } else {

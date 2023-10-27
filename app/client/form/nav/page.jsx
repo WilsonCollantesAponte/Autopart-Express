@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
+
 export default function Nav() {
     
 
@@ -39,13 +40,13 @@ export default function Nav() {
         
         <nav className="w-full bg-gray-200 shadow">
         <div className="flex justify-between items-center w-full px-4 text-white">
-            <Link href="/client/form/signIn"> Register</Link>
+            <Link href="/client/form/login"> Iniciar Sesion</Link>
             <Link href="/"> inicio</Link>
             <Link href="/client/form/about"> About</Link>
             {session?.user? (<div>
             <p>
-                {session.user.name} {session.user.email}
-                <img src={session.user.image} alt="user image"/>
+                Hola!  {session.user.name}
+                <img src={session.user.image} width="50"  alt="user image"/>
             </p>
             <button onClick={handleLogout}>Logout</button>
             </div>
