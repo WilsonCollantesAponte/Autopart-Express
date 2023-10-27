@@ -45,6 +45,7 @@ model Cart {
 //Node 3 - Integrated for: Cart, Detail, Product || Cart "one-to-many" Detail, Product "one-to-many" Detail
 model Product {
   id           String   @id @default(uuid())
+  name         String?
   price        Int?
   availability Int?
   brand        String?
