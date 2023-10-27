@@ -4,6 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
+input {
+  padding: 0.75rem;
+  /* padding: 12px */
+}
+
+input:focus {
+  outline: none;
+}
+
+textarea {
+  padding: 0.75rem;
+}
+
+textarea:focus {
+  outline: none;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -64,7 +81,7 @@
 /* END: Hero styles */
 
 /* START: Home styles */
-.home{
+.home {
   @apply flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
 }
 
@@ -88,8 +105,6 @@
   @apply mt-16 flex justify-center items-center flex-col gap-2;
 }
 /* END: Home styles */
-
-
 
 /* START: Custom Filter styles */
 .custom-filter__btn {
@@ -144,9 +159,6 @@
   @apply w-full h-[48px] pl-12 p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm;
 }
 /* END: searchbar styles */
-
-
-
 
 /* @tailwind base;
 @tailwind components;
