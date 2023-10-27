@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav() {
+    
 
     const {data: session} = useSession();
 
@@ -26,7 +27,7 @@ export default function Nav() {
     const handleLogout = async() => {
         localStorage.removeItem('user');
         localStorage.removeItem('formData');
-        await signOut({callbackUrl: "/home",});
+        await signOut({callbackUrl: "/",});
         setFormData(null);
     }
 
