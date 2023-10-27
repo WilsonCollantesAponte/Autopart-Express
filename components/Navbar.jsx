@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link"
 import Image from "next/image"
 import { CustomButton } from "."
@@ -16,12 +17,15 @@ const Navbar = () => {
                 className="object-contain"
             />
         </Link>
+        <Link href="/client/form/signIn">
+        
         <CustomButton
           title='Iniciar Sesion'
           btnType= 'button'
           containerStyles='text-primary-blue rounded-full
           bg-white min-w-[130px]'
         />
+        </Link>
         
 
       </nav>
