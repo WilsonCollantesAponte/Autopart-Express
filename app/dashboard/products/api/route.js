@@ -11,7 +11,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const { name, price, availability, brand, model, rating } =
+  const { name, price, availability, brand, model, rating, image } =
     await request.json();
 
   const newProduct = await DataBaseInteraction.product.create({
@@ -22,6 +22,7 @@ export async function POST(request) {
       brand,
       model,
       rating,
+      image,
     },
   });
 
@@ -31,7 +32,7 @@ export async function POST(request) {
 export const PUT = async (request) => {
   try {
     const id = request.nextUrl.searchParams.get("id");
-    const { name, price, availability, brand, model, rating } =
+    const { name, price, availability, brand, model, rating, image } =
       await request.json();
 
     const productUp = await DataBaseInteraction.product.update({
@@ -45,6 +46,7 @@ export const PUT = async (request) => {
         brand,
         model,
         rating,
+        image,
       },
     });
     return NextResponse.json(productUp, { status: 200 });

@@ -51,6 +51,7 @@ model Product {
   brand        String?
   model        String?
   rating       Int?
+  image        String?
   Detail       Detail[]
 }
 
