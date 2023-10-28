@@ -16,14 +16,15 @@ export default function Nav() {
     useEffect(() => {
         const storeUserGmail = localStorage.getItem('user');
         const storeUser = localStorage.getItem('formData');
-        if(storeUserGmail) {
+
+        if (storeUserGmail) {
             setFormData(JSON.parse(storeUserGmail));
-        }
-        if(storeUser) {
+        } else if (session?.user) {
+            setFormData(session.user); // Usar datos de la sesión si está disponible
+        } else if (storeUser) {
             setFormData(JSON.parse(storeUser));
         }
-    }
-    , []);
+    }, [session]);
 
     const handleLogout = async() => {
         localStorage.removeItem('user');
@@ -38,25 +39,30 @@ export default function Nav() {
     return(
 
         
-        <nav className="w-full bg-gray-200 shadow">
+        <nav className="w-full bg-gray-200 shadow}">
         <div className="flex justify-between items-center w-full px-4 text-white">
-            <Link href="/client/form/login"> Iniciar Sesion</Link>
             <Link href="/"> inicio</Link>
+            <Link href="/client/form/login"> Iniciar Sesion</Link>
+            
+
+            {formData ? (
+                    <div>
+                        <p>
+                            Hola! {formData.email} {formData.surname}
+                            {formData.image && (
+                                <img src={formData.image} width="50" alt="user image" />
+                            )}
+                            
+                        </p>
+                        <button onClick={handleLogout}>Logout</button>
+                    </div>
+                ) : (
+                    <button>
+                        <Link href="/client/form/signIn">Registrarse</Link>
+                    </button>
+                )}
+            
             <Link href="/client/form/about"> About</Link>
-            {session?.user? (<div>
-            <p>
-                Hola!  {session.user.name}
-                <img src={session.user.image} width="50"  alt="user image"/>
-            </p>
-            <button onClick={handleLogout}>Logout</button>
-            </div>
-            ):
-            (<button>
-                <Link href="/client/form/signIn">
-                 Sign In
-                </Link> 
-            </button>
-            )}
         </div>
         </nav>
     )

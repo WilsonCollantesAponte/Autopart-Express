@@ -26,29 +26,19 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3000/client/form/login/api",
+        `http://localhost:3000/client/form/login/api?email=${formData.email}&password=${formData.password}`,
         {
           method: "GET",
         }
       );
-      const data = await response.json();
-      const dataArray = Object.keys(data).map((key) => ({
-        key,
-        value: data[key],
-      })); //
-      const findEmail = dataArray[0].value.find(
-        (element) => element.email === formData.email
-      );
-      const findPassword = dataArray[0].value.find(
-        (element) => element.password === formData.password
-      );
-      console.log(findEmail);
 
-      console.log(dataArray[0].value);
+      const responsejson = await response.json();
+      console.log(responsejson);
 
-      if (response.ok && findEmail && findPassword) {
+      if (response.ok) {
         saveDataToLocalStorage();
         // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
+        location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {
         // Inicio de sesión fallido, muestra un mensaje de error
