@@ -1,0 +1,19 @@
+import DataBaseInteraction from "@/prisma";
+import { NextResponse } from "next/server";
+
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    let name = searchParams.get("name");
+
+    const product = await DataBaseInteraction.product.findMany({
+      where: {
+        name: name,
+      },
+    });
+
+    return NextResponse.json({ product });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
