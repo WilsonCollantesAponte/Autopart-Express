@@ -5,7 +5,7 @@ const getBrand = async () => {
     const response = await fetch(`http://localhost:3000/product/api/brand`, {
       method: "GET",
     }).then((response) => response.json());
-    // console.log(response);
+    console.log(response);
     return response;
   } catch (error) {
     console.group(error);
@@ -14,7 +14,7 @@ const getBrand = async () => {
 
 async function Filters() {
   const response = await getBrand();
-  //   console.log(response);
+  console.log(response);
 
   return (
     <div className="pt-2 pl-4">
@@ -23,7 +23,7 @@ async function Filters() {
         <option value="Brand" disabled>
           Marcas
         </option>
-        {response.brandUnicos.map((ele) => (
+        {response.brandUnicos?.map((ele) => (
           <option key={ele} value={ele}>
             {ele}
           </option>
