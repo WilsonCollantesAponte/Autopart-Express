@@ -12,6 +12,11 @@ module.exports = {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
+        "gray-body":"#EDF2F4",
+        "blue-Nav":"#2B2D42",
+        "gray-botton":"#8D99AE",
+        "red-botton":"#EF233C",
+        "red-font":"#D90429",
         "black-100": "#2B2C35",
         "primary-blue": {
           DEFAULT: "#2B59FF",
