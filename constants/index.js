@@ -1,32 +1,19 @@
 
 export const footerLinks = [
   {
-    title: "About",
+    title: "INFORMACIÓN",
     links: [
-      { title: "How it works", url: "/" },
-      { title: "Featured", url: "/" },
-      { title: "Partnership", url: "/" },
-      { title: "Bussiness Relation", url: "/" },
+      { title: "Acerca de Autopart-Express", url: "/" },
+    
     ],
   },
   {
-    title: "Company",
+    title: "EQUIPO",
     links: [
-      { title: "Events", url: "/" },
-      { title: "Blog", url: "/" },
-      { title: "Podcast", url: "/" },
-      { title: "Invite a friend", url: "/" },
+      { title: "Integrantes", url: "/" },
     ],
   },
-  {
-    title: "Socials",
-    links: [
-      { title: "Discord", url: "/" },
-      { title: "Instagram", url: "/" },
-      { title: "Twitter", url: "/" },
-      { title: "Facebook", url: "/" },
-    ],
-  },
+ 
 ];
 
 
