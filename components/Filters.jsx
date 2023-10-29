@@ -23,11 +23,11 @@ async function Filters() {
         <option value="Brand" disabled>
           Marcas
         </option>
-        {response.brandUnicos?.map((ele) => (
+        {/* {response.brandUnicos?.map((ele) => (
           <option key={ele} value={ele}>
             {ele}
           </option>
-        ))}
+        ))} */}
       </select>
 
       <select defaultValue="name" className="button mr-1">
