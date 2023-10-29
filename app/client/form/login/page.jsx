@@ -61,7 +61,7 @@ export default function Login() {
         <div className="">
           <label>Email:</label>
           <input
-            className="w-full border-2 border-gray-100 rounded-xl p-4 bg-transparent"
+            className="w-full border-2 bg-white border-black-100 rounded-xl p-4 bg-transparent"
             type="email"
             name="email"
             value={formData.email}
@@ -71,7 +71,7 @@ export default function Login() {
         <div>
           <label>Contraseña:</label>
           <input
-            className="w-full border-2 border-gray-100 rounded-xl p-4 bg-transparent"
+            className="w-full border-2 bg-white border-black-100 rounded-xl p-4 bg-transparent"
             type="password"
             name="password"
             value={formData.password}
@@ -81,7 +81,7 @@ export default function Login() {
         <div className="mt-8 gap-y-4">
           <button
             type="submit"
-            className="py-3 bg-black text-white font-bold text-lg"
+            className="button"
           >
             Iniciar Sesión
           </button>

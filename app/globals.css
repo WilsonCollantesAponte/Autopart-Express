@@ -52,7 +52,12 @@ textarea:focus {
 .custom-btn {
   @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none;
 }
+
+.button{
+  @apply  px-4 py-3  outline-none focus:ring-4 shadow-lg transform active:scale-75 transition-transform
+}
 /* END: General styles */
+
 
 /* START: Hero styles */
 .hero {
@@ -159,6 +164,11 @@ textarea:focus {
   @apply w-full h-[48px] pl-12 p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm;
 }
 /* END: searchbar styles */
+
+
+/* START: NavBar styles */
+
+/* END: navBar styles */
 
 /* @tailwind base;
 @tailwind components;
