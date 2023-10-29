@@ -27,7 +27,8 @@ const Home = () => {
                     ${autopart.price}
                   </span>
                   <button className="button mr-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                    <Link href="">Comprar</Link>
+                    {/* <Link href="">Comprar</Link> */}
+                    <div>Comprar</div>
                   </button>
                 </div>
               </div>
