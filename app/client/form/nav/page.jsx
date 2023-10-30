@@ -41,10 +41,10 @@ export default function Nav() {
             <section className="relative mx-auto">
                 <nav className="flex justify-between bg-gray-botton text-black w-screen">
                         <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-                            <img className="h-20" src="/autoexpress.png" alt="logo" />
+                            <img className="h-20 w-auto" src="/autoexpress-sinfondo.png" alt="logo" />
                             {/* nav-links */}
                             <div className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-                                <Link className="hover:text-gray-200" href="/"> inicio</Link>
+                                <Link className="hover:text-gray-200" href="/"> Inicio</Link>
                                 <Link  className="hover:text-gray-200" href="/client/form/about"> Tiendas</Link>                       
                                 <Link  className="hover:text-gray-200" href="/client/form/about"> About</Link>                       
                             </div>
@@ -78,7 +78,7 @@ export default function Nav() {
                                                     <Link href="/client/form/signIn">Sing In</Link>
                                                 </button>
                                                 <button className="button" >
-                                                    <Link href="/client/form/login"> Iniciar Sesion</Link>
+                                                    <Link href="/client/form/login"> Iniciar Sesión</Link>
                                                 </button>
                                             </div>    
                                         )}
