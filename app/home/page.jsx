@@ -108,21 +108,16 @@ const Home = () => {
         <button
           className=" text-4xl"
           onClick={() => {
-            if (page > 1) {
-              setPage(page - 1);
-              console.log(page - 1);
-            } else console.log(page);
+            if (page > 1) setPage(page - 1);
           }}
         >
           ⬅️
         </button>
+        <span className=" text-3xl font-bold">{page}</span>
         <button
           className=" text-4xl"
           onClick={() => {
-            if (page < Math.ceil(products.length / 6)) {
-              setPage(page + 1);
-              console.log(page + 1);
-            } else console.log(page);
+            if (page < Math.ceil(products.length / 6)) setPage(page + 1);
           }}
         >
           ➡️
