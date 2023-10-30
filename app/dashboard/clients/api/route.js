@@ -2,7 +2,14 @@ import DataBaseInteraction from "@/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const allClients = await DataBaseInteraction.client.findMany();
+  const allClients = await DataBaseInteraction.client.findMany({
+    orderBy: {
+      name: "desc",
+    },
+    include: {
+      Accessibility: true,
+    },
+  });
 
   return NextResponse.json({ allClients });
 }
