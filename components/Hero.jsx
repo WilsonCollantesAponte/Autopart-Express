@@ -12,7 +12,7 @@ const Hero = () => {
             Encuentra la calidad que tu vehículo merece.
           </h1>
           <p className="hero__subtitle">Los mejores precios y variedad.</p>
-          <Link href="/home">
+          <Link href="/home?page=1&per_page=3">
             <CustomButton
               title="Explora el sitio"
               containerStyles="bg-primary-blue text-white rounded-full mt-10"
