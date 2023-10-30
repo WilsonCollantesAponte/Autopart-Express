@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 
 const Home = () => {
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [products, setProducts] = useState([]);
@@ -15,14 +16,15 @@ const Home = () => {
   });
 
   function handleProduct(event) {
+    setPage(1);
     const { name, value } = event.target;
     filters[name] = value;
     setProducts(
       productsSupport.filter(
         (valueP) =>
-          valueP.brand.toLowerCase().includes(filters.brand.toLowerCase()) &&
-          valueP.name.toLowerCase().includes(filters.name.toLowerCase()) &&
-          valueP.model.toLowerCase().includes(filters.model.toLowerCase())
+          valueP.brand?.toLowerCase().includes(filters.brand.toLowerCase()) &&
+          valueP.name?.toLowerCase().includes(filters.name.toLowerCase()) &&
+          valueP.model?.toLowerCase().includes(filters.model.toLowerCase())
       )
     );
     setFilters({ ...filters, [name]: value });
@@ -102,9 +104,34 @@ const Home = () => {
         </button>
       </header>
 
+      <header className=" flex gap-4 justify-center mt-4">
+        <button
+          className=" text-4xl"
+          onClick={() => {
+            if (page > 1) {
+              setPage(page - 1);
+              console.log(page - 1);
+            } else console.log(page);
+          }}
+        >
+          ⬅️
+        </button>
+        <button
+          className=" text-4xl"
+          onClick={() => {
+            if (page < Math.ceil(products.length / 6)) {
+              setPage(page + 1);
+              console.log(page + 1);
+            } else console.log(page);
+          }}
+        >
+          ➡️
+        </button>
+      </header>
+
       <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
         <div className="grid  w-auto  lg:grid-cols-3 gap-10">
-          {products.map((value, index) => (
+          {products.slice((page - 1) * 6, page * 6).map((value, index) => (
             <div
               key={index}
               className="shadow-2xl rounded-lg max-w-xs h-96 flex-col bg-sky-100/40  "
