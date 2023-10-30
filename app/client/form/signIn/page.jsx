@@ -1,194 +1,198 @@
-'use client'
-import styles from './styles.module.css';
-import {signIn, useSession} from 'next-auth/react'
-import { useEffect, useState } from 'react';
-
+"use client";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default function Register() {
+  const { data: session } = useSession();
+  console.log(session);
 
+  //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
 
-    const {data: session} = useSession();
-    console.log(session);
-    
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+  });
 
-    //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
+  const saveDataToLocalStorage = () => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  };
 
+  const [formError, setFormError] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+  });
 
-    const [formData, setFormData] = useState({
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
-    })
+  const validate = () => {
+    let validateErrors = {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+    };
 
-    
-
-
-
-    const saveDataToLocalStorage = () =>{
-        localStorage.setItem('formData', JSON.stringify(formData));
+    if (!formData.name) {
+      validateErrors.name = "El nombre es requerido";
     }
 
-    const [formError, setFormError] = useState({
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
-    })
-
-    const validate = () => {
-        let validateErrors = {
-            name: '',
-            surname: '',
-            email: '',
-            password: '',
-        }
-
-        if (!formData.name) {
-            validateErrors.name = 'El nombre es requerido'
-        }
-
-        if (!formData.surname) {
-            validateErrors.surname = 'El apellido es requerido'
-        }
-
-        if (!formData.email && !formData.email.includes(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test)) {
-            validateErrors.email = 'El email es requerido o no es valido'
-        }
-
-        if (!formData.password || formData.password.length <= 8) {
-            validateErrors.password = 'La contraseña es requerida o debe tener mas de 8 caracteres'
-        }
-
-        setFormError(validateErrors)
+    if (!formData.surname) {
+      validateErrors.surname = "El apellido es requerido";
     }
-    useEffect(() => {
-        validate();
+
+    if (
+      !formData.email &&
+      !formData.email.includes(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test)
+    ) {
+      validateErrors.email =
+        "El correo electrónico es requerido o no es válido";
     }
-    , [formData])
 
-    const isFormValid = !Object.values(formError).some((error) => error);
+    if (!formData.password || formData.password.length <= 8) {
+      validateErrors.password =
+        "La contraseña es requerida o debe tener más de 8 caracteres";
+    }
 
-    
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-        validate();
-        }
+    setFormError(validateErrors);
+  };
+  useEffect(() => {
+    validate();
+  }, [formData]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const responde = await fetch('http://localhost:3000/client/form/signIn/api', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            surname: formData.surname,
-            email: formData.email,
-            password: formData.password,
-          }),
-        });
-        validate();
+  const isFormValid = !Object.values(formError).some((error) => error);
 
-        if (isFormValid && responde.ok){
-            saveDataToLocalStorage();
-            
-            alert('formulario valido');
-        }else{
-            alert('formulario invalido');
-        }
-        
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    validate();
+  };
 
-        
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const responde = await fetch("/client/form/signIn/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        surname: formData.surname,
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+    validate();
 
+    if (isFormValid && responde.ok) {
+      saveDataToLocalStorage();
 
-        //------------------------- cosas para registro por google---------------------------/
+      alert("formulario valido");
+    } else {
+      alert("formulario invalido");
+    }
+  };
 
-        
+  //------------------------- cosas para registro por google---------------------------/
 
+  //------------------------------------- hasta aca-----------------------------------/
 
+  return (
+    <form className="max-w-md mx-auto p-4 space-y-4">
+      <h1 className="text-2xl font-bold text-center">Registro</h1>
 
+      <div>
+        <label htmlFor="name" className="block font-semibold">
+          Nombre de usuario:
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+        />
+        <p className="text-red-font">{formError.name}</p>
+      </div>
 
-        //------------------------------------- hasta aca-----------------------------------/
-    
+      <div>
+        <label htmlFor="surname" className="block font-semibold">
+          Apellido:
+        </label>
+        <input
+          type="text"
+          id="surname"
+          name="surname"
+          value={formData.surname}
+          onChange={handleInputChange}
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+        />
+        <p className="text-red-font">{formError.surname}</p>
+      </div>
 
+      <div>
+        <label htmlFor="email" className="block font-semibold">
+          Correo electrónico:
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+        />
+        <p className="text-red-font">{formError.email}</p>
+      </div>
 
-    return(
-        <form className={styles.form}>
-        <h1>Registro</h1>
-        <br></br>
-        <div>
-          <label htmlFor="name">Nombre de usuario: </label>
-          <input
-            type="text"
-            id="name" //este id es para el label
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-           <p>{formError.name}</p>
-        </div>
+      <div>
+        <label htmlFor="password" className="block font-semibold">
+          Contraseña:
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+        />
+        <p className="text-red-font">{formError.password}</p>
+      </div>
 
-        <div>
-          <label htmlFor="surname">Apellido: </label>
-          <input
-            type="text"
-            id="surname" //este id es para el label
-            name="surname"
-            value={formData.surname}
-            onChange={handleInputChange}
-          />
-          <p>{formError.surname}</p>
-        </div>
-  
-        <div>
-          <label htmlFor="email">Correo electrónico: </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-            <p>{formError.email}</p>
-        </div>
-  
-        <div>
-          <label htmlFor="password">Contraseña: </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-            <p>{formError.password}</p>
-        </div>
-  
-        <button  onSubmit={handleSubmit} type="submit" disabled={!isFormValid} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Registrarse</button>
-        <br></br>
-        <button onClick={async()=> {await  signIn(undefined, { callbackUrl: '/home' })
-        fetch('http://localhost:3000/client/form/signIn/api', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: session?.user?.name,
-            surname: session?.user?.name,
-            email: session.user.email,
-            password: session.user.email,
-          }),
-        });
-      }} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>Google</button>
+      <button
+        onClick={handleSubmit}
+        disabled={!isFormValid}
+        className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Registrarse
+      </button>
 
-      </form>
-    )
+      <button
+        onClick={async () => {
+          await signIn(undefined, { callbackUrl: "/home" });
+          fetch("http://localhost:3000/client/form/signIn/api", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: session?.user?.name,
+              surname: session?.user?.name,
+              email: session.user.email,
+              password: session.user.email,
+            }),
+          });
+        }}
+        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Google
+      </button>
+    </form>
+  );
 }
-
