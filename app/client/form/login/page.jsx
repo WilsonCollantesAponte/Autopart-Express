@@ -34,8 +34,8 @@ export default function Login() {
 
       const responsejson = await response.json();
       console.log(responsejson);
-
-      if (response.ok) {
+        
+      if (responsejson.userFound.length > 0) {
         saveDataToLocalStorage();
         // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
         location.replace("/");
