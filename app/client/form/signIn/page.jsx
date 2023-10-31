@@ -72,7 +72,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/client/form/login/api/email?email=${formData.email}`,
+        `/client/form/login/api/email?email=${formData.email}`,
         {
           method: "GET",
         }
@@ -97,8 +97,9 @@ export default function Register() {
               email: formData.email,
               password: formData.password,
             }),
+          }).then(() => {
+            location.replace("/client/form/login");
           });
-          location.replace("/client/form/login");
         } catch (error) {
           // Maneja errores de red o del servidor
           console.error("Error al iniciar sesión:", error);
