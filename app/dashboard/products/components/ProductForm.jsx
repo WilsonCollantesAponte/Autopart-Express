@@ -13,13 +13,14 @@ export default function ProductForm() {
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "price" || name === "availability") {
-      const parsedValue = parseInt(value, 10);
-      setProduct({ ...product, [name]: parsedValue });
-    } else {
-      setProduct({ ...product, [name]: value });
-    }
+    setProduct({ ...product, [e.target.name]: e.target.value });
+    // const { name, value } = e.target;
+    // if (name === "price" || name === "availability") {
+    //   const parsedValue = parseInt(value, 10);
+    //   setProduct({ ...product, [name]: parsedValue });
+    // } else {
+    //   setProduct({ ...product, [name]: value });
+    // }
   };
   //Funcion para subir imagenes a Cloudinary
   const changeUploadImage = async (e) => {
@@ -97,7 +98,7 @@ export default function ProductForm() {
         </label>
         <input
           className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
-          type="text"
+          type="number"
           name="availability"
           onChange={handleInputChange}
         ></input>
@@ -132,15 +133,15 @@ export default function ProductForm() {
         <p>Marca: {product.brand}</p>
         <p>Disponibilidad: {product.availability}</p>
         <p>Precio: {product.price}</p>
-        {product.image.length > 0 ? (
-          <div>
-            <p>Imagen Cargada</p>
-            <img src={product.image} alt="" />
-            <button className="flex m-4 border" onClick={() => deleteImage()}>
-              Borrar Imagen
-            </button>
-          </div>
-        ) : null}
+        {/* {product.image.length > 0 ? ( */}
+        <div>
+          <p>Imagen Cargada</p>
+          <img className="w-1/2 border h-50" src={product.image} alt="" />
+          <button className="flex m-4 border" onClick={() => deleteImage()}>
+            Borrar Imagen
+          </button>
+        </div>
+        {/* ) : null} */}
       </div>
     </div>
   );
