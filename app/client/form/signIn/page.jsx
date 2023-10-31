@@ -1,11 +1,14 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { MoonLoader } from "react-spinners";
 
 export default function Register() {
   const { data: session } = useSession();
 
   //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -69,6 +72,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch(
@@ -109,8 +113,10 @@ export default function Register() {
 
         if (isFormValid && response.ok) {
           alert("formulario valido");
+          setIsLoading(false);
         } else {
           alert("formulario invalido");
+          setIsLoading(false);
         }
       }
     } catch (error) {
@@ -224,13 +230,19 @@ export default function Register() {
         <p className="text-red-font">{formError.password}</p>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={!isFormValid}
-        className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Registrarse
-      </button>
+      {!isLoading ? (
+        <button
+          onClick={handleSubmit}
+          disabled={!isFormValid}
+          className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
+        >
+          Registrarse
+        </button>
+      ) : (
+        <div>
+          <MoonLoader size={45} color="#3300ff" className=" w-fit mx-auto" />
+        </div>
+      )}
 
       <button
         onClick={handelSubmitGoogle}
