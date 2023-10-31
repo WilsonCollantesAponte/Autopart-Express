@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 export default function Register() {
   const { data: session } = useSession();
-  
 
   //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
 
@@ -14,8 +13,6 @@ export default function Register() {
     email: "",
     password: "",
   });
-
-
 
   const [formError, setFormError] = useState({
     name: "",
@@ -73,7 +70,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
       const response = await fetch(
         `http://localhost:3000/client/form/login/api/email?email=${formData.email}`,
         {
@@ -85,28 +82,28 @@ export default function Register() {
       console.log(data);
 
       if (data.client.length > 0) {
-        alert("Cuenta ya existente")
+        alert("Cuenta ya existente");
         location.replace("/client/form/login");
       } else {
-        try{
-        fetch("/client/form/signIn/api", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            surname: formData.surname,
-            email: formData.email,
-            password: formData.password,
-          }),
-        })
-        location.replace("/client/form/login");
-      } catch (error) {
+        try {
+          fetch("/client/form/signIn/api", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formData.name,
+              surname: formData.surname,
+              email: formData.email,
+              password: formData.password,
+            }),
+          });
+          location.replace("/client/form/login");
+        } catch (error) {
           // Maneja errores de red o del servidor
           console.error("Error al iniciar sesión:", error);
         }
-        
+
         validate();
 
         if (isFormValid && response.ok) {
@@ -120,57 +117,47 @@ export default function Register() {
       console.error("Error al iniciar sesión:", error);
     }
   };
-    
-
-
 
   //------------------------- cosas para registro por google---------------------------/
 
-      const handelSubmitGoogle = async (e) => {
-        e.preventDefault();
+  const handelSubmitGoogle = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `/client/form/login/api/email?email=${formData.email}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      if (data.client.length > 0) {
+        signIn({ callbackUrl: "/" });
+        location.replace("/");
+        console.log("cuenta ya existente");
+      } else {
         try {
-          const response = await fetch(
-            `http://localhost:3000/client/form/login/api/email?email=${formData.email}`,
-            {
-              method: "GET",
-            }
-          );
-          const data = await response.json();
-          if (data.client.length > 0) {
-            
-            signIn({ callbackUrl: "/", });
-            location.replace("/");
-            console.log("cuenta ya existente")
-          } else {
-            try{
-            await fetch("/client/form/signIn/api", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name: session?.user?.name,
-                surname: session?.user?.name,
-                email: session.user.email,
-                password: session.user.email,
-              }),
-            })} catch (error) {
-              // Maneja errores de red o del servidor
-              console.error("Error al iniciar sesión:", error);
-            }
-
-          }}
-            catch (error) {
-              // Maneja errores de red o del servidor
-              console.error("Error al iniciar sesión:", error);
-            }
-          };
-
-
-
-
-
-
+          await fetch("/client/form/signIn/api", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: session?.user?.name,
+              surname: session?.user?.name,
+              email: session.user.email,
+              password: session.user.email,
+            }),
+          });
+        } catch (error) {
+          // Maneja errores de red o del servidor
+          console.error("Error al iniciar sesión:", error);
+        }
+      }
+    } catch (error) {
+      // Maneja errores de red o del servidor
+      console.error("Error al iniciar sesión:", error);
+    }
+  };
 
   //------------------------------------- hasta aca-----------------------------------/
 
