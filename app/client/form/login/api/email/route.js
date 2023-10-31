@@ -8,13 +8,11 @@ export async function GET(request) {
 
     const client = await DataBaseInteraction.client.findMany({
       where: {
-        email: email ,
+        email: email,
       },
     });
 
-    return NextResponse.json( {client
-    
-    } );
+    return NextResponse.json({ client });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
