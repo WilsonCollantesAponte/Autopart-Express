@@ -61,77 +61,83 @@ export default function ProductForm() {
     });
   };
   return (
-    <div className="container ">
-      <form className="mx-auto" onSubmit={handleSubmit}>
-        <label className="flex mx-auto border justify-center">
-          Categoria del Producto
+    <div className="flex flex-col justify-center items-center">
+    <form className="max-w-md mx-auto p-4 space-y-1" onSubmit={handleSubmit}>
+        <label className="block font-semibold">
+          Categoría del Producto
         </label>
         <input
-          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 "
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
           type="text"
           placeholder="'Bujia'"
           name="name"
           onChange={handleInputChange}
         ></input>
-        <label className="flex mx-auto border justify-center">
+        <label className="block font-semibold">
           Nombre del Producto
         </label>
         <input
-          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 "
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
           type="text"
           placeholder="'Bujia'"
           name="model"
           onChange={handleInputChange}
         ></input>
-        <label className="flex mx-auto border justify-center">
+        <label className="block font-semibold">
           Marca del Producto
         </label>
         <input
-          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
           type="text"
           name="brand"
           onChange={handleInputChange}
         ></input>
-        <label className="flex mx-auto border justify-center">
+        <label className="block font-semibold">
           Disponibilidad del Producto
         </label>
         <input
-          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
           type="text"
           name="availability"
           onChange={handleInputChange}
         ></input>
-        <label className="flex mx-auto border justify-center">
+        <label className="block font-semibold">
           Precio del Producto
         </label>
+        
         <input
-          className="mx-auto w-full justify-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
           type="text"
           name="price"
           onChange={handleInputChange}
         ></input>
-        <label className="flex mx-auto border justify-center">
+        <label className="block font-semibold">
           Imagen del Producto:
         </label>
+        
         <input
-          className="flex m-4 justify-center border"
+          className="w-full border-2 border-blue-Nav rounded-xl p-4 bg-transparent"
           type="file"
           accept="image/*"
           onChange={changeUploadImage}
         />
 
-        <button className="flex m-4 border" type="submit">
-          Enviar
-        </button>
+      <div className="double-space"> 
+      </div>
+        
+      <button className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+        Enviar
+      </button>
+     
         {/* <button className="flex m-4 border" onClick={() => deleteProductInfo()}>
           Cancelar
         </button> */}
       </form>
       <div>
-        <p>Nombre: {product.model}</p>
-        <p>Marca: {product.brand}</p>
-        <p>Disponibilidad: {product.availability}</p>
-        <p>Precio: {product.price}</p>
+        <p className="font-semibold">Nombre: {product.model}</p>
+        <p className="font-semibold">Marca: {product.brand}</p>
+        <p className="font-semibold">Disponibilidad: {product.availability}</p>
+        <p className="font-semibold">Precio: {product.price}</p>
         {product.image.length > 0 ? (
           <div>
             <p>Imagen Cargada</p>
