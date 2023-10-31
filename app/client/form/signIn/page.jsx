@@ -131,9 +131,7 @@ export default function Register() {
       );
       const data = await response.json();
       if (data.client.length > 0) {
-        signIn({ callbackUrl: "/" });
-        // location.replace("/");
-        // console.log("cuenta ya existente");
+        signIn(undefined, { callbackUrl: "/" });
       } else {
         try {
           await fetch("/client/form/signIn/api", {
@@ -235,22 +233,6 @@ export default function Register() {
 
       <button
         onClick={handelSubmitGoogle}
-        // onClick={async () => {
-        //   await signIn(undefined, { callbackUrl: "/home" });
-        //   fetch("http://localhost:3000/client/form/signIn/api", {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //       name: session?.user?.name,
-        //       surname: session?.user?.name,
-        //       email: session.user.email,
-        //       password: session.user.email,
-        //     }),
-        //   });
-        // }}
-
         className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Google
