@@ -5,10 +5,9 @@ import ClientRow from "./clientRow";
 
 export default function UsersDashborad() {
   const [clients, setClients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     fetch("/dashboard/clients/api")
       .then((r) => r.json())
       .then((r) => setClients(r.allClients))
