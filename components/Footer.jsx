@@ -11,7 +11,7 @@ const Footer = () => {
         
         <div className="mb-4 md:mb-0">
           <h3 className="text-lg font-semibold mb-2">INFORMACIÓN</h3>
-          <p><Link className="hover:text-gray-200" href="/acerca">Acerca de Autopart-Express</Link></p>
+          <p><Link className="hover:text-gray-200" href="/acerca">Acerca de Autoparts-Express</Link></p>
         </div>
         
         <div className="mb-4 md:mb-0">
@@ -24,7 +24,7 @@ const Footer = () => {
       <hr className="border-blue-Nav border-t mx-auto w-4/5" />
       
       <div className="text-center py-4">
-        Autopart-Express 2023 Todos los derechos reservados &copy;
+        Autoparts-Express 2023 Todos los derechos reservados &copy;
       </div>
     </footer>
   );

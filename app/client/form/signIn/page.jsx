@@ -1,12 +1,14 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { MoonLoader } from "react-spinners";
 
 export default function Register() {
   const { data: session } = useSession();
-  console.log(session);
 
   //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,10 +16,6 @@ export default function Register() {
     email: "",
     password: "",
   });
-
-  const saveDataToLocalStorage = () => {
-    localStorage.setItem("formData", JSON.stringify(formData));
-  };
 
   const [formError, setFormError] = useState({
     name: "",
@@ -74,30 +72,97 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const responde = await fetch("/client/form/signIn/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        surname: formData.surname,
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
-    validate();
+    setIsLoading(true);
 
-    if (isFormValid && responde.ok) {
-      saveDataToLocalStorage();
+    try {
+      const response = await fetch(
+        `/client/form/login/api/email?email=${formData.email}`,
+        {
+          method: "GET",
+        }
+      );
 
-      alert("formulario valido");
-    } else {
-      alert("formulario invalido");
+      const data = await response.json();
+      console.log(data);
+
+      if (data.client.length > 0) {
+        alert("Cuenta ya existente");
+        location.replace("/client/form/login");
+      } else {
+        try {
+          fetch("/client/form/signIn/api", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: formData.name,
+              surname: formData.surname,
+              email: formData.email,
+              password: formData.password,
+            }),
+          }).then(() => {
+            location.replace("/client/form/login");
+          });
+        } catch (error) {
+          // Maneja errores de red o del servidor
+          console.error("Error al iniciar sesión:", error);
+        }
+
+        validate();
+
+        if (isFormValid && response.ok) {
+          alert("formulario valido");
+          setIsLoading(false);
+        } else {
+          alert("formulario invalido");
+          setIsLoading(false);
+        }
+      }
+    } catch (error) {
+      // Maneja errores de red o del servidor
+      console.error("Error al iniciar sesión:", error);
     }
   };
 
   //------------------------- cosas para registro por google---------------------------/
+
+  const handelSubmitGoogle = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `/client/form/login/api/email?email=${formData.email}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      if (data.client.length > 0) {
+        signIn(undefined, { callbackUrl: "/" });
+      } else {
+        try {
+          await fetch("/client/form/signIn/api", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: session?.user?.name,
+              surname: session?.user?.name,
+              email: session.user.email,
+              password: session.user.email,
+            }),
+          });
+        } catch (error) {
+          // Maneja errores de red o del servidor
+          console.error("Error al iniciar sesión:", error);
+        }
+      }
+    } catch (error) {
+      // Maneja errores de red o del servidor
+      console.error("Error al iniciar sesión:", error);
+    }
+  };
 
   //------------------------------------- hasta aca-----------------------------------/
 
@@ -165,30 +230,22 @@ export default function Register() {
         <p className="text-red-font">{formError.password}</p>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={!isFormValid}
-        className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Registrarse
-      </button>
+      {!isLoading ? (
+        <button
+          onClick={handleSubmit}
+          disabled={!isFormValid}
+          className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
+        >
+          Registrarse
+        </button>
+      ) : (
+        <div>
+          <MoonLoader size={45} color="#3300ff" className=" w-fit mx-auto" />
+        </div>
+      )}
 
       <button
-        onClick={async () => {
-          await signIn(undefined, { callbackUrl: "/home" });
-          fetch("http://localhost:3000/client/form/signIn/api", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: session?.user?.name,
-              surname: session?.user?.name,
-              email: session.user.email,
-              password: session.user.email,
-            }),
-          });
-        }}
+        onClick={handelSubmitGoogle}
         className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Google
