@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-// import Validations from "./validations";
+import Validations from "./validations";
 import { MoonLoader } from "react-spinners";
 
 export default function ClientRow({ clientValue, setClients, clients }) {
@@ -23,6 +23,7 @@ export default function ClientRow({ clientValue, setClients, clients }) {
 
   function handleInitData(event) {
     const { name, value } = event.target;
+    setErrors(Validations({ ...initData, [name]: value }));
     setInitData({ ...initData, [name]: value });
   }
 
@@ -232,7 +233,8 @@ export default function ClientRow({ clientValue, setClients, clients }) {
               onChange={handleInitData}
             />
             {errors.email ? (
-              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-80">
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-72">
+                {/* <p> */}
                 {errors.email}
               </p>
             ) : null}
@@ -278,29 +280,29 @@ export default function ClientRow({ clientValue, setClients, clients }) {
               <button
                 className=" underline underline-offset-4"
                 onClick={() => {
-                  //   if (!Object.keys(errors).length) {
-                  setLoadingUpdate(true);
-                  fetch(`/dashboard/clients/api?id=${clientValue.id}`, {
-                    method: "PUT",
-                    body: JSON.stringify(initData),
-                  })
-                    .then(() => {
-                      const clientFound = clients.find(
-                        (value) => value.id === clientValue.id
-                      );
-                      clientFound.name = initData.name;
-                      clientFound.surname = initData.surname;
-                      clientFound.email = initData.email;
-                      clientFound.password = initData.password;
-                      clientFound.Accessibility.status = initData.status;
-                      setClients(clients);
+                  if (!Object.keys(errors).length) {
+                    setLoadingUpdate(true);
+                    fetch(`/dashboard/clients/api?id=${clientValue.id}`, {
+                      method: "PUT",
+                      body: JSON.stringify(initData),
                     })
-                    .then(() => setEdit(false))
-                    .then(() => setLoadingUpdate(false))
-                    .catch(() => alert("Error, please try again or after"));
-                  //   } else {
-                  //     alert("There are some errors in your fields");
-                  //   }
+                      .then(() => {
+                        const clientFound = clients.find(
+                          (value) => value.id === clientValue.id
+                        );
+                        clientFound.name = initData.name;
+                        clientFound.surname = initData.surname;
+                        clientFound.email = initData.email;
+                        clientFound.password = initData.password;
+                        clientFound.Accessibility.status = initData.status;
+                        setClients(clients);
+                      })
+                      .then(() => setEdit(false))
+                      .then(() => setLoadingUpdate(false))
+                      .catch(() => alert("Error, please try again or after"));
+                  } else {
+                    alert("There are some errors in your fields");
+                  }
                 }}
               >
                 {/* ✅ */}
