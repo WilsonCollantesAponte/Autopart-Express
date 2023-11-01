@@ -5,7 +5,7 @@ import Validations from "./validations";
 import { MoonLoader } from "react-spinners";
 
 export default function ClientRow({ clientValue, setClients, clients }) {
-  const [hiddenRow, setHiddenRow] = useState(false);
+  // const [hiddenRow, setHiddenRow] = useState(false);
   const [edit, setEdit] = useState(false);
   const [willBeDeleted, setWillBeDeleted] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -28,7 +28,8 @@ export default function ClientRow({ clientValue, setClients, clients }) {
   }
 
   return (
-    <div className={hiddenRow ? "hidden" : ""}>
+    // {/* <div className={hiddenRow ? "hidden" : ""}> */}
+    <div>
       {!edit ? (
         <div className=" flex divide-x-2 divide-gray-500 text-xs border-b-2 border-gray-500 font-medium overflow-auto">
           <div className="flex items-center">
@@ -69,7 +70,10 @@ export default function ClientRow({ clientValue, setClients, clients }) {
                         method: "DELETE",
                       })
                         .then(() => {
-                          setHiddenRow(true);
+                          // setHiddenRow(true);
+                          setClients(
+                            clients.filter((val) => val.id !== clientValue.id)
+                          );
                           setWillBeDeleted(false);
                           setLoadingDelete(false);
                         })
