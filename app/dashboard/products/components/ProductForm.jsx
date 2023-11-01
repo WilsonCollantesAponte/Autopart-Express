@@ -10,17 +10,18 @@ export default function ProductForm() {
     brand: "",
     model: "",
     image: "",
+    description: "",
   });
 
   const handleInputChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-    // const { name, value } = e.target;
-    // if (name === "price" || name === "availability") {
-    //   const parsedValue = parseInt(value, 10);
-    //   setProduct({ ...product, [name]: parsedValue });
-    // } else {
-    //   setProduct({ ...product, [name]: value });
-    // }
+    // setProduct({ ...product, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "price" || name === "availability") {
+      const parsedValue = parseInt(value, 10);
+      setProduct({ ...product, [name]: parsedValue });
+    } else {
+      setProduct({ ...product, [name]: value });
+    }
   };
   //Funcion para subir imagenes a Cloudinary
   const changeUploadImage = async (e) => {
@@ -59,87 +60,140 @@ export default function ProductForm() {
       brand: "",
       model: "",
       image: "",
+      description: "",
     });
   };
   return (
-    <div className="flex flex-col justify-center items-center">
-      <form className="max-w-md mx-auto p-4 space-y-1" onSubmit={handleSubmit}>
-        <label className="block font-semibold">Categoría del Producto</label>
-        <input
-          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="text"
-          placeholder="'Bujia'"
-          name="name"
-          onChange={handleInputChange}
-        ></input>
-        <label className="block font-semibold">Nombre del Producto</label>
-        <input
-          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="text"
-          placeholder="'Bujia'"
-          name="model"
-          onChange={handleInputChange}
-        ></input>
-        <label className="block font-semibold">Marca del Producto</label>
-        <input
-          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="text"
-          name="brand"
-          onChange={handleInputChange}
-        ></input>
-        <label className="block font-semibold">
-          Disponibilidad del Producto
-        </label>
-        <input
-          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="text"
-          name="availability"
-          onChange={handleInputChange}
-        ></input>
-        <label className="block font-semibold">Precio del Producto</label>
-
-        <input
-          className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="text"
-          name="price"
-          onChange={handleInputChange}
-        ></input>
-        <label className="block font-semibold">Imagen del Producto:</label>
-
-        <input
-          className="w-full border-2 border-blue-Nav rounded-xl p-4 bg-transparent"
-          type="file"
-          accept="image/*"
-          onChange={changeUploadImage}
-        />
-
-        <div className="double-space"></div>
-
-        <button
-          className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          type="submit"
-        >
-          Enviar
-        </button>
-
-        {/* <button className="flex m-4 border" onClick={() => deleteProductInfo()}>
-          Cancelar
-        </button> */}
-      </form>
+    <div className="flex flex-col justify-start items-start border-2 border-black-100">
       <div>
-        <p className="font-semibold">Nombre: {product.model}</p>
-        <p className="font-semibold">Marca: {product.brand}</p>
-        <p className="font-semibold">Disponibilidad: {product.availability}</p>
-        <p className="font-semibold">Precio: {product.price}</p>
-        {product.image.length > 0 ? (
-          <div>
-            <p>Imagen Cargada</p>
-            <img src={product.image} alt="" />
-            <button className="flex m-4 border" onClick={() => deleteImage()}>
-              Borrar Imagen
-            </button>
+        <form
+          className="max-w-md mx-10 my-4 p-4 space-y-1 border border-black-100"
+          onSubmit={handleSubmit}
+        >
+          <label className="block font-semibold">Categoría del Producto</label>
+          <input
+            className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="text"
+            placeholder="'Bujia'"
+            name="name"
+            value={product.name}
+            onChange={handleInputChange}
+          ></input>
+          <label className="block font-semibold">Nombre del Producto</label>
+          <input
+            className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="text"
+            placeholder="'Bujia'"
+            name="model"
+            value={product.model}
+            onChange={handleInputChange}
+          ></input>
+          <label className="block font-semibold">Marca del Producto</label>
+          <input
+            className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="text"
+            name="brand"
+            value={product.brand}
+            onChange={handleInputChange}
+          ></input>
+          <label className="block font-semibold">
+            Descripcion del Producto
+          </label>
+          <textarea
+            className="w-full h-32 border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent resize-none"
+            type="textarea"
+            rows="6"
+            name="description"
+            value={product.description}
+            onChange={handleInputChange}
+          ></textarea>
+          <label className="block font-semibold">
+            Disponibilidad del Producto
+          </label>
+          <input
+            className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="text"
+            name="availability"
+            value={product.availability}
+            onChange={handleInputChange}
+          ></input>
+          <label className="block font-semibold">Precio del Producto</label>
+
+          <input
+            className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="text"
+            name="price"
+            value={product.price}
+            onChange={handleInputChange}
+          ></input>
+          <label className="block font-semibold">Imagen del Producto:</label>
+
+          <input
+            className="w-full border-2 border-blue-Nav rounded-xl p-4 bg-transparent"
+            type="file"
+            accept="image/*"
+            name="image"
+            onChange={changeUploadImage}
+          />
+
+          <div className="double-space"></div>
+
+          <button
+            className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="submit"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
+
+      <div className="">
+        <p>Preview del Producto</p>
+
+        <div
+          key={product.model}
+          className="shadow-2xl rounded-lg max-w-xs h-96 flex-col bg-sky-100/40  "
+        >
+          <img
+            src={product.image}
+            alt=""
+            width={200}
+            height={300}
+            className="w-full h-2/3 p-8"
+          />
+          <div className="pb-2 mt-3 flex flex-wrap">
+            <div className="px-5 pb-5 ">
+              <h3 className="text-gray-900 font-semibold text-xl tracking-tight ">
+                {product.name}
+              </h3>
+            </div>
+            <div className="px-5 pb-5 ">
+              <h3 className="text-gray-900 font-semibold text-xl tracking-tight ">
+                {product.brand}
+              </h3>
+            </div>
+            <div className="px-5 pb-5 ">
+              <h3 className="text-gray-900 font-semibold text-xl tracking-tight ">
+                {product.model}
+              </h3>
+            </div>
+            <div className="flex  items-center justify-between">
+              <span className="text-3xl font-bold text-gray-900  ml-2">
+                ${product.price}
+              </span>
+              <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                Comprar
+                {/* <div>Comprar</div> */}
+              </button>
+            </div>
           </div>
-        ) : null}
+        </div>
+        <button
+          className="w- bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => deleteImage()}
+        >
+          Borrar Imagen del Producto
+        </button>
       </div>
     </div>
   );
