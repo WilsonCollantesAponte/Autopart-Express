@@ -46,11 +46,11 @@ model Cart {
 model Product {
   id           String   @id @default(uuid())
   name         String?
-  price        Int?
-  availability Int?
+  price        String?
+  availability String?
   brand        String?
   model        String?
-  rating       Int?
+  rating       String?
   image        String?
   Detail       Detail[]
 }
