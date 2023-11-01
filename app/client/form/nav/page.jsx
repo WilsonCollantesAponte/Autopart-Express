@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -20,7 +20,32 @@ export default function Nav() {
     } else if (storeUser) {
       setFormData(JSON.parse(storeUser));
     }
-  }, [session]);
+
+    if (session) {
+      fetch(`/client/form/login/api/email?email=${session.email}`, {
+        method: "GET",
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          console.log(session);
+          console.log(r);
+          if (r.client.length === 0) {
+            fetch("/client/form/signIn/api", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: session?.user?.name,
+                surname: session?.user?.name,
+                email: session?.user?.email,
+                password: session?.user?.email,
+              }),
+            });
+          }
+        });
+    }
+  }, [session?.user?.email]);
 
   const handleLogout = async () => {
     localStorage.removeItem("user");
