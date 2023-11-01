@@ -4,7 +4,7 @@ import { useState } from "react";
 import Validations from "./validations";
 import { MoonLoader } from "react-spinners";
 
-export default function ClientRow({ clientValue, setClients, clients }) {
+export default function ProductRow({ productValue, setProducts, products }) {
   // const [hiddenRow, setHiddenRow] = useState(false);
   const [edit, setEdit] = useState(false);
   const [willBeDeleted, setWillBeDeleted] = useState(false);
@@ -14,11 +14,13 @@ export default function ClientRow({ clientValue, setClients, clients }) {
   const [errors, setErrors] = useState({});
 
   const [initData, setInitData] = useState({
-    name: clientValue.name,
-    surname: clientValue.surname,
-    email: clientValue.email,
-    password: clientValue.password,
-    status: clientValue.Accessibility.status,
+    name: productValue.name,
+    price: productValue.price,
+    availability: productValue.availability,
+    brand: productValue.brand,
+    model: productValue.model,
+    rating: productValue.rating,
+    image: productValue.image,
   });
 
   function handleInitData(event) {
@@ -34,27 +36,41 @@ export default function ClientRow({ clientValue, setClients, clients }) {
         <div className=" flex divide-x-2 divide-gray-500 text-xs border-b-2 border-gray-500 font-medium overflow-auto">
           <div className="flex items-center">
             <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
-              {clientValue.name}
+              {productValue.name}
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className=" py-2.5 overflow-auto pl-4 w-24 h-fit">
+              {productValue.price}
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className=" py-2.5 overflow-auto px-4 w-40 h-fit">
+              {productValue.availability}
             </div>
           </div>
           <div className="flex items-center">
             <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
-              {clientValue.surname}
+              {productValue.brand}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto px-4 w-72 h-fit">
-              {clientValue.email}
+            <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
+              {productValue.model}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-72 h-fit">
-              {clientValue.password}
+            <div className=" py-2.5 overflow-auto pl-4 w-20 h-fit">
+              {productValue.rating}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 px-3 overflow-auto w-24 h-fit">
-              {clientValue.Accessibility.status ? "Yes" : "No"}
+            <div className=" w-28">
+              <img
+                className=" py-2.5 overflow-auto px-3 h-fit rounded-2xl"
+                src={productValue.image}
+                alt="not available"
+              />
             </div>
           </div>
 
@@ -66,20 +82,21 @@ export default function ClientRow({ clientValue, setClients, clients }) {
                     className=" underline underline-offset-4"
                     onClick={() => {
                       setLoadingDelete(true);
-                      fetch(`/dashboard/clients/api?id=${clientValue.id}`, {
+                      fetch(`/dashboard/products/api?id=${productValue.id}`, {
                         method: "DELETE",
                       })
                         .then(() => {
                           // setHiddenRow(true);
-                          setClients(
-                            clients.filter((val) => val.id !== clientValue.id)
+                          setProducts(
+                            products.filter((val) => val.id !== productValue.id)
                           );
                           setWillBeDeleted(false);
                           setLoadingDelete(false);
                         })
-                        .catch(() =>
-                          alert("Error deleting, please try again or after")
-                        );
+                        .catch(() => {
+                          alert("Error deleting, please try again or after");
+                          setLoadingDelete(false);
+                        });
                     }}
                   >
                     {/* ✅ */}
@@ -210,74 +227,110 @@ export default function ClientRow({ clientValue, setClients, clients }) {
             <input
               maxLength={45}
               className={
-                errors.surname
+                errors.price
+                  ? " py-2.5 overflow-auto pl-4 w-24 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-24 h-fit"
+              }
+              value={initData.price}
+              name="price"
+              onChange={handleInitData}
+            />
+            {errors.price ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-44">
+                {errors.price}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col items-center">
+            <input
+              maxLength={45}
+              className={
+                errors.availability
+                  ? " py-2.5 overflow-auto pl-4 w-40 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-40 h-fit"
+              }
+              value={initData.availability}
+              name="availability"
+              onChange={handleInitData}
+            />
+            {errors.availability ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-72">
+                {/* <p> */}
+                {errors.availability}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col items-center">
+            <input
+              maxLength={45}
+              className={
+                errors.brand
                   ? " py-2.5 overflow-auto pl-4 w-52 h-fit ring-red-500 ring-inset ring-2"
                   : " py-2.5 overflow-auto pl-4 w-52 h-fit"
               }
-              value={initData.surname}
-              name="surname"
+              value={initData.brand}
+              name="brand"
               onChange={handleInitData}
             />
-            {errors.surname ? (
-              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-44">
-                {errors.surname}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex flex-col items-center">
-            <input
-              maxLength={45}
-              className={
-                errors.email
-                  ? " py-2.5 overflow-auto pl-4 w-72 h-fit ring-red-500 ring-inset ring-2"
-                  : " py-2.5 overflow-auto pl-4 w-72 h-fit"
-              }
-              value={initData.email}
-              name="email"
-              onChange={handleInitData}
-            />
-            {errors.email ? (
-              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-72">
-                {/* <p> */}
-                {errors.email}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex flex-col items-center">
-            <input
-              maxLength={45}
-              className={
-                errors.password
-                  ? " py-2.5 overflow-auto pl-4 w-72 h-fit ring-red-500 ring-inset ring-2"
-                  : " py-2.5 overflow-auto pl-4 w-72 h-fit"
-              }
-              value={initData.password}
-              name="password"
-              onChange={handleInitData}
-            />
-            {errors.password ? (
+            {errors.brand ? (
               <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-24">
-                {errors.password}
+                {errors.brand}
               </p>
             ) : null}
           </div>
-          <div className="flex flex-col items-center bg-white">
+          <div className="flex flex-col items-center">
             <input
-              type="checkbox"
+              maxLength={45}
               className={
-                errors.status
-                  ? " py-2.5 overflow-auto pl-4 w-24 h-fit ring-red-500 ring-inset ring-2"
-                  : " py-2.5 overflow-auto pl-4 w-24 h-fit my-auto"
+                errors.model
+                  ? " py-2.5 overflow-auto pl-4 w-52 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-52 h-fit"
               }
-              checked={initData.status}
-              name="status"
-              onChange={(e) => {
-                setInitData({
-                  ...initData,
-                  [e.target.name]: !initData.status,
-                });
-              }}
+              value={initData.model}
+              name="model"
+              onChange={handleInitData}
             />
+            {errors.model ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-24">
+                {errors.model}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col items-center">
+            <input
+              maxLength={45}
+              className={
+                errors.rating
+                  ? " py-2.5 overflow-auto pl-4 w-20 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-20 h-fit"
+              }
+              value={initData.rating}
+              name="rating"
+              onChange={handleInitData}
+            />
+            {errors.rating ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-24">
+                {errors.rating}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col items-center">
+            <input
+              maxLength={45}
+              className={
+                errors.image
+                  ? " py-2.5 overflow-auto pl-4 w-28 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-28 h-fit"
+              }
+              value={initData.image}
+              name="image"
+              onChange={handleInitData}
+            />
+            {errors.image ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-24">
+                {errors.image}
+              </p>
+            ) : null}
           </div>
           {!loadingUpdate ? (
             <div className=" flex gap-4 px-6  ">
@@ -286,24 +339,29 @@ export default function ClientRow({ clientValue, setClients, clients }) {
                 onClick={() => {
                   if (!Object.keys(errors).length) {
                     setLoadingUpdate(true);
-                    fetch(`/dashboard/clients/api?id=${clientValue.id}`, {
+                    fetch(`/dashboard/products/api?id=${productValue.id}`, {
                       method: "PUT",
                       body: JSON.stringify(initData),
                     })
                       .then(() => {
-                        const clientFound = clients.find(
-                          (value) => value.id === clientValue.id
+                        const productFound = products.find(
+                          (value) => value.id === productValue.id
                         );
-                        clientFound.name = initData.name;
-                        clientFound.surname = initData.surname;
-                        clientFound.email = initData.email;
-                        clientFound.password = initData.password;
-                        clientFound.Accessibility.status = initData.status;
-                        setClients(clients);
+                        productFound.name = initData.name;
+                        productFound.price = initData.price;
+                        productFound.availability = initData.availability;
+                        productFound.brand = initData.brand;
+                        productFound.model = initData.model;
+                        productFound.rating = initData.rating;
+                        productFound.image = initData.image;
+                        setProducts(products);
                       })
                       .then(() => setEdit(false))
                       .then(() => setLoadingUpdate(false))
-                      .catch(() => alert("Error, please try again or after"));
+                      .catch(() => {
+                        alert("Error, please try again or after");
+                        setLoadingUpdate(false);
+                      });
                   } else {
                     alert("There are some errors in your fields");
                   }
