@@ -129,39 +129,41 @@ export default function Register() {
 
   const handelSubmitGoogle = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        `/client/form/login/api/email?email=${formData.email}`,
-        {
-          method: "GET",
-        }
-      );
-      const data = await response.json();
-      if (data.client.length > 0) {
-        signIn(undefined, { callbackUrl: "/" });
-      } else {
-        try {
-          await fetch("/client/form/signIn/api", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: session?.user?.name,
-              surname: session?.user?.name,
-              email: session.user.email,
-              password: session.user.email,
-            }),
-          });
-        } catch (error) {
-          // Maneja errores de red o del servidor
-          console.error("Error al iniciar sesión:", error);
-        }
-      }
-    } catch (error) {
-      // Maneja errores de red o del servidor
-      console.error("Error al iniciar sesión:", error);
-    }
+    signIn(undefined, { callbackUrl: "/" });
+
+    // try {
+    //   const response = await fetch(
+    //     `/client/form/login/api/email?email=${formData.email}`,
+    //     {
+    //       method: "GET",
+    //     }
+    //   );
+    //   const data = await response.json();
+    //   if (data.client.length > 0) {
+    //     signIn(undefined, { callbackUrl: "/" });
+    //   } else {
+    //     try {
+    //       await fetch("/client/form/signIn/api", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           name: session?.user?.name,
+    //           surname: session?.user?.name,
+    //           email: session.user.email,
+    //           password: session.user.email,
+    //         }),
+    //       });
+    //     } catch (error) {
+    //       // Maneja errores de red o del servidor
+    //       console.error("Error al iniciar sesión:", error);
+    //     }
+    //   }
+    // } catch (error) {
+    //   // Maneja errores de red o del servidor
+    //   console.error("Error al iniciar sesión:", error);
+    // }
   };
 
   //------------------------------------- hasta aca-----------------------------------/
