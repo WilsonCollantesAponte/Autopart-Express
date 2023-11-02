@@ -50,17 +50,20 @@ export default function Nav() {
             });
           }
         });
-
-      localStorage.email = session.user.email;
-      localStorage.name = session.user.name;
-      localStorage.image = session.user.image;
+      if (typeof window !== "undefined") {
+        localStorage.email = session.user.email;
+        localStorage.name = session.user.name;
+        localStorage.image = session.user.image;
+      }
     }
   }, [session?.user?.email]);
 
   const handleLogout = () => {
     // localStorage.removeItem("user");
     // localStorage.removeItem("formData");
-    localStorage.clear();
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+    }
     signOut({ callbackUrl: "/" });
     // setFormData(null);
   };
