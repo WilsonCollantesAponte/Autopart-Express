@@ -1,9 +1,10 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav() {
+  const [email, setEmail] = useState("");
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -27,14 +28,15 @@ export default function Nav() {
               }),
             });
           }
-        })
-        .then(() => {
-          localStorage.setItem("name", session.user.name);
-          localStorage.setItem("email", session.user.email);
-          localStorage.setItem("image", session.user.image);
         });
+      // localStorage.setItem("name", session.user.name);
+      // localStorage.setItem("email", session.user.email);
+      // localStorage.setItem("image", session.user.image);
     }
-  }, [session?.user?.email, localStorage.getItem("email")]);
+    if (localStorage.getItem("email")) {
+      setEmail(localStorage.getItem("email"));
+    }
+  }, [session?.user?.email]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -88,8 +90,8 @@ export default function Nav() {
                                         </span> */}
               </svg>
             </Link>
-            <div className=" w-60">
-              {session || localStorage.getItem("email") ? (
+            <div>
+              {session || email ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
