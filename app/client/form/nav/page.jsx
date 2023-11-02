@@ -5,6 +5,10 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav() {
+
+  const getCart =  JSON.parse(localStorage.getItem("cart")) || [];
+  const itemCount = getCart.length
+
   const { data: session } = useSession();
 
   const [formData, setFormData] = useState(null);
@@ -55,7 +59,7 @@ export default function Nav() {
           </div>
           {/* iconos */}
           <div className="hidden xl:flex items-center space-x-5 ">
-            <Link className="flex items-center hover:text-gray-200" href="/">
+            <Link className="flex items-center hover:text-gray-200" href="/detail/cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -75,6 +79,7 @@ export default function Nav() {
                                             <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                                         </span> */}
               </svg>
+              {itemCount > 0 && <span className="bg-red-500 text-white rounded-full p-1">{itemCount}</span>}
             </Link>
             <div>
               {formData ? (

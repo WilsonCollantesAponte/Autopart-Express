@@ -2,9 +2,30 @@
 
 import { useEffect , useState} from "react"
 import { useParams } from "next/navigation"
+import Cart from "../cart/page"
 import { MoonLoader } from "react-spinners";
 
 export default function ProductDetail ({params}) {
+
+    const [cart, setCart] = useState([]);
+
+    const addToCart = (product) => {
+      setCart([...cart, product]);
+    };
+
+
+    useEffect(() => {
+        // Cargar el carrito del Local Storage al estado inicial
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(storedCart);
+      }, []);
+      
+      useEffect(() => {
+        // Guardar el carrito en el Local Storage cuando cambie
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }, [cart]);
+
+    console.log(cart)
 
     //const params = useParams();
     //const id = params.id.slice(-1)
@@ -96,8 +117,12 @@ export default function ProductDetail ({params}) {
 
                         {/* redirecciona a pasarela mercado pago */}
                         <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mercado Pago</button>  
-                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  
-
+                        <button
+                        onClick={() => addToCart(product)}
+                        className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                        >
+                        Agregar al carrito
+                        </button>
                     </div>
                 </div>
                 </div>
