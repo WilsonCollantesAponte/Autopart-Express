@@ -91,10 +91,10 @@ export default function Nav() {
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {session.user.image && (
+                    {localStorage.getItem("email") && (
                       <img
                         className=" rounded-lg"
-                        src={session.user.image}
+                        src={session?.user.image}
                         width="70"
                         alt="user image"
                       />
