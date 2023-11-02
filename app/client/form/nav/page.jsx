@@ -116,14 +116,14 @@ export default function Nav() {
               </svg>
             </Link>
             <div>
-              {typeof window !== undefined && localStorage.email ? (
+              {session ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {localStorage.image && (
+                    {session.user.image && (
                       <img
                         className=" rounded-lg"
-                        src={localStorage.image}
+                        src={session.user.image}
                         width="70"
                         alt="user image"
                       />
