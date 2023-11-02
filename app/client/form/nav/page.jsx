@@ -69,7 +69,10 @@ export default function Nav() {
           </div>
           {/* iconos */}
           <div className="hidden xl:flex items-center space-x-5 ">
-            <Link className="flex items-center hover:text-gray-200" href="/">
+            <Link
+              className="flex items-center hover:text-gray-200"
+              href="/cart"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"

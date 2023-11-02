@@ -11,11 +11,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")  
-// }
-
 //Node 1 - Integrated for Accessibility and Client | Accessibility "one-to-one" Client
 model Accessibility {
   id       String  @id @default(uuid())
@@ -34,17 +29,8 @@ model Client {
   Cart          Cart[]
 }
 
-//Node 2 - Integrated for Client and Cart |  "one-to-many"
-model Cart {
-  id       String   @id @default(uuid())
-  idClient String
-  Client   Client   @relation(fields: [idClient], references: [id])
-  Detail   Detail[]
-}
-
-//Node 3 - Integrated for: Cart, Detail, Product || Cart "one-to-many" Detail, Product "one-to-many" Detail
 model Product {
-  id           String   @id @default(uuid())
+  id           String  @id @default(uuid())
   name         String?
   price        String?
   availability String?
@@ -52,14 +38,17 @@ model Product {
   model        String?
   rating       String?
   image        String?
-  Detail       Detail[]
+  Cart         Cart[]
 }
 
-model Detail {
-  idProduct String
-  Product   Product @relation(fields: [idProduct], references: [id])
-  idCart    String
-  Cart      Cart    @relation(fields: [idCart], references: [id])
+//Node 2 - Integrated for: Cart, Client, Product || Cart "one-to-many" Client, Cart "one-to-many" Product
+model Cart {
+  id         String  @id @default(uuid())
+  idClient   String
+  Client     Client  @relation(fields: [idClient], references: [id])
+  idProduct  String
+  Product    Product @relation(fields: [idProduct], references: [id])
+  payment_id String?
 
-  @@id([idProduct, idCart])
+  // @@id([idClient, idProduct])
 }
