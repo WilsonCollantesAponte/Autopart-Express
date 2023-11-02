@@ -90,7 +90,6 @@ export default function Nav() {
               {localStorage.getItem("email") ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
-                    {/* Hola! {formData.email} {formData.surname} */}
                     {session?.user.image && (
                       <img
                         className=" rounded-lg"
