@@ -7,6 +7,10 @@ import Link from "next/link";
 export default function Nav() {
   const { data: session } = useSession();
 
+  if (typeof window !== undefined) {
+    localStorage;
+  }
+
   // const [formData, setFormData] = useState(null);
 
   useEffect(() => {
