@@ -13,10 +13,6 @@ export default function Login() {
 
   const [loginError, setLoginError] = useState(null);
 
-  // const saveDataToLocalStorage = () => {
-  //   localStorage.setItem("formData", JSON.stringify(formData));
-  // };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -29,7 +25,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/client/form/login/api?email=${formData.email}&password=${formData.password}`,
+        `/client/form/login/api?email=${formData.email}&password=${formData.password}`,
         {
           method: "GET",
         }
@@ -40,11 +36,10 @@ export default function Login() {
 
       if (responsejson.userFound.length > 0) {
         // saveDataToLocalStorage();
-        // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
-        // localStorage.email = responsejson.userFound[0].email;
-        // localStorage.name = responsejson.userFound[0].name;
-        localStorage.setItem("email", responsejson.userFound[0].email);
-        localStorage.setItem("name", responsejson.userFound[0].name);
+        localStorage.email = responsejson.userFound[0].email;
+        localStorage.name = responsejson.userFound[0].name;
+        // localStorage.setItem("email", responsejson.userFound[0].email);
+        // localStorage.setItem("name", responsejson.userFound[0].name);
         location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {
