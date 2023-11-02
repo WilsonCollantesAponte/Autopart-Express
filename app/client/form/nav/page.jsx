@@ -1,5 +1,4 @@
 "use client";
-// import { useState } from "react";
 import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -7,34 +6,13 @@ import Link from "next/link";
 export default function Nav() {
   const { data: session } = useSession();
 
-  // if (typeof window !== undefined) {
-  //   localStorage;
-  // }
-
-  // const [formData, setFormData] = useState(null);
-
   useEffect(() => {
-    // const storeUserGmail = localStorage.getItem("user");
-    // const storeUser = localStorage.getItem("formData");
-
-    // console.log(storeUserGmail, storeUser);
-
-    // if (storeUserGmail) {
-    //   setFormData(JSON.parse(storeUserGmail));
-    // } else if (session?.user) {
-    //   setFormData(session.user); // Usar datos de la sesión si está disponible
-    // } else if (storeUser) {
-    //   setFormData(JSON.parse(storeUser));
-    // }
-
     if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`, {
         method: "GET",
       })
         .then((r) => r.json())
         .then((r) => {
-          // console.log(session);
-          // console.log(r);
           if (r.client.length === 0) {
             fetch("/client/form/signIn/api", {
               method: "POST",
@@ -50,25 +28,15 @@ export default function Nav() {
             });
           }
         });
-      // if (typeof window !== "undefined") {
       localStorage.setItem("name", session.user.name);
       localStorage.setItem("email", session.user.email);
       localStorage.setItem("image", session.user.image);
-      // localStorage.email = session.user.email;
-      // localStorage.name = session.user.name;
-      // localStorage.image = session.user.image;
-      // }
     }
   }, [session?.user?.email]);
 
   const handleLogout = () => {
-    // localStorage.removeItem("user");
-    // localStorage.removeItem("formData");
-    // if (typeof window !== "undefined") {
     localStorage.clear();
-    // }
     signOut({ callbackUrl: "/" });
-    // setFormData(null);
   };
 
   return (
