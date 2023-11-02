@@ -14,22 +14,21 @@ const Home = () => {
     name: "",
     brand: "",
     model: "",
+    rating: 0,
   });
   const [ascendingOrder, setAscendingOrder] = useState(true);
+  const [priceRange, setPriceRange] = useState("");
 
   function handleProduct(event) {
     setPage(1);
     const { name, value } = event.target;
-    filters[name] = value;
-    setProducts(
-      productsSupport.filter(
-        (valueP) =>
-          valueP.brand?.toLowerCase().includes(filters.brand.toLowerCase()) &&
-          valueP.model?.toLowerCase().includes(filters.model.toLowerCase()) &&
-          valueP.name?.toLowerCase().includes(filters.name.toLowerCase())
-      )
-    );
     setFilters({ ...filters, [name]: value });
+  }
+
+  function handlePriceRange(event) {
+    setPage(1);
+    const { value } = event.target;
+    setPriceRange(value);
   }
 
   function toggleOrder(orderType) {
@@ -71,12 +70,35 @@ const Home = () => {
     );
   if (error) return <div>{error}</div>;
 
-  const sortedProducts = [...products].sort((a, b) => {
+  const filteredProducts = productsSupport
+    .filter((product) =>
+      product.brand?.toLowerCase().includes(filters.brand.toLowerCase())
+    )
+    .filter((product) =>
+      product.model?.toLowerCase().includes(filters.model.toLowerCase())
+    )
+    .filter((product) =>
+      product.name?.toLowerCase().includes(filters.name.toLowerCase())
+    )
+    .filter((product) => filters.rating === 0 || product.rating === filters.rating)
+    .filter((product) => {
+      if (priceRange === "hasta20000") {
+        return product.price <= 20000;
+      } else if (priceRange === "20000a60000") {
+        return product.price > 20000 && product.price <= 60000;
+      } else if (priceRange === "masde60000") {
+        return product.price > 60000;
+      } else {
+        return true;
+      }
+    });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
     const orderFactor = ascendingOrder ? 1 : -1;
     return orderFactor * (a.price - b.price);
   });
 
-  const productsPerPage = 6; // Number of products to display per page
+  const productsPerPage = 6;
   const startIndex = (page - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const displayedProducts = sortedProducts.slice(startIndex, endIndex);
@@ -133,6 +155,40 @@ const Home = () => {
               ))}
             </select>
           </div>
+          <div className="mb-4">
+            <label className="mx-1.5 text-gray-800 font-semibold" htmlFor="rating">
+              Rating
+            </label>
+            <select
+              name="rating"
+              onChange={handleProduct}
+              value={filters.rating}
+              className="w-full border-2 bg-white border-blue-Nav p-4 bg-transparent"
+            >
+              <option value="0">Cualquier rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="mx-1.5 text-gray-800 font-semibold" htmlFor="priceRange">
+              Precio
+            </label>
+            <select
+              name="priceRange"
+              onChange={handlePriceRange}
+              value={priceRange}
+              className="w-full border-2 bg-white border-blue-Nav p-4 bg-transparent"
+            >
+              <option value="">Cualquier precio</option>
+              <option value="hasta20000">Hasta $20,000</option>
+              <option value="20000a60000">$20,000 - $60,000</option>
+              <option value="masde60000">Más de $60,000</option>
+            </select>
+          </div>
           <button
             className="w-full bg-blue-Nav hover-bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
             onClick={() => {
@@ -141,7 +197,9 @@ const Home = () => {
                 name: "",
                 brand: "",
                 model: "",
+                rating: 0,
               });
+              setPriceRange("");
             }}
           >
             Reiniciar
@@ -216,6 +274,9 @@ const Home = () => {
                       {value.model}
                     </h3>
                   </div>
+                  <div className="px-5 pb-5">
+                    <span className="text-gray-900 font-semibold">Rating: {value.rating}</span>
+                  </div>
                   <div className="flex items-center justify-between">
                     <span className="text-3xl font-bold text-gray-900 ml-2">
                       ${value.price}
@@ -235,6 +296,12 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+
+
 
 
 
