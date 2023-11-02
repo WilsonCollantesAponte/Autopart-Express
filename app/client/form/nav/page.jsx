@@ -113,7 +113,7 @@ export default function Nav() {
               </svg>
             </Link>
             <div>
-              {localStorage.email ? (
+              {typeof window !== undefined && localStorage.email ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
