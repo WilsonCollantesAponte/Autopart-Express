@@ -1,11 +1,9 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 
 export default function Register() {
-  const { data: session } = useSession();
-
   //-Falta hacer que el session haga el post al back end, y vamos a utilizar como Passsword el EMAIL --//
 
   const [isLoading, setIsLoading] = useState(false);
