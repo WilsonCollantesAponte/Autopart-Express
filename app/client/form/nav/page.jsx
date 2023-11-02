@@ -87,11 +87,11 @@ export default function Nav() {
               </svg>
             </Link>
             <div>
-              {session ? (
+              {localStorage.getItem("email") ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {session.user.image && (
+                    {session?.user.image && (
                       <img
                         className=" rounded-lg"
                         src={session.user.image}
