@@ -7,9 +7,9 @@ import Link from "next/link";
 export default function Nav() {
   const { data: session } = useSession();
 
-  if (typeof window !== undefined) {
-    localStorage;
-  }
+  // if (typeof window !== undefined) {
+  //   localStorage;
+  // }
 
   // const [formData, setFormData] = useState(null);
 
@@ -50,20 +50,23 @@ export default function Nav() {
             });
           }
         });
-      if (typeof window !== "undefined") {
-        localStorage.email = session.user.email;
-        localStorage.name = session.user.name;
-        localStorage.image = session.user.image;
-      }
+      // if (typeof window !== "undefined") {
+      localStorage.setItem("name", session.user.name);
+      localStorage.setItem("email", session.user.email);
+      localStorage.setItem("image", session.user.image);
+      // localStorage.email = session.user.email;
+      // localStorage.name = session.user.name;
+      // localStorage.image = session.user.image;
+      // }
     }
   }, [session?.user?.email]);
 
   const handleLogout = () => {
     // localStorage.removeItem("user");
     // localStorage.removeItem("formData");
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-    }
+    // if (typeof window !== "undefined") {
+    localStorage.clear();
+    // }
     signOut({ callbackUrl: "/" });
     // setFormData(null);
   };
