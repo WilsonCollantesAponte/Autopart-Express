@@ -1,32 +1,46 @@
 "use client";
-import { use, useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav() {
+  const [email, setEmail] = useState("");
   const { data: session } = useSession();
 
-  const [formData, setFormData] = useState(null);
-
   useEffect(() => {
-    const storeUserGmail = localStorage.getItem("user");
-    const storeUser = localStorage.getItem("formData");
-
-    if (storeUserGmail) {
-      setFormData(JSON.parse(storeUserGmail));
-    } else if (session?.user) {
-      setFormData(session.user); // Usar datos de la sesión si está disponible
-    } else if (storeUser) {
-      setFormData(JSON.parse(storeUser));
+    if (session) {
+      fetch(`/client/form/login/api/email?email=${session.user.email}`, {
+        method: "GET",
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.client.length === 0) {
+            fetch("/client/form/signIn/api", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: session?.user?.name,
+                surname: session?.user?.name,
+                email: session?.user?.email,
+                password: session?.user?.email,
+              }),
+            });
+          }
+        });
+      // localStorage.setItem("name", session.user.name);
+      // localStorage.setItem("email", session.user.email);
+      // localStorage.setItem("image", session.user.image);
     }
-  }, [session]);
+    if (localStorage.getItem("email")) {
+      setEmail(localStorage.getItem("email"));
+    }
+  }, [session?.user?.email]);
 
-  const handleLogout = async () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("formData");
-    await signOut({ callbackUrl: "/" });
-    setFormData(null);
+  const handleLogout = () => {
+    localStorage.clear();
+    signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -55,7 +69,10 @@ export default function Nav() {
           </div>
           {/* iconos */}
           <div className="hidden xl:flex items-center space-x-5 ">
-            <Link className="flex items-center hover:text-gray-200" href="/">
+            <Link
+              className="flex items-center hover:text-gray-200"
+              href="/cart"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -77,14 +94,14 @@ export default function Nav() {
               </svg>
             </Link>
             <div>
-              {formData ? (
+              {session || email ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {formData.image && (
+                    {session && (
                       <img
                         className=" rounded-lg"
-                        src={formData.image}
+                        src={session?.user.image}
                         width="70"
                         alt="user image"
                       />

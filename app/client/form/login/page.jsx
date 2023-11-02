@@ -1,18 +1,17 @@
 "use client";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 // import { Redirect } from 'next';
 
 export default function Login() {
+  const { data: session } = useSession();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [loginError, setLoginError] = useState(null);
-
-  const saveDataToLocalStorage = () => {
-    localStorage.setItem("formData", JSON.stringify(formData));
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,18 +25,21 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/client/form/login/api?email=${formData.email}&password=${formData.password}`,
+        `/client/form/login/api?email=${formData.email}&password=${formData.password}`,
         {
           method: "GET",
         }
       );
 
       const responsejson = await response.json();
-      console.log(responsejson);
-        
+      // console.log(responsejson);
+
       if (responsejson.userFound.length > 0) {
-        saveDataToLocalStorage();
-        // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
+        // saveDataToLocalStorage();
+        localStorage.email = responsejson.userFound[0].email;
+        localStorage.name = responsejson.userFound[0].name;
+        // localStorage.setItem("email", responsejson.userFound[0].email);
+        // localStorage.setItem("name", responsejson.userFound[0].name);
         location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {
@@ -53,7 +55,7 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-4"> 
+    <div className="max-w-md mx-auto p-4 space-y-4">
       <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 space-y-1">
         <div className="">
           <label>Email:</label>
@@ -68,26 +70,34 @@ export default function Login() {
         <div>
           <label>Contraseña:</label>
           <input
-            className="w-full border-2 bg-white border-black-100 rounded-xl p-2 bg-transparent" 
+            className="w-full border-2 bg-white border-black-100 rounded-xl p-2 bg-transparent"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleInputChange}
           />
         </div>
-        
+
         <div className="mt-4 gap-y-4">
           <button
             type="submit"
             className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            style={{ marginTop: '1rem' }} 
+            style={{ marginTop: "1rem" }}
           >
             Iniciar Sesión
+          </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              signIn(undefined, { callbackUrl: "/" });
+            }}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          >
+            Google
           </button>
         </div>
       </form>
       {loginError && <p>{loginError}</p>}
     </div>
   );
-  
 }
