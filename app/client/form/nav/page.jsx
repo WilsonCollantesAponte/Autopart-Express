@@ -28,13 +28,15 @@ export default function Nav() {
               }),
             });
           }
-        })
-        .then(() => {
-          localStorage.setItem("name", session.user.name);
-          localStorage.setItem("email", session.user.email);
-          localStorage.setItem("image", session.user.image);
         });
-    } else if (localStorage.getItem("email")) {
+      // .then(() => {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("name", session.user.name);
+        localStorage.setItem("email", session.user.email);
+        localStorage.setItem("image", session.user.image);
+      }
+      // });
+    } else if (typeof window !== "undefined" && localStorage.getItem("email")) {
       setEmail(localStorage.getItem("email"));
     }
   }, [session?.user?.email, localStorage.getItem("email")]);
