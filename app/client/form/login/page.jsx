@@ -41,8 +41,10 @@ export default function Login() {
       if (responsejson.userFound.length > 0) {
         // saveDataToLocalStorage();
         // <Redirect to="/"/> //desbloquear esto cuando este arreglado la landing page
-        localStorage.email = responsejson.userFound[0].email;
-        localStorage.name = responsejson.userFound[0].name;
+        // localStorage.email = responsejson.userFound[0].email;
+        // localStorage.name = responsejson.userFound[0].name;
+        localStorage.setItem("email", responsejson.userFound[0].email);
+        localStorage.setItem("name", responsejson.userFound[0].name);
         location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {
