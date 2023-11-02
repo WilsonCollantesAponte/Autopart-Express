@@ -158,10 +158,12 @@ const Home = () => {
                   <span className="text-3xl font-bold text-gray-900  ml-2">
                     ${value.price}
                   </span>
-                  <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                    <Link href={`/detail/${value.id}`}>Comprar</Link>
-                    {/* <div>Comprar</div> */}
-                  </button>
+                    <Link href={`/detail/${value.id}`}>
+                        <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Comprar
+                          {/* <div>Comprar</div> */}
+                        </button>
+                      </Link>
                 </div>
               </div>
             </div>
