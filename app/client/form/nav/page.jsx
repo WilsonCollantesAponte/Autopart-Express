@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Nav() {
-  const [email, setEmail] = useState("");
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -28,16 +27,12 @@ export default function Nav() {
               }),
             });
           }
+        })
+        .then(() => {
+          localStorage.setItem("name", session.user.name);
+          localStorage.setItem("email", session.user.email);
+          localStorage.setItem("image", session.user.image);
         });
-      // .then(() => {
-      // if (typeof window !== "undefined") {
-      //   localStorage.setItem("name", session.user.name);
-      //   localStorage.setItem("email", session.user.email);
-      //   localStorage.setItem("image", session.user.image);
-      // }
-      // });
-      // } else if (typeof window !== "undefined" && localStorage.getItem("email")) {
-      //   setEmail(localStorage.getItem("email"));
     }
   }, [session?.user?.email]);
 
@@ -93,12 +88,12 @@ export default function Nav() {
                                         </span> */}
               </svg>
             </Link>
-            <div className=" w-60">
-              {session || email ? (
+            <div>
+              {session ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {session && (
+                    {localStorage.getItem("email") && (
                       <img
                         className=" rounded-lg"
                         src={session?.user.image}
