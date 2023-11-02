@@ -34,7 +34,7 @@ export default function Nav() {
           localStorage.setItem("image", session.user.image);
         });
     }
-  }, [session?.user?.email]);
+  }, [session?.user?.email, localStorage.getItem("email")]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -88,12 +88,12 @@ export default function Nav() {
                                         </span> */}
               </svg>
             </Link>
-            <div>
-              {session ? (
+            <div className=" w-60">
+              {session || localStorage.getItem("email") ? (
                 <div className="hidden xl:flex items-center space-x-5 ">
                   <p>
                     {/* Hola! {formData.email} {formData.surname} */}
-                    {localStorage.getItem("email") && (
+                    {session && (
                       <img
                         className=" rounded-lg"
                         src={session?.user.image}
