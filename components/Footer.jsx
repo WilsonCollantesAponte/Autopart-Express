@@ -3,7 +3,7 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <footer className="bg-gris-oscuro text-black w-screen">
-      <div className="container mx-auto p-8 flex flex-col md:flex-row justify-between items-start">
+      <div className="container mx-auto w-4/5 p-8 flex flex-col md:flex-row justify-between items-start">
       
         <div className="mb-4 md:mb-0">
           <img src='/autoexpress-sinfondo.png' alt="Logo" className="h-10 w-auto" />
