@@ -1,7 +1,6 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
-// import { Redirect } from 'next';
 
 export default function Login() {
   const { data: session } = useSession();
@@ -32,14 +31,10 @@ export default function Login() {
       );
 
       const responsejson = await response.json();
-      // console.log(responsejson);
 
       if (responsejson.userFound.length > 0) {
-        // saveDataToLocalStorage();
         localStorage.email = responsejson.userFound[0].email;
         localStorage.name = responsejson.userFound[0].name;
-        // localStorage.setItem("email", responsejson.userFound[0].email);
-        // localStorage.setItem("name", responsejson.userFound[0].name);
         location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {

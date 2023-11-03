@@ -12,7 +12,6 @@ const Home = () => {
   const [mustBeLogged, setMustBeLogged] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [idClient, setIdClient] = useState("");
-  // const [loadingAddToCart, setloadingAddToCart] = useState(false);
 
   const [page, setPage] = useState(1);
   const [error, setError] = useState("");
@@ -56,8 +55,6 @@ const Home = () => {
   );
 
   useEffect(() => {
-    // setIsLoading(true);
-
     if (localStorage.getItem("email")) {
       fetch(
         `/client/form/login/api/email?email=${localStorage.getItem("email")}`
@@ -79,7 +76,6 @@ const Home = () => {
               setError("Failed to load");
             });
         });
-      // .then(() => setIsLoading(false));
     } else if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`)
         .then((r) => r.json())
@@ -99,18 +95,108 @@ const Home = () => {
               setError("Failed to load");
             });
         });
-      // .then(() => setIsLoading(false));
+    } else {
+      fetch("/dashboard/products/api")
+        .then((r) => r.json())
+        .then((r) => r.products)
+        .then((r) => {
+          setProducts(r);
+          setProductsSupport(r);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          setError("Failed to load");
+        });
     }
-    // else {
-    //   // alert("must be logged");
-    //   setMustBeLogged(true);
-    // }
   }, [session?.user.email]);
 
   if (isLoading)
     return (
-      <div>
-        <MoonLoader size={200} className="mx-auto" />
+      <div className="flex animate-pulse">
+        <div className=" flex flex-col gap-9 mt-16  ml-7 w-1/4">
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+          <div className=" h-16 bg-slate-400/70 rounded-lg col-span-full"></div>
+        </div>
+
+        <div className=" mt-14 ml-14 w-full">
+          <div className=" flex gap-3 w-fit mx-auto mb-12">
+            <div className=" h-11 bg-slate-400/70 rounded-lg col-span-full w-20 mx-auto"></div>
+            <div className=" h-11 bg-slate-400/70 rounded-lg col-span-full w-20 mx-auto"></div>
+            <div className=" h-11 bg-slate-400/70 rounded-lg col-span-full w-20 mx-auto"></div>
+          </div>
+
+          <div className=" flex w-full justify-between  flex-wrap gap-y-9">
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+            <div className=" bg-slate-300/90 p-11 pb-8 rounded-2xl h-fit">
+              <div className=" h-60 bg-slate-400/70 w-52 rounded-lg"></div>
+              <div className=" flex justify-between">
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+                <span className=" h-11 bg-slate-400/70 w-24 rounded-lg mt-4"></span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   if (error) return <div>{error}</div>;
