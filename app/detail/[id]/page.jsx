@@ -1,20 +1,16 @@
 'use client'
 
 import { useEffect , useState} from "react"
-import { useParams } from "next/navigation"
 import { MoonLoader } from "react-spinners";
 
-export default function ProductDetail ({params}) {
+export default function ProductDetail ({params}) { 
 
-    //const params = useParams();
-    //const id = params.id.slice(-1)
     const {id} = params;
-    console.log(id); 
-
     const [product,setProduct] = useState()
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [cantidad,setCantidad] = useState(0);
+ 
 
     const restar = () => {
         if(cantidad>0){
@@ -40,7 +36,7 @@ export default function ProductDetail ({params}) {
         .catch(() => {
             setError("Failed to load");
         });
-          
+
       },[id])
 
     if (isLoading)
@@ -88,7 +84,6 @@ export default function ProductDetail ({params}) {
                                 <button onClick={sumar} className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                             <span  className="m-auto text-2xl font-thin">+</span>
                         </button>
-
                     </div>
 
                     <div className="flex ">
