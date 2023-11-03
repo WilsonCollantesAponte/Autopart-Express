@@ -81,7 +81,6 @@ export default function Register() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (data.client.length > 0) {
         alert("Cuenta ya existente");

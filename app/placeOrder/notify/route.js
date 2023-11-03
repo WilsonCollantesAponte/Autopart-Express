@@ -1,64 +1,52 @@
 import mercadopago from "mercadopago";
-import { NextRequest , NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import DataBaseInteraction from "@/prisma";
-const {NEXT_ACCES_TOKEN} = process.env;
+const { NEXT_ACCES_TOKEN } = process.env;
 
 mercadopago.configure({
-       access_token: NEXT_ACCES_TOKEN,
- });
-    
+  access_token: NEXT_ACCES_TOKEN,
+});
+
 export async function POST(request) {
-    try {
-        //const body = request.json();
-        const { searchParams } = new URL(request.url);
-        
-        const topic = searchParams.get("topic") || searchParams.get("type");
-       
-        
-        if(topic === "payment"){
-            const paymentId = searchParams.get("id") || searchParams.get("data.id")
-            let payment = await mercadopago.payment.findById(Number(paymentId));
-            let paymentStatus = payment.body.status
-               // console.log([ paymentStatus , payment.body.additional_info , payment.body.additional_info.items ] )
-            
-                if(paymentStatus == "approved"){
+  try {
+    //const body = request.json();
+    const { searchParams } = new URL(request.url);
 
-                    const arrayProductosVendidos = payment.body.additional_info.items;
-                    for(let i = 0; i < arrayProductosVendidos.length ; i++){
+    const topic = searchParams.get("topic") || searchParams.get("type");
 
-                        const producto = await DataBaseInteraction.product.findUnique({
-                            where:{ 
-                                id: arrayProductosVendidos[i].id,
-                            }
-                        });
-                        console.log(producto)
-                        const upAvailavility  = producto.availability - arrayProductosVendidos[i].quantity;
-                        await DataBaseInteraction.product.update(
-                            {
-                                where:{
-                                    id: producto.id,
-                                },
-                                data:{
-                                    availability: upAvailavility,
-                                }
-                            }
-                        )
-                    }
-                }
-            
-            }
-            
-       
+    if (topic === "payment") {
+      const paymentId = searchParams.get("id") || searchParams.get("data.id");
+      let payment = await mercadopago.payment.findById(Number(paymentId));
+      let paymentStatus = payment.body.status;
 
-        return NextResponse.json("compra exitosa", {status: 200 })
-        
-    } catch (error) {
-        return NextResponse.json({error: error.message}) 
-        
+      if (paymentStatus == "approved") {
+        const arrayProductosVendidos = payment.body.additional_info.items;
+        for (let i = 0; i < arrayProductosVendidos.length; i++) {
+          const producto = await DataBaseInteraction.product.findUnique({
+            where: {
+              id: arrayProductosVendidos[i].id,
+            },
+          });
+          console.log(producto);
+          const upAvailavility =
+            producto.availability - arrayProductosVendidos[i].quantity;
+          await DataBaseInteraction.product.update({
+            where: {
+              id: producto.id,
+            },
+            data: {
+              availability: upAvailavility,
+            },
+          });
+        }
+      }
     }
+
+    return NextResponse.json("compra exitosa", { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: error.message });
+  }
 }
-
-
 
 /* export async function PUT(request)  {
     try {
@@ -82,6 +70,3 @@ export async function POST(request) {
         return NextResponse.json({error: error.message}) 
     }
 } */
-
-
-
