@@ -3,8 +3,16 @@
 import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import AddToCartButton from "./addToCartButton";
 
 const Home = () => {
+  const { data: session } = useSession();
+
+  const [mustBeLogged, setMustBeLogged] = useState(false);
+  const [loadingAddToCart, setloadingAddToCart] = useState(false);
+  const [idClient, setIdClient] = useState("");
+
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -50,6 +58,25 @@ const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
+
+    if (localStorage.getItem("email")) {
+      fetch(
+        `/client/form/login/api/email?email=${localStorage.getItem("email")}`
+      )
+        .then((r) => r.json())
+        .then((r) => setIdClient(r.client.id));
+    } else if (session) {
+      fetch(`/client/form/login/api/email?email=${session.user.email}`)
+        .then((r) => r.json())
+        .then((r) => {
+          console.log(r);
+          setIdClient(r.client[0].id);
+        });
+    } else {
+      // alert("must be logged");
+      setMustBeLogged(true);
+    }
+
     fetch("/dashboard/products/api")
       .then((r) => r.json())
       .then((r) => r.products)
@@ -86,7 +113,10 @@ const Home = () => {
       <div className="w-1/5 p-4">
         <header className="p-4 rounded-lg h-screen">
           <div className="mb-4">
-            <label className="mx-1.5 text-gray-800 font-semibold" htmlFor="name">
+            <label
+              className="mx-1.5 text-gray-800 font-semibold"
+              htmlFor="name"
+            >
               Nombre
             </label>
             <input
@@ -98,7 +128,10 @@ const Home = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="mx-1.5 text-gray-800 font-semibold" htmlFor="brand">
+            <label
+              className="mx-1.5 text-gray-800 font-semibold"
+              htmlFor="brand"
+            >
               Marca
             </label>
             <select
@@ -116,7 +149,10 @@ const Home = () => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="mx-1.5 text-gray-800 font-semibold" htmlFor="model">
+            <label
+              className="mx-1.5 text-gray-800 font-semibold"
+              htmlFor="model"
+            >
               Modelo
             </label>
             <select
@@ -223,6 +259,14 @@ const Home = () => {
                     <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                       <Link href={`/detail/${value.id}`}>Comprar</Link>
                     </button>
+
+                    <div>
+                      <AddToCartButton
+                        mustBeLogged={mustBeLogged}
+                        idClient={idClient}
+                        idProduct={value.id}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -235,10 +279,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-
-
-
