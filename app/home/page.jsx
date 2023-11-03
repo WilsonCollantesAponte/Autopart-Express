@@ -9,12 +9,12 @@ import AddToCartButton from "./addToCartButton";
 const Home = () => {
   const { data: session } = useSession();
 
-  const [mustBeLogged, setMustBeLogged] = useState(false);
-  // const [loadingAddToCart, setloadingAddToCart] = useState(false);
+  const [mustBeLogged, setMustBeLogged] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [idClient, setIdClient] = useState("");
+  // const [loadingAddToCart, setloadingAddToCart] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [products, setProducts] = useState([]);
   const [productsSupport, setProductsSupport] = useState([]);
@@ -56,25 +56,27 @@ const Home = () => {
   );
 
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
     if (localStorage.getItem("email")) {
       fetch(
         `/client/form/login/api/email?email=${localStorage.getItem("email")}`
       )
         .then((r) => r.json())
-        .then((r) => setIdClient(r.client[0].id));
+        .then((r) => setIdClient(r.client[0].id))
+        .then(() => setMustBeLogged(false))
+        .then(() => setIsLoading(false));
     } else if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`)
         .then((r) => r.json())
-        .then((r) => {
-          console.log(r);
-          setIdClient(r.client[0].id);
-        });
-    } else {
-      // alert("must be logged");
-      setMustBeLogged(true);
+        .then((r) => setIdClient(r.client[0].id))
+        .then(() => setMustBeLogged(false))
+        .then(() => setIsLoading(false));
     }
+    // else {
+    //   // alert("must be logged");
+    //   setMustBeLogged(true);
+    // }
 
     fetch("/dashboard/products/api")
       .then((r) => r.json())
@@ -85,6 +87,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch(() => {
+        setIsLoading(false);
         setError("Failed to load");
       });
   }, [session?.user.email]);
