@@ -10,7 +10,7 @@ const Home = () => {
   const { data: session } = useSession();
 
   const [mustBeLogged, setMustBeLogged] = useState(false);
-  const [loadingAddToCart, setloadingAddToCart] = useState(false);
+  // const [loadingAddToCart, setloadingAddToCart] = useState(false);
   const [idClient, setIdClient] = useState("");
 
   const [page, setPage] = useState(1);
@@ -63,7 +63,7 @@ const Home = () => {
         `/client/form/login/api/email?email=${localStorage.getItem("email")}`
       )
         .then((r) => r.json())
-        .then((r) => setIdClient(r.client.id));
+        .then((r) => setIdClient(r.client[0].id));
     } else if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`)
         .then((r) => r.json())
