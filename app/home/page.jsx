@@ -65,31 +65,46 @@ const Home = () => {
         .then((r) => r.json())
         .then((r) => setIdClient(r.client[0].id))
         .then(() => setMustBeLogged(false))
-        .then(() => setIsLoading(false));
+        .then(() => {
+          fetch("/dashboard/products/api")
+            .then((r) => r.json())
+            .then((r) => r.products)
+            .then((r) => {
+              setProducts(r);
+              setProductsSupport(r);
+              setIsLoading(false);
+            })
+            .catch(() => {
+              setIsLoading(false);
+              setError("Failed to load");
+            });
+        });
+      // .then(() => setIsLoading(false));
     } else if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`)
         .then((r) => r.json())
         .then((r) => setIdClient(r.client[0].id))
         .then(() => setMustBeLogged(false))
-        .then(() => setIsLoading(false));
+        .then(() => {
+          fetch("/dashboard/products/api")
+            .then((r) => r.json())
+            .then((r) => r.products)
+            .then((r) => {
+              setProducts(r);
+              setProductsSupport(r);
+              setIsLoading(false);
+            })
+            .catch(() => {
+              setIsLoading(false);
+              setError("Failed to load");
+            });
+        });
+      // .then(() => setIsLoading(false));
     }
     // else {
     //   // alert("must be logged");
     //   setMustBeLogged(true);
     // }
-
-    fetch("/dashboard/products/api")
-      .then((r) => r.json())
-      .then((r) => r.products)
-      .then((r) => {
-        setProducts(r);
-        setProductsSupport(r);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setError("Failed to load");
-      });
   }, [session?.user.email]);
 
   if (isLoading)
