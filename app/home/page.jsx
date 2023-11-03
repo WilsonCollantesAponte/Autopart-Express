@@ -248,102 +248,89 @@ const Home = () => {
           >
             Reiniciar
           </button>
-          <div className="mt-4">
-            <span className="text-gray-800 font-semibold">Ordenar por:</span>
-            <button
-              className="w-full bg-blue-Nav hover-bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
-              onClick={() => toggleOrder("menorPrecio")}
-            >
-              Menor Precio
-            </button>
-            <button
-              className="w-full bg-blue-Nav hover-bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
-              onClick={() => toggleOrder("mayorPrecio")}
-            >
-              Mayor Precio
-            </button>
-          </div>
-        </header>
+
+         </header>
       </div>
       <div className="w-3/4">
-        <header className="flex gap-4 justify-center mt-4">
+       
+        <div className="text-right mt-4">
+          <span className="text-gray-800 font-semibold">Ordenar por: </span>
           <button
-            className="text-4xl"
+            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-2"
+            onClick={() => toggleOrder("menorPrecio")}
+          >
+            Menor precio
+          </button>
+
+          <button
+            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-8" 
+            onClick={() => toggleOrder("mayorPrecio")}
+          >
+            Mayor precio
+          </button>
+        </div>
+
+        <div className="container mx-auto py-34 px-8 justify-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-3">
+    {displayedProducts.map((value, index) => (
+      <div key={index} class="max-w-2xl mx-auto">
+        <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+          
+          <img class="rounded-t-lg" src={value.image} alt="" />
+          <div class="p-5">
+          <div className="border-b border-gray-300 mb-2"></div>
+            <p class="font-normal text-gray-700 mb-3 dark:text-gray-400"> {value.brand}</p>
+            <h5 class="text-blue-Nav font-bold text-3xl tracking-tight mb-2">{value.name}</h5>
+            <p class="font-normal text-gray-700 mb-3 dark:text-gray-400"> {value.model}</p>
+            
+            <div class="flex items-center justify-between">
+
+            <p className="font-bold text-blue-Nav text-2xl px-0 py-2">${value.price} </p>
+            <p class="font-normal text-gray-700 text-right px-1">Rating: {value.rating}</p>
+            </div>
+          
+            <div class="flex items-center justify-between">
+              
+              <button className= " bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+                <Link href={`/detail/${value.id}`}>Comprar</Link>
+              </button>
+              <div>
+                <AddToCartButton
+                  mustBeLogged={mustBeLogged}
+                  idClient={idClient}
+                  idProduct={value.id}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+        
+        <header className="flex gap-4 justify-center items-center mt-4">
+          <button
+            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page > 1) setPage(page - 1);
             }}
           >
-            ⬅️
+            Anterior
           </button>
           <span className="text-3xl font-bold">{page}</span>
           <button
-            className="text-4xl"
+            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page < Math.ceil(sortedProducts.length / productsPerPage)) {
                 setPage(page + 1);
               }
             }}
           >
-            ➡️
+            Siguiente
           </button>
         </header>
-
-        <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            {displayedProducts.map((value, index) => (
-              <div
-                key={index}
-                className="shadow-2xl rounded-lg max-w-xs h-96 flex-col bg-sky-100/40"
-              >
-                <img
-                  src={value.image}
-                  alt=""
-                  width={200}
-                  height={300}
-                  className="w-full h-2/3 p-8"
-                />
-                <div className="pb-2 mt-3 flex flex-wrap">
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.name}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.brand}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.model}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <span className="text-gray-900 font-semibold">
-                      Rating: {value.rating}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 ml-2">
-                      ${value.price}
-                    </span>
-                    <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                      <Link href={`/detail/${value.id}`}>Comprar</Link>
-                    </button>
-
-                    <div>
-                      <AddToCartButton
-                        mustBeLogged={mustBeLogged}
-                        idClient={idClient}
-                        idProduct={value.id}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

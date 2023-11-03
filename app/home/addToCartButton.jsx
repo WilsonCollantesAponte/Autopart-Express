@@ -52,9 +52,9 @@ export default function AddToCartButton({ idClient, idProduct, mustBeLogged }) {
       {!loadingAddToCart ? (
         <button
           onClick={handleAddToCart}
-          className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-5 py-2 text-center"
         >
-          Añadir al carrito - export
+          Añadir al carrito
         </button>
       ) : (
         <MoonLoader size={22} />

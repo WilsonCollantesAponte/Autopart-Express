@@ -16,7 +16,7 @@ module.exports = {
         "blue-Nav":"#2B2D42",
         "gray-botton":"#8D99AE",
         "red-botton":"#EF233C",
-        "red-font":"#D90429",
+        "red-font":"#C5332A",
         "black-100": "#2B2C35",
         "gris-oscuro": "#8D99AE",
         "primary-blue": {
