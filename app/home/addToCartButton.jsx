@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MoonLoader } from "react-spinners";
 
 export default function AddToCartButton({ idClient, idProduct, mustBeLogged }) {

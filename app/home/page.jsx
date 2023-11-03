@@ -87,7 +87,7 @@ const Home = () => {
       .catch(() => {
         setError("Failed to load");
       });
-  }, []);
+  }, [session?.user.email]);
 
   if (isLoading)
     return (
