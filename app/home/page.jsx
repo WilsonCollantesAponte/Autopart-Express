@@ -55,6 +55,7 @@ const Home = () => {
   );
 
   useEffect(() => {
+    setIsLoading(true);
     if (localStorage.getItem("email")) {
       fetch(
         `/client/form/login/api/email?email=${localStorage.getItem("email")}`
@@ -122,7 +123,7 @@ const Home = () => {
           setError("Failed to load");
         });
     }
-  }, [session?.user.email]);
+  }, [session?.user.email, page]);
 
   if (isLoading)
     return (
