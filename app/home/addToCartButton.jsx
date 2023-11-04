@@ -10,7 +10,6 @@ export default function AddToCartButton({
   inCart,
 }) {
   const [inTheCart, setInTheCart] = useState(inCart);
-  const [idCart, setIdCart] = useState("");
 
   const [loadingAddToCart, setloadingAddToCart] = useState(false);
   const [loadDeleteFromTheCart, setLoadDeleteFromTheCart] = useState(false);
@@ -27,17 +26,11 @@ export default function AddToCartButton({
           }),
         })
           .then((r) => r.json())
-          .then((r) => {
-            // console.log(r);
-            // setIdCart(r.id);
-          })
           .then(() => setloadingAddToCart(false))
           .then(() => setInTheCart(1))
           .catch(() => setloadingAddToCart(false));
       } else {
         setLoadDeleteFromTheCart(true);
-        // console.log("idProduct", idProduct);
-        // console.log("idClient", idClient);
 
         fetch(`/home/api?idClient=${idClient}&idProduct=${idProduct}`)
           .then((r) => r.json())
@@ -48,17 +41,11 @@ export default function AddToCartButton({
               .then(() => setInTheCart(0))
               .then(() => setLoadDeleteFromTheCart(false));
           });
-
-        // return alert("delete from the cart");
-        // console.log(idCart);
-        // console.log(typeof idCart);
       }
     } else {
       alert("must be logged");
     }
   }
-
-  // useEffect(() => {}, [inTheCart]);
 
   return (
     <div>
