@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MoonLoader } from "react-spinners";
 
 export default function AddToCartButton({
@@ -28,20 +28,30 @@ export default function AddToCartButton({
         })
           .then((r) => r.json())
           .then((r) => {
-            console.log(r);
-            setIdCart(r.id);
+            // console.log(r);
+            // setIdCart(r.id);
           })
           .then(() => setloadingAddToCart(false))
           .then(() => setInTheCart(1))
           .catch(() => setloadingAddToCart(false));
       } else {
-        // return alert("delete from the cart");
         setLoadDeleteFromTheCart(true);
-        fetch(`/cart/api?id=${idCart}`, {
-          method: "DELETE",
-        })
-          .then(() => setInTheCart(0))
-          .then(() => setLoadDeleteFromTheCart(false));
+        // console.log("idProduct", idProduct);
+        // console.log("idClient", idClient);
+
+        fetch(`/home/api?idClient=${idClient}&idProduct=${idProduct}`)
+          .then((r) => r.json())
+          .then((r) => {
+            fetch(`/cart/api?id=${r[0].id}`, {
+              method: "DELETE",
+            })
+              .then(() => setInTheCart(0))
+              .then(() => setLoadDeleteFromTheCart(false));
+          });
+
+        // return alert("delete from the cart");
+        // console.log(idCart);
+        // console.log(typeof idCart);
       }
     } else {
       alert("must be logged");
