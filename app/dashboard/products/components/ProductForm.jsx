@@ -14,14 +14,15 @@ export default function ProductForm() {
   });
 
   const handleInputChange = (e) => {
-    // setProduct({ ...product, [e.target.name]: e.target.value });
-    const { name, value } = e.target;
-    if (name === "price" || name === "availability") {
-      const parsedValue = parseInt(value, 10);
-      setProduct({ ...product, [name]: parsedValue });
-    } else {
-      setProduct({ ...product, [name]: value });
-    }
+    setProduct({ ...product, [e.target.name]: e.target.value });
+    // const { name, value } = e.target;
+    // if (name === "price" || name === "availability") {
+    //   const parsedValue = parseInt(value, 10);
+    //   setProduct({ ...product, [name]: parsedValue });
+    // } else {
+    //   setProduct({ ...product, [name]: value });
+    // }
+    console.log(product);
   };
   //Funcion para subir imagenes a Cloudinary
   const changeUploadImage = async (e) => {
@@ -112,7 +113,7 @@ export default function ProductForm() {
           </label>
           <input
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-            type="text"
+            type="number"
             name="availability"
             value={product.availability}
             onChange={handleInputChange}
@@ -121,7 +122,10 @@ export default function ProductForm() {
 
           <input
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
-            type="text"
+            type="number"
+            min="0.00"
+            max="10000.00"
+            step="0.01"
             name="price"
             value={product.price}
             onChange={handleInputChange}
