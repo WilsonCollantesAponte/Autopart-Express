@@ -1,9 +1,10 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { MoonLoader } from "react-spinners";
 
 export default function Login() {
-  const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,7 +23,24 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
+      fetch(`/client/form/login/api/email?email=${formData.email}`, {
+        method: "GET",
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          if (!r.client[0]?.Accessibility.status) {
+            // signOut({ callbackUrl: "/" }).then(() => {
+            // localStorage.clear();
+            setIsLoading(false);
+            return alert("El usuario se encuantra desactivado");
+            // });
+          } else {
+            setIsLoading(false);
+          }
+        });
+
       const response = await fetch(
         `/client/form/login/api?email=${formData.email}&password=${formData.password}`,
         {
@@ -35,6 +53,7 @@ export default function Login() {
       if (responsejson.userFound.length > 0) {
         localStorage.email = responsejson.userFound[0].email;
         localStorage.name = responsejson.userFound[0].name;
+        setIsLoading(false);
         location.replace("/");
         alert("Inicio de sesión exitoso");
       } else {
@@ -74,13 +93,19 @@ export default function Login() {
         </div>
 
         <div className="mt-4 gap-y-4">
-          <button
-            type="submit"
-            className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            style={{ marginTop: "1rem" }}
-          >
-            Iniciar Sesión
-          </button>
+          {!isLoading ? (
+            <button
+              type="submit"
+              className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              style={{ marginTop: "1rem" }}
+            >
+              Iniciar Sesión
+            </button>
+          ) : (
+            <div className="py-2 px-4 mt-4">
+              <MoonLoader size={22} className="mx-auto" />
+            </div>
+          )}
           <button
             onClick={(e) => {
               e.preventDefault();

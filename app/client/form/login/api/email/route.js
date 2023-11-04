@@ -10,6 +10,9 @@ export async function GET(request) {
       where: {
         email: email,
       },
+      include: {
+        Accessibility: true,
+      },
     });
 
     return NextResponse.json({ client });
