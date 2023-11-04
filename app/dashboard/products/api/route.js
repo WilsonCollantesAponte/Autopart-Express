@@ -1,11 +1,22 @@
 import DataBaseInteraction from "@/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request) {
   try {
+    let idClient = request.nextUrl.searchParams.get("idClient");
+
+    if (!idClient) idClient = "";
+
     const products = await DataBaseInteraction.product.findMany({
       orderBy: {
         name: "asc",
+      },
+      include: {
+        Cart: {
+          where: {
+            idClient,
+          },
+        },
       },
     });
     return NextResponse.json({ products });
