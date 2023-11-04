@@ -46,6 +46,13 @@ export default function Cart() {
           <img src={value.Product.image} alt="image" className=" w-24" />
 
           <div className="px-5 pb-5">
+            <label className=" font-medium">Stok: </label>
+            <span className="text-gray-900 font-semibold text-xl tracking-tight">
+              {value.Product.availability}
+            </span>
+          </div>
+
+          <div className="px-5 pb-5">
             <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
               {value.Product.name}
             </h3>
@@ -59,6 +66,10 @@ export default function Cart() {
             <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
               {value.Product.model}
             </h3>
+          </div>
+          <div>
+            <label htmlFor="">Unidades a pedir: </label>
+            <input type="number" />
           </div>
         </div>
       ))}
