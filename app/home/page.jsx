@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MoonLoader } from "react-spinners";
+// import { MoonLoader } from "react-spinners";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import AddToCartButton from "./addToCartButton";
@@ -60,10 +60,16 @@ const Home = () => {
         `/client/form/login/api/email?email=${localStorage.getItem("email")}`
       )
         .then((r) => r.json())
-        .then((r) => setIdClient(r.client[0].id))
-        .then(() => setMustBeLogged(false))
-        .then(() => {
-          fetch("/dashboard/products/api")
+        .then((r) => {
+          setIdClient(r.client[0].id);
+          return r;
+        })
+        .then((r) => {
+          setMustBeLogged(false);
+          return r;
+        })
+        .then((r) => {
+          fetch(`/dashboard/products/api?idClient=${r.client[0].id}`)
             .then((r) => r.json())
             .then((r) => r.products)
             .then((r) => {
@@ -79,10 +85,17 @@ const Home = () => {
     } else if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`)
         .then((r) => r.json())
-        .then((r) => setIdClient(r.client[0].id))
-        .then(() => setMustBeLogged(false))
-        .then(() => {
-          fetch("/dashboard/products/api")
+        .then((r) => {
+          setIdClient(r.client[0].id);
+          return r;
+        })
+        .then((r) => {
+          setMustBeLogged(false);
+          return r;
+        })
+        .then((r) => {
+          // fetch("/dashboard/products/api")
+          fetch(`/dashboard/products/api?idClient=${r.client[0].id}`)
             .then((r) => r.json())
             .then((r) => r.products)
             .then((r) => {
@@ -427,6 +440,13 @@ const Home = () => {
                       Rating: {value.rating}
                     </span>
                   </div>
+                  {/* <div>
+                    {value.Cart.length > 0 ? (
+                      <div>Añadido</div>
+                    ) : (
+                      <div>No Añadido</div>
+                    )}
+                  </div> */}
                   <div className="flex items-center justify-between">
                     <span className="text-3xl font-bold text-gray-900 ml-2">
                       ${value.price}
@@ -436,11 +456,14 @@ const Home = () => {
                     </button>
 
                     <div>
+                      {/* {value.Cart.length === 0 ? ( */}
                       <AddToCartButton
+                        inCart={value.Cart.length}
                         mustBeLogged={mustBeLogged}
                         idClient={idClient}
                         idProduct={value.id}
                       />
+                      {/* // ) : null} */}
                     </div>
                   </div>
                 </div>
