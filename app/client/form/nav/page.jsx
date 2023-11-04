@@ -2,12 +2,21 @@
 import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { FadeLoader } from "react-spinners";
 
 export default function Nav() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [email, setEmail] = useState("");
   const { data: session } = useSession();
 
   useEffect(() => {
+    setIsLoading(true);
+
+    if (!session && !localStorage.getItem("email")) {
+      setIsLoading(false);
+      return;
+    }
     if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`, {
         method: "GET",
@@ -28,13 +37,21 @@ export default function Nav() {
               }),
             });
           }
+          return r;
+        })
+        .then((r) => {
+          if (!r.client[0]?.Accessibility.status) {
+            signOut({ callbackUrl: "/" }).then(() => {
+              localStorage.clear();
+              alert("El usuario se encuantra desactivado");
+            });
+          } else {
+            setIsLoading(false);
+          }
         });
-      // localStorage.setItem("name", session.user.name);
-      // localStorage.setItem("email", session.user.email);
-      // localStorage.setItem("image", session.user.image);
-    }
-    if (localStorage.getItem("email")) {
+    } else if (localStorage.getItem("email")) {
       setEmail(localStorage.getItem("email"));
+      setIsLoading(false);
     }
   }, [session?.user?.email]);
 
@@ -93,35 +110,41 @@ export default function Nav() {
                                         </span> */}
               </svg>
             </Link>
-            <div>
-              {session || email ? (
-                <div className="hidden xl:flex items-center space-x-5 ">
-                  <p>
-                    {/* Hola! {formData.email} {formData.surname} */}
-                    {session && (
-                      <img
-                        className=" rounded-lg"
-                        src={session?.user.image}
-                        width="70"
-                        alt="user image"
-                      />
-                    )}
-                  </p>
-                  <button className="button" onClick={handleLogout}>
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="hidden xl:flex items-center space-x-5 ">
-                  <button className="button">
-                    <Link href="/client/form/signIn">Sing In</Link>
-                  </button>
-                  <button className="button">
-                    <Link href="/client/form/login"> Iniciar Sesión</Link>
-                  </button>
-                </div>
-              )}
-            </div>
+            {!isLoading ? (
+              <div className=" w-64">
+                {session || email ? (
+                  <div className="hidden xl:flex items-center space-x-5 ">
+                    <p>
+                      {/* Hola! {formData.email} {formData.surname} */}
+                      {session && (
+                        <img
+                          className=" rounded-lg"
+                          src={session?.user.image}
+                          width="70"
+                          alt="user image"
+                        />
+                      )}
+                    </p>
+                    <button className="button" onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="hidden xl:flex items-center space-x-5 ">
+                    <button className="button">
+                      <Link href="/client/form/signIn">Sing In</Link>
+                    </button>
+                    <button className="button">
+                      <Link href="/client/form/login"> Iniciar Sesión</Link>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className=" w-64  ">
+                <FadeLoader className="mx-auto" />
+              </div>
+            )}
           </div>
         </div>
       </nav>
