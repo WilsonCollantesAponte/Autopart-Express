@@ -41,7 +41,7 @@ export default function Cart() {
       {productsInTheCart.map((value, index) => (
         <div
           key={index}
-          className="shadow-2xl rounded-lg max-w-xs h-fit py-4 flex-col bg-sky-100/40"
+          className="shadow-2xl rounded-lg max-w-xs h-fit py-4 flex-col bg-sky-100/40 border-indigo-600   border-4 "
         >
           <img src={value.Product.image} alt="image" className=" w-24" />
 
