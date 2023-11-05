@@ -2,7 +2,7 @@
 
 import { useEffect , useState} from "react"
 import { MoonLoader } from "react-spinners";
-
+import Botonmercado from "../componente/Botonmercado";
 export default function ProductDetail ({params}) { 
 
     const {id} = params;
@@ -10,7 +10,7 @@ export default function ProductDetail ({params}) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [cantidad,setCantidad] = useState(0);
- 
+
 
     const restar = () => {
         if(cantidad>0){
@@ -39,6 +39,7 @@ export default function ProductDetail ({params}) {
 
       },[id])
 
+   
     if (isLoading)
         return (
         <div>
@@ -46,7 +47,7 @@ export default function ProductDetail ({params}) {
         </div>
         );
     if (error) return <div>{error}</div>;
-        console.log(product)
+
     return (
         <>
         <section className="text-gray-600 body-font overflow-hidden">
@@ -75,7 +76,7 @@ export default function ProductDetail ({params}) {
                         
                         <p>{`(${product?.availability} unidades disponibles)`}</p>
                     </div>
-                    <div  className="flex flex-row h-10  rounded-lg relative bg-transparent mt-1 mb-5">
+                    {/* <div  className="flex flex-row h-10  rounded-lg relative bg-transparent mt-1 mb-5">
                         <label className="mr-2">cantidad</label>
                         <button onClick={restar} className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
                             <span className="m-auto text-2xl font-thin">−</span>
@@ -84,16 +85,23 @@ export default function ProductDetail ({params}) {
                                 <button onClick={sumar} className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                             <span  className="m-auto text-2xl font-thin">+</span>
                         </button>
-                    </div>
+                    </div> */}
 
                     <div className="flex ">
                         <span className="title-font font-medium text-2xl text-gray-900">${product?.price}</span>
 
-                        {/* redirecciona a pasarela mercado pago */}
-                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mercado Pago</button>  
+                        {console.log(product?.name)}
                         <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  
+                        
+                        {product ? (
+                            
+                            <Botonmercado cantidad={cantidad} producto={product}/>
+                        ) : (
+                            <p>no hay productos</p>
+                        )
+                        }
 
-                    </div>
+                   </div>
                 </div>
                 </div>
             </div>

@@ -17,13 +17,17 @@ export default function Cart() {
       //   setE(localStorage.getItem("email"));
       fetch(`/cart/api?email=${localStorage.getItem("email")}`)
         .then((r) => r.json())
-        .then((r) => setProductsInTheCart(r))
+        .then((r) => {
+             setProductsInTheCart(r);
+             localStorage.setItem("productsInTheCart", JSON.stringify(r));})
         .then(() => setisLoading(false))
         .then(() => setMustBeLogged(false));
     } else if (session) {
       fetch(`/cart/api?email=${session.user.email}`)
         .then((r) => r.json())
-        .then((r) => setProductsInTheCart(r))
+        .then((r) => {
+            setProductsInTheCart(r);
+            localStorage.setItem("productsInTheCart", JSON.stringify(r));})
         .then(() => setisLoading(false))
         .then(() => setMustBeLogged(false));
     } else {
