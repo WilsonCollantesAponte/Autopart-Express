@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 export default function ProductForm() {
   const form = useRef();
@@ -13,17 +13,96 @@ export default function ProductForm() {
     description: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState({
+    name: "",
+    price: "Obligatorio",
+    availability: "Obligatorio",
+    brand: "Obligatorio",
+    model: "Obligatorio",
+    image: "",
+    description: "",
+  });
+
   const handleInputChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-    // const { name, value } = e.target;
-    // if (name === "price" || name === "availability") {
-    //   const parsedValue = parseInt(value, 10);
-    //   setProduct({ ...product, [name]: parsedValue });
-    // } else {
-    //   setProduct({ ...product, [name]: value });
-    // }
-    console.log(product);
+    const { name, value } = e.target;
+
+    // Validar la entrada del usuario
+    if (name === "model") {
+      if (value.trim().length <= 3) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "El nombre debe tener al menos 3 caracteres.",
+        }));
+      } else if (value.length > 45) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "El nombre no puede tener más de 45 caracteres.",
+        }));
+      } else if (!/^[a-zA-Z0-9]+$/.test(value)) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "Sin caracteres especiales",
+        }));
+      } else {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "",
+        }));
+      }
+    } else if (name === "brand") {
+      if (value.trim().length < 2) {
+        setErrorMessage({
+          ...errorMessage,
+          brand: "La marca debe tener al menos 2 caracteres.",
+        });
+      } else if (value.length > 25) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          brand: "La marca no puede tener mas de 15 caracteres.",
+        }));
+      } else {
+        setErrorMessage({
+          ...errorMessage,
+          brand: "",
+        });
+      }
+    } else if (name === "availability") {
+      if (value > 0) {
+        setErrorMessage({
+          ...errorMessage,
+          availability: "",
+        });
+      } else if (!value) {
+        setErrorMessage({
+          ...errorMessage,
+          availability: "Obligatorio",
+        });
+      }
+    } else if (name === "price") {
+      if (value > 0) {
+        setErrorMessage({
+          ...errorMessage,
+          price: "",
+        });
+      } else if (!value) {
+        setErrorMessage({
+          ...errorMessage,
+          price: "Obligatorio",
+        });
+      }
+    } else if (name === "image") {
+      if (!value) {
+        setErrorMessage({
+          ...errorMessage,
+          image: "Intente de nuevo",
+        });
+      }
+    }
+
+    // Actualizar el estado del componente
+    setProduct({ ...product, [name]: value });
   };
+
   //Funcion para subir imagenes a Cloudinary
   const changeUploadImage = async (e) => {
     const file = e.target.files[0];
@@ -43,13 +122,8 @@ export default function ProductForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      product.model === "" ||
-      product.brand === "" ||
-      product.price === 0 ||
-      product.availability === 0 ||
-      product.image === ""
-    ) {
+    if (!Object.keys(errorMessage).length > 0) {
+      console.log(errorMessage);
       return alert("faltan datos");
     }
     await axios.post("http://localhost:3000/dashboard/products/api/", product);
@@ -89,6 +163,9 @@ export default function ProductForm() {
             value={product.model}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.model && (
+            <p className="text-red-500">{errorMessage.model}</p>
+          )}
           <label className="block font-semibold">Marca del Producto</label>
           <input
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
@@ -97,6 +174,9 @@ export default function ProductForm() {
             value={product.brand}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.brand && (
+            <p className="text-red-500">{errorMessage.brand}</p>
+          )}
           <label className="block font-semibold">
             Descripcion del Producto
           </label>
@@ -118,6 +198,9 @@ export default function ProductForm() {
             value={product.availability}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.availability && (
+            <p className="text-red-500">{errorMessage.availability}</p>
+          )}
           <label className="block font-semibold">Precio del Producto</label>
 
           <input
@@ -130,6 +213,9 @@ export default function ProductForm() {
             value={product.price}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.price && (
+            <p className="text-red-500">{errorMessage.price}</p>
+          )}
           <label className="block font-semibold">Imagen del Producto:</label>
 
           <input
@@ -145,6 +231,7 @@ export default function ProductForm() {
           <button
             className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
+            disabled={Object.keys(errorMessage).length > 0}
           >
             Enviar
           </button>
