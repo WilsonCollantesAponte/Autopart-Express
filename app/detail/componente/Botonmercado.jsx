@@ -48,7 +48,7 @@ const Botonmercado = ({cantidad , producto}) => {
 },[])
   return (
     <div>
-        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+        <button onClick={() => {localStorage.setItem("_idProducto", producto.id ); console.log(producto.id)}} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
             <Link href={`${url}`}>comprar {cantidad}</Link>
         </button>
     </div>
