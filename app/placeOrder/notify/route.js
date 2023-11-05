@@ -17,11 +17,13 @@ export async function POST(request) {
     if (topic === "payment") {
       const paymentId = searchParams.get("id") || searchParams.get("data.id");
       let payment = await mercadopago.payment.findById(Number(paymentId));
-      let paymentStatus = payment.body.statuspayment;
-      // console.log([ paymentStatus , .body.additional_info , payment.body.additional_info.items ] )
+      let paymentStatus = payment.body.status;
+      
+       //console.log([ paymentStatus ,  payment.body.additional_info.items ] )
 
       if (paymentStatus == "approved") {
         const arrayProductosVendidos = payment.body.additional_info.items;
+        //console.log(arrayProductosVendidos)
         for (let i = 0; i < arrayProductosVendidos.length; i++) {
           const producto = await DataBaseInteraction.product.findUnique({
             where: {
@@ -29,16 +31,16 @@ export async function POST(request) {
             },
           });
           console.log(producto);
-          const upAvailavility =
-            producto.availability - arrayProductosVendidos[i].quantity;
-          await DataBaseInteraction.product.update({
+          const upAvailavility = producto.availability - arrayProductosVendidos[i].quantity;
+          const productUp = await DataBaseInteraction.product.update({
             where: {
               id: producto.id,
             },
             data: {
-              availability: upAvailavility,
+              availability: upAvailavility.toString(),
             },
           });
+          console.log(productUp)
         }
       }
     }
