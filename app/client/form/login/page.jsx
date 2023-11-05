@@ -25,18 +25,6 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // const responseIsActive = await fetch(
-      //   `/client/form/login/api/email?email=${formData.email}`,
-      //   {
-      //     method: "GET",
-      //   }
-      // );
-      // const responseIsActiveJson = await responseIsActive.json();
-      // if (!responseIsActiveJson[0]?.Accessibility.status) {
-      //   setIsLoading(false);
-      //   return alert("El usuario se encuantra desactivado");
-      // }
-
       const response = await fetch(
         `/client/form/login/api?email=${formData.email}&password=${formData.password}`,
         {
@@ -54,7 +42,6 @@ export default function Login() {
           }
         );
         const responseIsActiveJson = await responseIsActive.json();
-        console.log(responseIsActiveJson);
         if (!responseIsActiveJson.client[0]?.Accessibility.status) {
           alert("El usuario se encuantra desactivado");
           setIsLoading(false);
