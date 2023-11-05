@@ -3,18 +3,13 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-// import { useEffect, useState } from "react/cjs/react.production.min";
-
-// import React from 'react'
 
 function page() {
   const { data: session } = useSession();
-
   const [email, setEmail] = useState("");
 
   useEffect(() => {
     setEmail(session?.user.email || localStorage.getItem("email"));
-    //
   }, [session?.user.email]);
 
   return (
