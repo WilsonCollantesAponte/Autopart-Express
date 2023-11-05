@@ -40,7 +40,7 @@ export default function Nav() {
           return r;
         })
         .then((r) => {
-          if (!r.client[0]?.Accessibility.status) {
+          if (!r.client[0]?.Accessibility.status && r.client.length !== 0) {
             signOut({ callbackUrl: "/" }).then(() => {
               localStorage.clear();
               alert("El usuario se encuantra desactivado");
