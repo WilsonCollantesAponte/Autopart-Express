@@ -14,13 +14,10 @@ export default function ProductForm() {
   });
 
   const [errorMessage, setErrorMessage] = useState({
-    name: "",
     price: "Obligatorio",
     availability: "Obligatorio",
     brand: "Obligatorio",
     model: "Obligatorio",
-    image: "",
-    description: "",
   });
 
   const handleInputChange = (e) => {
@@ -38,11 +35,11 @@ export default function ProductForm() {
           ...prevState,
           model: "El nombre no puede tener más de 45 caracteres.",
         }));
-      } else if (!/^[a-zA-Z0-9]+$/.test(value)) {
-        setErrorMessage((prevState) => ({
-          ...prevState,
-          model: "Sin caracteres especiales",
-        }));
+        // } else if (!/^[a-zA-Z0-9]+$/.test(value)) {
+        //   setErrorMessage((prevState) => ({
+        //     ...prevState,
+        //     model: "Sin caracteres especiales",
+        //   }));
       } else {
         setErrorMessage((prevState) => ({
           ...prevState,
@@ -55,10 +52,10 @@ export default function ProductForm() {
           ...errorMessage,
           brand: "La marca debe tener al menos 2 caracteres.",
         });
-      } else if (value.length > 25) {
+      } else if (value.length > 35) {
         setErrorMessage((prevState) => ({
           ...prevState,
-          brand: "La marca no puede tener mas de 15 caracteres.",
+          brand: "La marca no puede tener mas de 35 caracteres.",
         }));
       } else {
         setErrorMessage({
@@ -90,17 +87,12 @@ export default function ProductForm() {
           price: "Obligatorio",
         });
       }
-    } else if (name === "image") {
-      if (!value) {
-        setErrorMessage({
-          ...errorMessage,
-          image: "Intente de nuevo",
-        });
-      }
     }
 
     // Actualizar el estado del componente
     setProduct({ ...product, [name]: value });
+    console.log(product);
+    console.log(errorMessage);
   };
 
   //Funcion para subir imagenes a Cloudinary
@@ -137,7 +129,14 @@ export default function ProductForm() {
       image: "",
       description: "",
     });
+    setErrorMessage({
+      price: "Obligatorio",
+      availability: "Obligatorio",
+      brand: "Obligatorio",
+      model: "Obligatorio",
+    });
   };
+
   return (
     <div className="flex flex-col justify-start items-start border-2 border-black-100">
       <div>
@@ -225,13 +224,14 @@ export default function ProductForm() {
             name="image"
             onChange={changeUploadImage}
           />
+          {!product.image && <p className="text-red-500">Obligatorio</p>}
 
           <div className="double-space"></div>
 
           <button
             className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
-            disabled={Object.keys(errorMessage).length > 0}
+            disabled={Object.values(errorMessage).some((value) => value !== "")}
           >
             Enviar
           </button>
