@@ -60,13 +60,13 @@ useEffect(()=>{
  
   return (
     <div>
-      <section class="text-gray-600 body-font">
-        <div class="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
-         <div class="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
+      <section className="text-gray-600 body-font">
+        <div className="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
+         <div className="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
          {
           email? (
             <div>
-              <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">compra exitosa. Gracias!! {email}</h1>
+              <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">compra exitosa. Gracias!! {email}</h1>
               <p>pago asociado {payment_id}</p>
             </div>
           ):(
