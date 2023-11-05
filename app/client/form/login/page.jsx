@@ -32,7 +32,7 @@ export default function Login() {
         .then((r) => {
           if (!r.client[0]?.Accessibility.status) {
             // signOut({ callbackUrl: "/" }).then(() => {
-            // localStorage.clear();
+            localStorage.clear();
             setIsLoading(false);
             return alert("El usuario se encuantra desactivado");
             // });
