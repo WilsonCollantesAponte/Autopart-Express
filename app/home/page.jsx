@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import AddToCartButton from "./addToCartButton";
 
+
 const Home = () => {
   const { data: session } = useSession();
 
@@ -75,7 +76,7 @@ const Home = () => {
       // alert("must be logged");
       setMustBeLogged(true);
     }
-
+  
     fetch("/dashboard/products/api")
       .then((r) => r.json())
       .then((r) => r.products)
