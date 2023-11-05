@@ -55,6 +55,7 @@ export default function Login() {
         alert("Inicio de sesión exitoso");
       } else {
         // Inicio de sesión fallido, muestra un mensaje de error
+        setIsLoading(false);
         setLoginError(
           "Credenciales incorrectas. Por favor, inténtalo de nuevo."
         );
