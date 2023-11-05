@@ -17,7 +17,8 @@ export async function POST(request) {
     if (topic === "payment") {
       const paymentId = searchParams.get("id") || searchParams.get("data.id");
       let payment = await mercadopago.payment.findById(Number(paymentId));
-      let paymentStatus = payment.body.status;
+      let paymentStatus = payment.body.statuspayment;
+      // console.log([ paymentStatus , .body.additional_info , payment.body.additional_info.items ] )
 
       if (paymentStatus == "approved") {
         const arrayProductosVendidos = payment.body.additional_info.items;
