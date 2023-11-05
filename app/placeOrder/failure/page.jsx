@@ -14,6 +14,7 @@ function page() {
 
   useEffect(() => {
     setEmail(session?.user.email || localStorage.getItem("email"));
+    //
   }, [session?.user.email]);
 
   return (
