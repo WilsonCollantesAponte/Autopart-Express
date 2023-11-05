@@ -25,21 +25,25 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      fetch(`/client/form/login/api/email?email=${formData.email}`, {
-        method: "GET",
-      })
-        .then((r) => r.json())
-        .then((r) => {
-          if (!r.client[0]?.Accessibility.status) {
-            // signOut({ callbackUrl: "/" }).then(() => {
-            localStorage.clear();
-            setIsLoading(false);
-            return alert("El usuario se encuantra desactivado");
-            // });
-          } else {
-            setIsLoading(false);
-          }
-        });
+      const responseIsActive = await fetch(
+        `/client/form/login/api/email?email=${formData.email}`,
+        {
+          method: "GET",
+        }
+      );
+      // .then((r) => r.json())
+      // .then((r) => {
+      //   if (!r.client[0]?.Accessibility.status) {
+      //     // signOut({ callbackUrl: "/" }).then(() => {
+      //     localStorage.clear();
+      //     setIsLoading(false);
+      //     return alert("El usuario se encuantra desactivado");
+      //     // });
+      //   } else {
+      //     setIsLoading(false);
+      //   }
+      // });
+      const responseIsActiveJson = await responseIsActive.json();
 
       const response = await fetch(
         `/client/form/login/api?email=${formData.email}&password=${formData.password}`,
@@ -49,6 +53,8 @@ export default function Login() {
       );
 
       const responsejson = await response.json();
+      if (!responseIsActiveJson[0]?.Accessibility.status)
+        return alert("El usuario se encuantra desactivado");
 
       if (responsejson.userFound.length > 0) {
         localStorage.email = responsejson.userFound[0].email;
