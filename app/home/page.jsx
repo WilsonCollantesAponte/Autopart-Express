@@ -62,7 +62,7 @@ const Home = () => {
       )
         .then((r) => r.json())
         .then((r) => {
-          setIdClient(r.client[0].id);
+          setIdClient(r.client[0]?.id);
           return r;
         })
         .then((r) => {
