@@ -11,7 +11,7 @@ export async function POST(request) {
         try {
             const productos = await request.json();
 
-            
+            console.log(productos)
             const arrayProductos = productos.map(producto => {
                 return{
                     id: producto.id,
@@ -23,20 +23,18 @@ export async function POST(request) {
                 };
             }) 
 
-             const URL = "https://d5d7-181-209-91-123.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
+             const URL = "https://504c-181-209-91-124.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
                
             let preference = {
      
                         items: arrayProductos,
 
                         back_urls: {
-                        failure: `${URL}/placeOrder/status`,
-                        pending: `${URL}/placeOrder/status`,
+                        failure: `${URL}/home/failure`,
+                        pending: `${URL}/home/pending`,
                         success: `${URL}/placeOrder/status`,
                         },
                        notification_url: `${URL}/placeOrder/notify`, //crear el end point  
-                 
-                    
                 } 
                const response = await mercadopago.preferences.create(preference);
              return NextResponse.json({url: response.body.init_point});
