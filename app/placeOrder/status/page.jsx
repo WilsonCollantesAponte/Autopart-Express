@@ -6,11 +6,12 @@ import {useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-const upData = (idClient , payment_id) =>{
+const postCart = (idClient , idProduct ,payment_id) =>{
   fetch(`/cart/api`,{
-    method: "PUT",
+    method: "POST",
     body: JSON.stringify({
-      id: idClient,
+      idClient: idClient,
+      idProduct: idProduct,
       payment_id: payment_id
     }),
     headers: {
@@ -19,11 +20,13 @@ const upData = (idClient , payment_id) =>{
     })
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
+    console.log([idClient , idProduct , payment_id])
 }
 
 function Succesful() {
   const { data: session } = useSession();
   const [idClient, setIdClient] = useState("");
+  const [idProduct, setIdProduct] = useState("");
   const [email , setEmail] = useState()
   const searchParams = useSearchParams() ;
   const payment_id = searchParams.get("payment_id");
@@ -34,29 +37,33 @@ function Succesful() {
 
 useEffect(()=>{
 
-  if (localStorage.getItem("email")) {
+  if (localStorage.getItem("email") || session) {
     setEmail(localStorage.getItem("email"));
+    //setIdProduct(localStorage.getItem("_idProducto"));
     fetch(
       `/client/form/login/api/email?email=${localStorage.getItem("email")}`
     )
       .then((r) => r.json())
       .then((r) => {
         console.log(r)
-        setIdClient(r.client[0].id)});
-  } else if (session) {
-    setEmail(session.user.email)
+        setIdClient(r.client[0].id)
+        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
+      })
+  } 
+ /*  else if (session && !localStorage.getItem("email")) {
+    setEmail(session.user.email);
+    //setIdProduct(localStorage.getItem("_idProducto"));
     fetch(`/client/form/login/api/email?email=${session.user.email}`)
       .then((r) => r.json())
       .then((r) => {
         console.log(r);
         setIdClient(r.client[0].id);
+        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
       });
-
-  } else {console.log("cliente?")}
+  } else {console.log("cliente?")} */
 },[])
 
 
-//upData(idClient, payment_id)
  
   return (
     <div>
