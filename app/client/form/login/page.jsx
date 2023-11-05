@@ -53,8 +53,10 @@ export default function Login() {
       );
 
       const responsejson = await response.json();
-      if (!responseIsActiveJson[0]?.Accessibility.status)
+      if (!responseIsActiveJson[0]?.Accessibility.status) {
+        setIsLoading(false);
         return alert("El usuario se encuantra desactivado");
+      }
 
       if (responsejson.userFound.length > 0) {
         localStorage.email = responsejson.userFound[0].email;
