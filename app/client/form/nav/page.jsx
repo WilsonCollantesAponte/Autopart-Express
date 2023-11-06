@@ -74,8 +74,8 @@ export default function Nav() {
             <Link className="hover:text-gray-200" href="/">
               Inicio
             </Link>
-            <Link className="hover:text-gray-200" href="/client/form/about">
-              Tiendas
+            <Link className="hover:text-gray-200" href="/home">
+              Home
             </Link>
             <Link className="hover:text-gray-200" href="/dashboard/clients">
               Admin
