@@ -9,6 +9,11 @@ export default function Nav() {
 
   const [email, setEmail] = useState("");
   const { data: session } = useSession();
+ 
+
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -16,7 +21,11 @@ export default function Nav() {
     if (!session && !localStorage.getItem("email")) {
       setIsLoading(false);
       return;
+
     }
+
+    
+
     if (session) {
       fetch(`/client/form/login/api/email?email=${session.user.email}`, {
         method: "GET",
@@ -77,9 +86,14 @@ export default function Nav() {
             <Link className="hover:text-gray-200" href="/client/form/about">
               Tiendas
             </Link>
-            <Link className="hover:text-gray-200" href="/dashboard/clients">
-              Admin
-            </Link>
+            {isAdmin ?  (
+              <Link className="hover:text-gray-200" href="/admin/form/about">
+                Admin
+              </Link>
+            ) : (
+              ""
+            )}
+            
             <Link className="hover:text-gray-200" href="/client/form/about">
               About
             </Link>

@@ -23,6 +23,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -50,6 +52,10 @@ export default function Login() {
 
         localStorage.email = responsejson.userFound[0].email;
         localStorage.name = responsejson.userFound[0].name;
+
+        if(localStorage.email === "admin@admin" && localStorage.name === "admin"){
+          localStorage.setItem("isAdmin", true);
+        }
         setIsLoading(false);
         location.replace("/");
         alert("Inicio de sesión exitoso");
