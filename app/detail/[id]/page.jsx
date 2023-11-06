@@ -56,9 +56,9 @@ export default function ProductDetail ({params}) {
                     <img
                     src={product?.image}
                     alt=""
-                    width={200}
-                    height={300}
-                    className="w-full h-2/3 p-8"
+                    width={350}
+                    height={350}
+                    className="w-350 h-150 object-cover rounded-lg"
                 />
                 <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                     <h2 className="text-sm title-font text-gray-500 tracking-widest">{product?.brand}</h2>
@@ -88,14 +88,14 @@ export default function ProductDetail ({params}) {
                     </div> */}
 
                     <div className="flex ">
-                        <span className="title-font font-medium text-2xl text-gray-900">${product?.price}</span>
+                        <span className="title-font font-medium text-2xl mr-5 text-gray-900">${product?.price}</span>
 
                         {console.log(product?.name)}
-                        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  
-                        
+                       {/*  <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  
+                         */}
                         {product ? (
                             
-                            <Botonmercado cantidad={cantidad} producto={product}/>
+                            <Botonmercado cantidad={cantidad} producto={[product]}/>
                         ) : (
                             <p>no hay productos</p>
                         )
