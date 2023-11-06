@@ -393,7 +393,8 @@ const Home = () => {
           >
             ⬅️
           </button>
-          <span className="text-3xl font-bold">{page}</span>
+          <span className="text-3xl font-bold">{page}/{Math.ceil(sortedProducts.length / productsPerPage)}</span>
+          
           <button
             className="text-4xl"
             onClick={() => {
@@ -409,67 +410,46 @@ const Home = () => {
         <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10">
             {displayedProducts.map((value, index) => (
-              <div
-                key={index}
-                className="shadow-2xl rounded-lg max-w-xs h-96 flex-col bg-sky-100/40"
-              >
-                <img
-                  src={value.image}
-                  alt=""
-                  width={200}
-                  height={300}
-                  className="w-full h-2/3 p-8"
-                />
-                <div className="pb-2 mt-3 flex flex-wrap">
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.name}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.brand}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                      {value.model}
-                    </h3>
-                  </div>
-                  <div className="px-5 pb-5">
-                    <span className="text-gray-900 font-semibold">
-                      Rating: {value.rating}
-                    </span>
-                  </div>
-                  {/* <div>
-                    {value.Cart.length > 0 ? (
-                      <div>Añadido</div>
-                    ) : (
-                      <div>No Añadido</div>
-                    )}
-                  </div> */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 ml-2">
-                      ${value.price}
-                    </span>
-                    <button className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                      <Link href={`/detail/${value.id}`}>Comprar</Link>
-                    </button>
-
-                    <div>
-                      {/* {value.Cart.length === 0 ? ( */}
-                      <AddToCartButton
-                        inCart={value.Cart.length}
-                        mustBeLogged={mustBeLogged}
-                        idClient={idClient}
-                        idProduct={value.id}
-                      />
-                      {/* // ) : null} */}
-                    </div>
-                  </div>
-                </div>
+            <div key={index} className="shadow-2xl rounded-lg max-w-xs h-auto bg-sky-100/40">
+             <div className="h-1/2 relative">
+              <img src={value.image} 
+                alt={value.name} 
+                className="w-full h-full object-cover max-h-1/2" 
+              />
+             </div>
+             <div className="p-4 h-1/2 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
+                  {value.name}
+                </h3>
+                <p className="text-gray-900 font-semibold text-xl tracking-tight">
+                  {value.brand}
+                </p>
+                <p className="text-gray-900 font-semibold text-xl tracking-tight">
+                  {value.model}
+                </p>
+                <p className="text-gray-900 font-semibold">
+                  Rating: {value.rating}
+                </p>
+                <span className="text-3xl font-bold text-gray-900">
+                  ${value.price}
+                </span>
               </div>
-            ))}
+              <div className="flex items-center justify-between">
+           
+                <button className="button text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                  <Link href={`/detail/${value.id}`}>Comprar</Link>
+                </button>
+                <AddToCartButton
+                  inCart={value.Cart.length}
+                  mustBeLogged={mustBeLogged}
+                  idClient={idClient}
+                  idProduct={value.id}
+                />
+              </div>
+             </div>
+            </div>
+           ))}
           </div>
         </div>
       </div>
