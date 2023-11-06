@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 export default function ProductForm() {
   const form = useRef();
@@ -13,19 +13,94 @@ export default function ProductForm() {
     description: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState({
+    price: "Obligatorio",
+    availability: "Obligatorio",
+    brand: "Obligatorio",
+    model: "Obligatorio",
+  });
+
+  const [loadingImage, setLoadingImage] = useState(false);
+  const [submitingForm, setSubmitingForm] = useState(false);
+
   const handleInputChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-    // const { name, value } = e.target;
-    // if (name === "price" || name === "availability") {
-    //   const parsedValue = parseInt(value, 10);
-    //   setProduct({ ...product, [name]: parsedValue });
-    // } else {
-    //   setProduct({ ...product, [name]: value });
-    // }
+    const { name, value } = e.target;
+
+    // Validar la entrada del usuario
+    if (name === "model") {
+      if (value.trim().length <= 3) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "El nombre debe tener al menos 3 caracteres.",
+        }));
+      } else if (value.length > 45) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "El nombre no puede tener más de 45 caracteres.",
+        }));
+        // } else if (!/^[a-zA-Z0-9]+$/.test(value)) {
+        //   setErrorMessage((prevState) => ({
+        //     ...prevState,
+        //     model: "Sin caracteres especiales",
+        //   }));
+      } else {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          model: "",
+        }));
+      }
+    } else if (name === "brand") {
+      if (value.trim().length < 2) {
+        setErrorMessage({
+          ...errorMessage,
+          brand: "La marca debe tener al menos 2 caracteres.",
+        });
+      } else if (value.length > 35) {
+        setErrorMessage((prevState) => ({
+          ...prevState,
+          brand: "La marca no puede tener mas de 35 caracteres.",
+        }));
+      } else {
+        setErrorMessage({
+          ...errorMessage,
+          brand: "",
+        });
+      }
+    } else if (name === "availability") {
+      if (value > 0) {
+        setErrorMessage({
+          ...errorMessage,
+          availability: "",
+        });
+      } else if (!value) {
+        setErrorMessage({
+          ...errorMessage,
+          availability: "Obligatorio",
+        });
+      }
+    } else if (name === "price") {
+      if (value > 0) {
+        setErrorMessage({
+          ...errorMessage,
+          price: "",
+        });
+      } else if (!value) {
+        setErrorMessage({
+          ...errorMessage,
+          price: "Obligatorio",
+        });
+      }
+    }
+
+    // Actualizar el estado del componente
+    setProduct({ ...product, [name]: value });
     console.log(product);
+    console.log(errorMessage);
   };
+
   //Funcion para subir imagenes a Cloudinary
   const changeUploadImage = async (e) => {
+    setLoadingImage(true);
     const file = e.target.files[0];
     const data = new FormData();
     data.append("file", file);
@@ -35,6 +110,7 @@ export default function ProductForm() {
       data
     );
     setProduct({ ...product, image: response.data.secure_url });
+    setLoadingImage(false);
   };
   //Eliminar Imagen en el front-end eliminando la URL del estado.
   const deleteImage = () => {
@@ -42,14 +118,10 @@ export default function ProductForm() {
   };
 
   const handleSubmit = async (e) => {
+    setSubmitingForm(true);
     e.preventDefault();
-    if (
-      product.model === "" ||
-      product.brand === "" ||
-      product.price === 0 ||
-      product.availability === 0 ||
-      product.image === ""
-    ) {
+    if (!Object.keys(errorMessage).length > 0) {
+      console.log(errorMessage);
       return alert("faltan datos");
     }
     await axios.post("http://localhost:3000/dashboard/products/api/", product);
@@ -63,7 +135,15 @@ export default function ProductForm() {
       image: "",
       description: "",
     });
+    setErrorMessage({
+      price: "Obligatorio",
+      availability: "Obligatorio",
+      brand: "Obligatorio",
+      model: "Obligatorio",
+    });
+    setSubmitingForm(false);
   };
+
   return (
     <div className="flex flex-col justify-start items-start border-2 border-black-100">
       <div>
@@ -89,6 +169,9 @@ export default function ProductForm() {
             value={product.model}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.model && (
+            <p className="text-red-500">{errorMessage.model}</p>
+          )}
           <label className="block font-semibold">Marca del Producto</label>
           <input
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
@@ -97,6 +180,9 @@ export default function ProductForm() {
             value={product.brand}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.brand && (
+            <p className="text-red-500">{errorMessage.brand}</p>
+          )}
           <label className="block font-semibold">
             Descripcion del Producto
           </label>
@@ -118,6 +204,9 @@ export default function ProductForm() {
             value={product.availability}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.availability && (
+            <p className="text-red-500">{errorMessage.availability}</p>
+          )}
           <label className="block font-semibold">Precio del Producto</label>
 
           <input
@@ -130,6 +219,9 @@ export default function ProductForm() {
             value={product.price}
             onChange={handleInputChange}
           ></input>
+          {errorMessage.price && (
+            <p className="text-red-500">{errorMessage.price}</p>
+          )}
           <label className="block font-semibold">Imagen del Producto:</label>
 
           <input
@@ -139,15 +231,70 @@ export default function ProductForm() {
             name="image"
             onChange={changeUploadImage}
           />
+          {!product.image && <p className="text-red-500">Obligatorio</p>}
+
+          {loadingImage && (
+            <div class="flex justify-center items-center">
+              <svg
+                class="animate-spin h-5 w-5 mr-3 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM20 12a8 8 0 01-8 8v4c6.627 0 12-5.373 12-12h-4zm-2-5.291A7.962 7.962 0 0120 12h4c0-3.042-1.135-5.824-3-7.938l-3 2.647z"
+                ></path>
+              </svg>
+              <span className="bold text-blue-500">
+                Cargando la imagen...Espere, por favor.
+              </span>
+            </div>
+          )}
 
           <div className="double-space"></div>
 
           <button
-            className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
             type="submit"
+            disabled={Object.values(errorMessage).some((value) => value !== "")}
           >
             Enviar
           </button>
+          {submitingForm && (
+            <div class="flex justify-center items-center">
+              <svg
+                class="animate-spin h-5 w-5 mr-3 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM20 12a8 8 0 01-8 8v4c6.627 0 12-5.373 12-12h-4zm-2-5.291A7.962 7.962 0 0120 12h4c0-3.042-1.135-5.824-3-7.938l-3 2.647z"
+                ></path>
+              </svg>
+              <span>Enviando...</span>
+            </div>
+          )}
         </form>
       </div>
 
