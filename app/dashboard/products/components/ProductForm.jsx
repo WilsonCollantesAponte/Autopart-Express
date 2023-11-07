@@ -94,8 +94,6 @@ export default function ProductForm() {
 
     // Actualizar el estado del componente
     setProduct({ ...product, [name]: value });
-    console.log(product);
-    console.log(errorMessage);
   };
 
   //Funcion para subir imagenes a Cloudinary
@@ -121,10 +119,12 @@ export default function ProductForm() {
     setSubmitingForm(true);
     e.preventDefault();
     if (!Object.keys(errorMessage).length > 0) {
-      console.log(errorMessage);
       return alert("faltan datos");
     }
-    await axios.post("http://localhost:3000/dashboard/products/api/", product);
+    await axios.post(
+      "https://autopart-express.vercel.app/dashboard/products/api/",
+      product
+    );
     alert("Producto Creado");
     setProduct({
       name: "",
