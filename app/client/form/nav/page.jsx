@@ -127,8 +127,8 @@ export default function Nav() {
                     
                       )}
                     </p>
-                    <Link href="/client/form/perfil">
-                      <button className="button">Perfil</button>
+                    <Link href="/client/form/profile">
+                      <button className="button">Profile</button>
                     </Link>
                     <button className="button" onClick={handleLogout}>
                       Logout
