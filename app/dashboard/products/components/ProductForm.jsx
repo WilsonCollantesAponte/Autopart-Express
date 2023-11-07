@@ -124,7 +124,10 @@ export default function ProductForm() {
       console.log(errorMessage);
       return alert("faltan datos");
     }
-    await axios.post("http://localhost:3000/dashboard/products/api/", product);
+    await axios.post(
+      "https://autopart-express.vercel.app/dashboard/products/api/",
+      product
+    );
     alert("Producto Creado");
     setProduct({
       name: "",
