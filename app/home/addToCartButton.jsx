@@ -52,12 +52,9 @@ export default function AddToCartButton({
       {!inTheCart ? (
         <div>
           {!loadingAddToCart ? (
-            <button
-              onClick={handleAddToCart}
-              className="button mx-2 text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-              Añadir al carrito
-            </button>
+          <button onClick={handleAddToCart} className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+          Añadir al carrito
+        </button>
           ) : (
             <MoonLoader size={22} />
           )}
@@ -66,7 +63,7 @@ export default function AddToCartButton({
         <div>
           {!loadDeleteFromTheCart ? (
             <button
-              className="button mx-2 text-black border-2 border-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className=" text-yellow-600 border-2 border-yellow-300 hover:bg-yellow-300 hover:text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center"
               onClick={handleAddToCart}
             >
               Quitar del carrito
