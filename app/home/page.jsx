@@ -229,12 +229,12 @@ const Home = () => {
       (product) => filters.rating === 0 || product.rating === filters.rating
     )
     .filter((product) => {
-      if (priceRange === "hasta20000") {
-        return product.price <= 20000;
-      } else if (priceRange === "20000a60000") {
-        return product.price > 20000 && product.price <= 60000;
-      } else if (priceRange === "masde60000") {
-        return product.price > 60000;
+      if (priceRange === "hasta75") {
+        return product.price <= 75;
+      } else if (priceRange === "75a150") {
+        return product.price > 75 && product.price <= 150;
+      } else if (priceRange === "masde150") {
+        return product.price > 150;
       } else {
         return true;
       }
@@ -346,9 +346,9 @@ const Home = () => {
               className="w-full border-2 bg-white border-blue-Nav p-4 bg-transparent"
             >
               <option value="">Cualquier precio</option>
-              <option value="hasta20000">Hasta $20,000</option>
-              <option value="20000a60000">$20,000 - $60,000</option>
-              <option value="masde60000">Más de $60,000</option>
+              <option value="hasta75">Hasta $75</option>
+              <option value="75a150">$75 - $150</option>
+              <option value="masde150">Más de $150</option>
             </select>
           </div>
           <button
@@ -366,92 +366,96 @@ const Home = () => {
           >
             Reiniciar
           </button>
-          <div className="mt-4">
-            <span className="text-gray-800 font-semibold">Ordenar por:</span>
-            <button
-              className="w-full bg-blue-Nav hover-bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
-              onClick={() => toggleOrder("menorPrecio")}
-            >
-              Menor Precio
-            </button>
-            <button
-              className="w-full bg-blue-Nav hover-bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
-              onClick={() => toggleOrder("mayorPrecio")}
-            >
-              Mayor Precio
-            </button>
-          </div>
-        </header>
+
+          </header>
       </div>
       <div className="w-3/4">
-        <header className="flex gap-4 justify-center mt-4">
+       
+        <div className="text-right mt-4">
+          <span className="text-gray-800 font-semibold">Ordenar por: </span>
           <button
-            className="text-4xl"
+            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-2"
+            onClick={() => toggleOrder("menorPrecio")}
+          >
+            Menor precio
+          </button>
+
+          <button
+            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-8" 
+            onClick={() => toggleOrder("mayorPrecio")}
+          >
+            Mayor precio
+          </button>
+        </div>
+
+      
+<div className="container mx-auto py-34 px-7 justify-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+    {displayedProducts.map((value, index) => (
+      <div key={index} className="max-w-lg">
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full"> {/* Agrega 'flex flex-col h-full' */}
+          <img className="w-full h-48 rounded-t-lg object-cover" src={value.image} alt="" />
+          <div className="p-5 flex flex-col justify-between h-full"> 
+            <div className="border-b border-gray-300 mb-2"></div>
+            <p className="font-normal text-gray-700 mb-3 dark:text-gray-400">
+              {value.brand}
+            </p>
+            <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-2">
+              {value.name}
+            </h5>
+            <p className="font-normal text-gray-700 mb-3 dark:text-gray-400">
+              {value.model}
+            </p>
+            
+            <div className="flex items-center justify-between">
+            <p className="font-bold text-blue-Nav text-2xl px-0 py-2">${value.price} </p>
+            <p className="font-normal text-gray-700 text-right px-1">Rating: {value.rating}</p>
+            </div>
+              
+              <div className="flex items-center justify-between">
+           
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+            <Link href={`/detail/${value.id}`}>Comprar</Link>
+            </button>
+                <div>
+                <AddToCartButton
+                  inCart={value.Cart.length}
+                  mustBeLogged={mustBeLogged}
+                  idClient={idClient}
+                  idProduct={value.id}
+                  />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        ))}
+      </div>
+    </div>
+        
+        <header className="flex gap-4 justify-center items-center mt-4">
+          <button
+            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page > 1) setPage(page - 1);
             }}
           >
-            ⬅️
+            Anterior
           </button>
           <span className="text-3xl font-bold">{page}/{Math.ceil(sortedProducts.length / productsPerPage)}</span>
           
           <button
-            className="text-4xl"
+            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page < Math.ceil(sortedProducts.length / productsPerPage)) {
                 setPage(page + 1);
               }
             }}
           >
-            ➡️
+            Siguiente
           </button>
         </header>
-
-        <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            {displayedProducts.map((value, index) => (
-            <div key={index} className="shadow-2xl rounded-lg max-w-xs h-auto bg-sky-100/40">
-             <div className="h-1/2 relative">
-              <img src={value.image} 
-                alt={value.name} 
-                className="w-full h-full object-cover max-h-1/2" 
-              />
-             </div>
-             <div className="p-4 h-1/2 flex flex-col justify-between overflow-y-auto">
-              <div>
-                <h3 className="text-gray-900 font-semibold text-xl tracking-tight">
-                  {value.name}
-                </h3>
-                <p className="text-gray-900 font-semibold text-xl tracking-tight">
-                  {value.brand}
-                </p>
-                <p className="text-gray-900 font-semibold text-xl tracking-tight">
-                  {value.model}
-                </p>
-                <p className="text-gray-900 font-semibold">
-                  Rating: {value.rating}
-                </p>
-                <span className="text-3xl font-bold text-gray-900">
-                  ${value.price}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-           
-                <button className="button text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                  <Link href={`/detail/${value.id}`}>Comprar</Link>
-                </button>
-                <AddToCartButton
-                  inCart={value.Cart.length}
-                  mustBeLogged={mustBeLogged}
-                  idClient={idClient}
-                  idProduct={value.id}
-                />
-              </div>
-             </div>
-            </div>
-           ))}
-          </div>
-        </div>
       </div>
     </div>
   );
