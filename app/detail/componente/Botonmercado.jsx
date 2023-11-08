@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link';
 import { useEffect , useState } from 'react';
 
-const Botonmercado = ({producto , id_cart}) => {
+const Botonmercado = ({producto , id_cart }) => {
 
   const [url,setUrl] = useState()
   
@@ -39,10 +39,10 @@ const Botonmercado = ({producto , id_cart}) => {
 },[producto])
   return (
     <div>
-        <button onClick={() => { if(id_cart > 1 ){
+        <button onClick={() => { if(Array.isArray(id_cart) ){
                                         localStorage.setItem("id_cart", JSON.stringify(id_cart)); console.log("dentro",id_cart);
                                       }else{
-                                        localStorage.setItem("id_cart", id_cart ); console.log(id_cart);
+                                        localStorage.setItem("_idProduct", id_cart); console.log(id_cart);
                                       }
                                 }} 
           className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">

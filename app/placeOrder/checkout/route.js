@@ -23,7 +23,7 @@ export async function POST(request) {
                 };
             }) 
 
-             const URL = "https://55e4-181-209-91-123.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
+             const URL = "https://autopart-express.vercel.app" //http://localhost3000 deveria https:// o el deploy 
                
             let preference = {
      

@@ -58,11 +58,10 @@ export default function Cart() {
         image: value.Product?.image, 
         quantity: 0,
         newprice: 0,
+        idCart: value.id,
       }
     });
-    const extraeIdCart = productsInTheCart.map((value) => value.id);
     setProductList(extractedProducts);
-    setId_cart(extraeIdCart);
     
   }, [productsInTheCart]);
 
@@ -132,6 +131,9 @@ const calculateTotal = (list) => {
 
 useEffect(() => {
   calculateTotal(productList);
+  const idcartLimpio = productList.filter((value) => value.quantity !== 0 );
+  const extraeIdCart = idcartLimpio?.map((value) => value.idCart);
+  setId_cart(extraeIdCart);
 }, [productList]);
 
   if (isLoading) return <div>Loading...</div>;

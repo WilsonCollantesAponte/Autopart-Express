@@ -22,8 +22,8 @@ export async function POST(request) {
 
   const response = await DataBaseInteraction.cart.create({
     data: {
-      idClient,
-      idProduct,
+      idClient ,
+      idProduct ,
       payment_id,
     },
   });

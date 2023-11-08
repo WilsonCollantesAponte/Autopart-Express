@@ -9,7 +9,7 @@ export default function ProductDetail ({params}) {
     const [product,setProduct] = useState()
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    //const [cantidad,setCantidad] = useState([]);
+    const [id_cart,setId_cart] = useState();
 
 
     const restar = () => {
@@ -61,6 +61,7 @@ export default function ProductDetail ({params}) {
                 image: r.image, 
                 quantity: 0,
               });
+              setId_cart(r.id)
             setIsLoading(false);
         })
         .catch(() => {
@@ -130,7 +131,7 @@ export default function ProductDetail ({params}) {
                             <p className="font-medium text-red-700">debe seleccionar al menos un producto</p>
                             
                             ) : (
-                            <Botonmercado  producto={[product]}/>
+                            <Botonmercado  producto={[product] } id_cart={id_cart}/>
                         )
                         }
 

@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 //ASIGNA EL PAGO A LOS CARROS CREADOS OJO NO FIFERENCIA CANTIDADES DE UN MISMO PRODUCTO
-const postCart = (id_cart ,payment_id) =>{
+const putCart = (id_cart ,payment_id) =>{
   console.log(payment_id)
   fetch(`/cart/many`,{
     method: "PUT",
@@ -22,6 +22,19 @@ const postCart = (id_cart ,payment_id) =>{
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
 }
+
+const postCart = (idClient ,idProduct ,payment_id ) =>{
+  console.log(payment_id)
+  fetch(`/cart/api`, {
+    method: "POST",
+    body: JSON.stringify({
+      idClient,
+      idProduct,
+      payment_id,
+    }),
+  })
+}
+
 
 function Succesful() {
   const { data: session } = useSession();
@@ -38,8 +51,11 @@ useEffect(()=>{
     )
       .then((r) => r.json())
       .then((r) => {
-        console.log(r)
-      postCart(localStorage.getItem("id_cart"), payment_id);
+        console.log("esto",r.client[0].id)
+        if(localStorage.getItem("_idProduct")){
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id);
+        }else{putCart(localStorage.getItem("id_cart"), payment_id);}
+      
       })
   } 
   else if (session ) {
@@ -48,9 +64,11 @@ useEffect(()=>{
       .then((r) => r.json())
       .then((r) => {
         console.log(r);
-       postCart(localStorage.getItem("id_cart"), payment_id);
+        if(localStorage.getItem("_idProduct")){
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id);
+        }else{putCart(localStorage.getItem("id_cart"), payment_id);}
       });
-  } else {console.log("cliente?")}
+  } 
 },[])
 
 
