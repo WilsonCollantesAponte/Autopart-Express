@@ -117,14 +117,19 @@ export default function Nav() {
                     <p>
                       {/* Hola! {formData.email} {formData.surname} */}
                       {session && (
-                        <img
+                       
+                       <img
                           className=" rounded-lg"
                           src={session?.user.image}
                           width="70"
                           alt="user image"
                         />
+                    
                       )}
                     </p>
+                    <Link href="/client/form/profile">
+                      <button className="button">Profile</button>
+                    </Link>
                     <button className="button" onClick={handleLogout}>
                       Logout
                     </button>
