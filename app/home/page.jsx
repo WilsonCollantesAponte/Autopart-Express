@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import AddToCartButton from "./addToCartButton";
 
+
 const Home = () => {
   const { data: session } = useSession();
 
@@ -251,10 +252,11 @@ const Home = () => {
   const displayedProducts = sortedProducts.slice(startIndex, endIndex);
 
   return (
+    
     <div className="flex">
       <div className="w-1/5 p-4">
         <header className="p-4 rounded-lg h-screen">
-          <div className="mb-4">
+          <div className="mb-4 my-6">
             <label
               className="mx-1.5 text-gray-800 font-semibold"
               htmlFor="name"
@@ -266,8 +268,10 @@ const Home = () => {
               name="name"
               onChange={handleProduct}
               value={filters.name}
+              placeholder="Buscar"
               className="w-full border-2 bg-white border-blue-Nav p-4 bg-transparent"
             />
+            
           </div>
           <div className="mb-4">
             <label
@@ -393,17 +397,18 @@ const Home = () => {
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
     {displayedProducts.map((value, index) => (
       <div key={index} className="max-w-lg">
-        <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full"> {/* Agrega 'flex flex-col h-full' */}
-          <img className="w-full h-48 rounded-t-lg object-cover" src={value.image} alt="" />
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full"> 
+        
+        <img className="w-full h-52 rounded-t-lg object-center object-contain max-h-full" src={value.image} alt="" />
           <div className="p-5 flex flex-col justify-between h-full"> 
-            <div className="border-b border-gray-300 mb-2"></div>
-            <p className="font-normal text-gray-700 mb-3 dark:text-gray-400">
+            <div className="border-b border-gray-300 mb-1"></div>
+            <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
               {value.brand}
             </p>
-            <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-2">
+            <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-1">
               {value.name}
             </h5>
-            <p className="font-normal text-gray-700 mb-3 dark:text-gray-400">
+            <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
               {value.model}
             </p>
             
@@ -436,7 +441,7 @@ const Home = () => {
         
         <header className="flex gap-4 justify-center items-center mt-4">
           <button
-            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
+            className="bg-red-botton text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page > 1) setPage(page - 1);
             }}
@@ -446,7 +451,7 @@ const Home = () => {
           <span className="text-3xl font-bold">{page}/{Math.ceil(sortedProducts.length / productsPerPage)}</span>
           
           <button
-            className="bg-red-font text-white font-bold py-1 px-4 rounded my-4"
+            className="bg-red-botton text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {
               if (page < Math.ceil(sortedProducts.length / productsPerPage)) {
                 setPage(page + 1);

@@ -61,17 +61,26 @@ export default function ProductDetail ({params}) {
                     className="w-350 h-150 object-cover rounded-lg"
                 />
                 <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                    <h2 className="text-sm title-font text-gray-500 tracking-widest">{product?.brand}</h2>
-                    <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{`${product?.name} | ${product?.model}`} </h1>
+                    <h2 className="text-m title-font text-red-font mr-2">{product?.brand}</h2>
+                    <h1 className="text-gray-900 text-3xl title-font font-medium mb-2">{`${product?.name} | ${product?.model}`} </h1>
+
+                    <div className="flex items-center">
+                    <p className="text-small title-font text-gray-900 mr-2">Rating: {product?.rating}</p>
+                     {Array.from({ length: product?.rating }, (_, index) => (
+                     <span key={index} className="text-yellow-400">★</span>
+                     ))}
+                    </div>
+
+                    <span className="title-font text-3xl text-gray-900">${product?.price}</span>
                     <div className="flex mb-4">
                     
                     </div>
-                    <p className="leading-relaxed">Caracteristicas</p>
+                    <p className="leading-relaxed text-gray-600">Caracteristicas</p>
                     <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
 
                     </div>
                     <div className="flex  mb-5">
-                        <p className="mr-2">Stock disponible</p>
+                        <p className="mr-2  text-gray-600">Stock disponible</p>
                         
                         
                         <p>{`(${product?.availability} unidades disponibles)`}</p>
@@ -88,7 +97,7 @@ export default function ProductDetail ({params}) {
                     </div> */}
 
                     <div className="flex ">
-                        <span className="title-font font-medium text-2xl mr-5 text-gray-900">${product?.price}</span>
+                
 
                         {console.log(product?.name)}
                        {/*  <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  

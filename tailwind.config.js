@@ -15,7 +15,7 @@ module.exports = {
         "gray-body":"#EDF2F4",
         "blue-Nav":"#2B2D42",
         "gray-botton":"#8D99AE",
-        "red-botton":"#EF233C",
+        "red-botton":"#FF4C4C",
         "red-font":"#D90429",
         "black-100": "#2B2C35",
         "gris-oscuro": "#8D99AE",
