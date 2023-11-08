@@ -6,12 +6,13 @@ import {useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-const postCart = (idClient , idProduct ,payment_id) =>{
-  fetch(`/cart/api`,{
-    method: "POST",
+//ASIGNA EL PAGO A LOS CARROS CREADOS OJO NO FIFERENCIA CANTIDADES DE UN MISMO PRODUCTO
+const postCart = (id_cart ,payment_id) =>{
+  console.log(payment_id)
+  fetch(`/cart/many`,{
+    method: "PUT",
     body: JSON.stringify({
-      idClient: idClient,
-      idProduct: idProduct,
+      id_cart: id_cart,
       payment_id: payment_id
     }),
     headers: {
@@ -20,47 +21,36 @@ const postCart = (idClient , idProduct ,payment_id) =>{
     })
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
-    console.log([idClient , idProduct , payment_id])
 }
 
 function Succesful() {
   const { data: session } = useSession();
-  const [idClient, setIdClient] = useState("");
-  const [idProduct, setIdProduct] = useState("");
   const [email , setEmail] = useState()
   const searchParams = useSearchParams() ;
   const payment_id = searchParams.get("payment_id");
 
-    
-//debe enviar payment_id al PUT end point  /placeOrder/notify para asignarlo al cliente
-
-
 useEffect(()=>{
 
-  if (localStorage.getItem("email") || session) {
+  if (localStorage.getItem("email") ) {
     setEmail(localStorage.getItem("email"));
-    //setIdProduct(localStorage.getItem("_idProducto"));
     fetch(
       `/client/form/login/api/email?email=${localStorage.getItem("email")}`
     )
       .then((r) => r.json())
       .then((r) => {
         console.log(r)
-        setIdClient(r.client[0].id)
-        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
+      postCart(localStorage.getItem("id_cart"), payment_id);
       })
   } 
- /*  else if (session && !localStorage.getItem("email")) {
+  else if (session ) {
     setEmail(session.user.email);
-    //setIdProduct(localStorage.getItem("_idProducto"));
-    fetch(`/client/form/login/api/email?email=${session.user.email}`)
+   fetch(`/client/form/login/api/email?email=${session.user.email}`)
       .then((r) => r.json())
       .then((r) => {
         console.log(r);
-        setIdClient(r.client[0].id);
-        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
+       postCart(localStorage.getItem("id_cart"), payment_id);
       });
-  } else {console.log("cliente?")} */
+  } else {console.log("cliente?")}
 },[])
 
 
