@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 
 export default function AddToCartButton({
@@ -10,13 +10,13 @@ export default function AddToCartButton({
   inCart,
 }) {
   const [inTheCart, setInTheCart] = useState(inCart);
-
   const [loadingAddToCart, setloadingAddToCart] = useState(false);
   const [loadDeleteFromTheCart, setLoadDeleteFromTheCart] = useState(false);
+  
 
   function handleAddToCart() {
     if (!mustBeLogged) {
-      if (!inTheCart) {
+      if (!inTheCart ) { 
         setloadingAddToCart(true);
         fetch(`/cart/api`, {
           method: "POST",
@@ -31,11 +31,11 @@ export default function AddToCartButton({
           .catch(() => setloadingAddToCart(false));
       } else {
         setLoadDeleteFromTheCart(true);
-
         fetch(`/home/api?idClient=${idClient}&idProduct=${idProduct}`)
           .then((r) => r.json())
           .then((r) => {
-            fetch(`/cart/api?id=${r[0].id}`, {
+            console.log(r)
+            fetch(`/cart/api?id=${r[r.length-1].id}`, {
               method: "DELETE",
             })
               .then(() => setInTheCart(0))
@@ -47,9 +47,10 @@ export default function AddToCartButton({
     }
   }
 
+ 
   return (
     <div>
-      {!inTheCart ? (
+      {!inTheCart  ? (
         <div>
           {!loadingAddToCart ? (
           <button onClick={handleAddToCart} className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
@@ -76,3 +77,5 @@ export default function AddToCartButton({
     </div>
   );
 }
+
+
