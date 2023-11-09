@@ -15,6 +15,7 @@ export async function GET(request) {
         Cart: {
           where: {
             idClient,
+            status:true,
           },
         },
       },

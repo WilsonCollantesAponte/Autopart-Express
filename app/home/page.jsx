@@ -445,7 +445,6 @@ const Home = () => {
                 {/* {console.log("esto",value.Cart)} */}
                 <AddToCartButton
                   inCart={value.Cart.length}
-                  Cart={value.Cart}
                   mustBeLogged={mustBeLogged}
                   idClient={idClient}
                   idProduct={value.id}
