@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import AddToCartButton from "./addToCartButton";
 
-
 const Home = () => {
   const { data: session } = useSession();
 
@@ -250,9 +249,9 @@ const Home = () => {
   const startIndex = (page - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const displayedProducts = sortedProducts.slice(startIndex, endIndex);
+  //console.log(displayedProducts)
 
   return (
-    
     <div className="flex">
       <div className="w-1/5 p-4">
         <header className="p-4 rounded-lg h-screen">
@@ -271,7 +270,6 @@ const Home = () => {
               placeholder="Buscar"
               className="w-full border-2 bg-white border-blue-Nav p-4 bg-transparent"
             />
-            
           </div>
           <div className="mb-4">
             <label
@@ -370,11 +368,9 @@ const Home = () => {
           >
             Reiniciar
           </button>
-
-          </header>
+        </header>
       </div>
       <div className="w-3/4">
-       
         <div className="text-right mt-4">
           <span className="text-gray-800 font-semibold">Ordenar por: </span>
           <button
@@ -385,60 +381,64 @@ const Home = () => {
           </button>
 
           <button
-            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-8" 
+            className="bg-blue-Nav text-white font-bold py-1 px-4 rounded my-4 mr-8"
             onClick={() => toggleOrder("mayorPrecio")}
           >
             Mayor precio
           </button>
         </div>
 
-      
-<div className="container mx-auto py-34 px-7 justify-center">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-    {displayedProducts.map((value, index) => (
-      <div key={index} className="max-w-lg">
-        <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full"> 
-        
-        <img className="w-full h-52 rounded-t-lg object-center object-contain max-h-full" src={value.image} alt="" />
-          <div className="p-5 flex flex-col justify-between h-full"> 
-            <div className="border-b border-gray-300 mb-1"></div>
-            <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
-              {value.brand}
-            </p>
-            <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-1">
-              {value.name}
-            </h5>
-            <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
-              {value.model}
-            </p>
-            
-            <div className="flex items-center justify-between">
-            <p className="font-bold text-blue-Nav text-2xl px-0 py-2">${value.price} </p>
-            <p className="font-normal text-gray-700 text-right px-1">Rating: {value.rating}</p>
-            </div>
-              
-              <div className="flex items-center justify-between">
-           
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
-            <Link href={`/detail/${value.id}`}>Comprar</Link>
-            </button>
-                <div>
-                <AddToCartButton
-                  inCart={value.Cart.length}
-                  mustBeLogged={mustBeLogged}
-                  idClient={idClient}
-                  idProduct={value.id}
+        <div className="container mx-auto py-34 px-7 justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+            {displayedProducts.map((value, index) => (
+              <div key={index} className="max-w-lg">
+                <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+                  <img
+                    className="w-full h-52 rounded-t-lg object-center object-contain max-h-full"
+                    src={value.image}
+                    alt=""
                   />
+                  <div className="p-5 flex flex-col justify-between h-full">
+                    <div className="border-b border-gray-300 mb-1"></div>
+                    <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
+                      {value.brand}
+                    </p>
+                    <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-1">
+                      {value.name}
+                    </h5>
+                    <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
+                      {value.model}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold text-blue-Nav text-2xl px-0 py-2">
+                        ${value.price}{" "}
+                      </p>
+                      <p className="font-normal text-gray-700 text-right px-1">
+                        Rating: {value.rating}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+                        <Link href={`/detail/${value.id}`}>Comprar</Link>
+                      </button>
+                      <div>
+                        <AddToCartButton
+                          inCart={value.Cart.length}
+                          mustBeLogged={mustBeLogged}
+                          idClient={idClient}
+                          idProduct={value.id}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-          
-        ))}
-      </div>
-    </div>
-        
+        </div>
+
         <header className="flex gap-4 justify-center items-center mt-4">
           <button
             className="bg-red-botton text-white font-bold py-1 px-4 rounded my-4"
@@ -448,8 +448,10 @@ const Home = () => {
           >
             Anterior
           </button>
-          <span className="text-3xl font-bold">{page}/{Math.ceil(sortedProducts.length / productsPerPage)}</span>
-          
+          <span className="text-3xl font-bold">
+            {page}/{Math.ceil(sortedProducts.length / productsPerPage)}
+          </span>
+
           <button
             className="bg-red-botton text-white font-bold py-1 px-4 rounded my-4"
             onClick={() => {

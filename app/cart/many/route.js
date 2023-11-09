@@ -1,0 +1,66 @@
+import DataBaseInteraction, { cart } from "@/prisma";
+import { NextResponse } from "next/server";
+
+
+export async function GET(request) {
+  const email = request.nextUrl.searchParams.get("email");
+
+  const response = await DataBaseInteraction.cart.findMany({
+    where: {
+      Client: {
+        email,
+      },
+    },
+    include: {
+      Product: true,
+    },
+  });
+
+  return NextResponse.json(response);
+}
+
+
+export async function POST(request) {
+  const { idClient, idProduct, payment_id , quantity} = await request.json();
+
+  const response = await DataBaseInteraction.cart.create({
+    data: {
+      idClient ,
+      idProduct ,
+      payment_id,
+      status: false,
+      quantity,
+    },
+  });
+
+  return NextResponse.json(response);
+}
+
+
+export async function PUT(request) {
+    try {
+      const { id_cart , payment_id , quantity} = await request.json();
+       
+        const idCart = id_cart.slice(1,-1).split(',').map((item) => item.replace(/"/g, ''));;
+        const aux_quantity = quantity.slice(1,-1).split(',');
+      
+        let i = 0;
+        for(const cartid of idCart){
+            await DataBaseInteraction.cart.update({     
+              where:{id: cartid},
+              data:{
+                payment_id: payment_id,
+                status: false,
+                quantity: Number(aux_quantity[i]),
+              }
+            })
+            i++;
+        }
+        return NextResponse.json("cambio exitoso");
+
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({error: error.message});
+    
+  }
+}

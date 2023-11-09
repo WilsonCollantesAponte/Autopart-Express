@@ -23,7 +23,7 @@ export async function POST(request) {
                 };
             }) 
 
-             const URL = "https://cc4b-181-209-91-124.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
+             const URL = "https://69d0-181-209-91-124.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
                
             let preference = {
      
