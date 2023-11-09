@@ -25,23 +25,39 @@ const Hero = () => {
       <div className="slider-container relative">
         <button
           onClick={prevImage}
-          className="slider-button prev absolute top-1/2 transform -translate-y-1/2 left-4 text-white text-4xl hidden sm:block"
+          className="slider-button prev absolute top-1/2 transform -translate-y-1/2 left-4 text-white text-4xl block sm:block"
         >
           ❮
         </button>
-        <img
+        <Image
           src={images[currentImage]}
           alt={`Imagen ${currentImage + 1}`}
-          className="w-full h-screen sm:h-auto"
+          width={1920}
+          height={1080}
+          layout="responsive"
         />
         <Link href="/home">
-          <div className="explore-button absolute bottom-4 left-1/2 transform -translate-x-1/2">
-            <p className="text-white font-semibold text-xl bg-red-botton px-4 py-2 rounded-lg hover:bg-blue-700">EXPLORA EL SITIO</p>
+          <div className="explore-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <p className="text-white font-semibold text-md sm:text-xl bg-red-botton px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover-bg-blue-700">
+              EXPLORA EL SITIO
+            </p>
           </div>
         </Link>
         <button
           onClick={nextImage}
-          className="slider-button next absolute top-1/2 transform -translate-y-1/2 right-4 text-white text-4xl hidden sm:block"
+          className="slider-button next absolute top-1/2 transform -translate-y-1/2 right-4 text-white text-4xl block sm:block"
+        >
+          ❯
+        </button>
+        <button
+          onClick={prevImage}
+          className="slider-button prev absolute top-1/2 transform -translate-y-1/2 left-4 text-white text-4xl hidden sm:hidden"
+        >
+          ❮
+        </button>
+        <button
+          onClick={nextImage}
+          className="slider-button next absolute top-1/2 transform -translate-y-1/2 right-4 text-white text-4xl hidden sm:hidden"
         >
           ❯
         </button>
