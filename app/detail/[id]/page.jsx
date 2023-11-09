@@ -11,7 +11,6 @@ export default function ProductDetail ({params}) {
     const [error, setError] = useState("");
     const [id_cart,setId_cart] = useState();
 
-
     const restar = () => {
         setProduct((prevProduct) => {
             const newQuantity = prevProduct.quantity - 1;
@@ -36,10 +35,11 @@ export default function ProductDetail ({params}) {
         const newQuantity = parseInt(event.target.value);
         if(!isNaN(newQuantity)){
           setProduct((prevProduct)=> {
-            return{
+            const upDateProduct = {
                 ...prevProduct,
                quantity:newQuantity,
               };
+             return upDateProduct;
           })
         }
       }

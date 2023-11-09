@@ -249,6 +249,7 @@ const Home = () => {
   const startIndex = (page - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const displayedProducts = sortedProducts.slice(startIndex, endIndex);
+  //console.log(displayedProducts)
 
   return (
     <div className="flex">
@@ -409,6 +410,7 @@ const Home = () => {
 
         <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10">
+            {console.log(displayedProducts)}
             {displayedProducts.map((value, index) => (
             <div key={index} className="shadow-2xl rounded-lg max-w-xs h-auto bg-sky-100/40">
              <div className="h-1/2 relative">
@@ -440,8 +442,10 @@ const Home = () => {
                 <button className="button text-red-botton border-2 border-red-botton font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                   <Link href={`/detail/${value.id}`}>Comprar</Link>
                 </button>
+                {/* {console.log("esto",value.Cart)} */}
                 <AddToCartButton
                   inCart={value.Cart.length}
+                  Cart={value.Cart}
                   mustBeLogged={mustBeLogged}
                   idClient={idClient}
                   idProduct={value.id}
