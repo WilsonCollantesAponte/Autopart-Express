@@ -23,6 +23,8 @@ export default function ProductRow({ productValue, setProducts, products }) {
     image: productValue.image,
   });
 
+  const stock = productValue.availability;
+
   function handleInitData(event) {
     const { name, value } = event.target;
     setErrors(Validations({ ...initData, [name]: value }));
@@ -35,32 +37,32 @@ export default function ProductRow({ productValue, setProducts, products }) {
       {!edit ? (
         <div className=" flex divide-x-2 divide-gray-500 text-xs border-b-2 border-gray-500 font-medium overflow-auto">
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
+            <div className={`py-2.5 overflow-auto pl-4 w-52 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
               {productValue.name}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-24 h-fit">
+            <div className= {`py-2.5 overflow-auto pl-4 w-24 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
               {productValue.price}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto px-4 w-40 h-fit">
-              {productValue.availability}
+            <div className={`py-2.5 overflow-auto px-4 w-40 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
+              {productValue.availability === '0' ? 'REPONER' : productValue.availability}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
+            <div className={`py-2.5 overflow-auto pl-4 w-52 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
               {productValue.brand}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
+            <div className={` py-2.5 overflow-auto pl-4 w-52 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
               {productValue.model}
             </div>
           </div>
           <div className="flex items-center">
-            <div className=" py-2.5 overflow-auto pl-4 w-20 h-fit">
+            <div className={` py-2.5 overflow-auto pl-4 w-20 h-fit ${stock === '0' ? 'text-red-500': ''}`}>
               {productValue.rating}
             </div>
           </div>

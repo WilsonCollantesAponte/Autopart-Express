@@ -409,7 +409,7 @@ const Home = () => {
 
         <div className="container bg-gray-body mx-auto py-36 px-8 justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-10">
-            {displayedProducts.map((value, index) => (
+            {displayedProducts.filter((value) => value.availability > 0).map((value, index) => (
             <div key={index} className="shadow-2xl rounded-lg max-w-xs h-auto bg-sky-100/40">
              <div className="h-1/2 relative">
               <img src={value.image} 
