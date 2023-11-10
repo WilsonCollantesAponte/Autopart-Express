@@ -21,8 +21,7 @@ export async function GET(request) {
 
 
 export async function POST(request) {
-  const { idClient, idProduct, payment_id , quantity} = await request.json();
-
+  const { idClient, idProduct, payment_id , quantity, date} = await request.json();
 
   const cart = await DataBaseInteraction.cart.findMany({
     where:{
@@ -30,9 +29,9 @@ export async function POST(request) {
       idProduct,
     }
   })
-  console.log("traae",cart)
+  
   const verifica = cart.some(elemento => elemento.payment_id==payment_id)
-  console.log("verifi", verifica)
+
   if(!verifica){
     const response = await DataBaseInteraction.cart.create({
       data: {
@@ -41,6 +40,7 @@ export async function POST(request) {
         payment_id,
         status: false,
         quantity: Number(quantity),
+        date,
       },
     });
   
@@ -54,7 +54,7 @@ export async function POST(request) {
 
 export async function PUT(request) {
     try {
-      const { id_cart , payment_id , quantity} = await request.json();
+      const { id_cart , payment_id , quantity , date} = await request.json();
        
         const idCart = id_cart.slice(1,-1).split(',').map((item) => item.replace(/"/g, ''));;
         const aux_quantity = quantity.slice(1,-1).split(',');
@@ -67,6 +67,7 @@ export async function PUT(request) {
                 payment_id: payment_id,
                 status: false,
                 quantity: Number(aux_quantity[i]),
+                date: date,
               }
             })
             i++;
