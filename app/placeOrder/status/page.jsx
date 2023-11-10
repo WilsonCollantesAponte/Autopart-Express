@@ -6,13 +6,15 @@ import {useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-const postCart = (idClient , idProduct ,payment_id) =>{
-  fetch(`/cart/api`,{
-    method: "POST",
+//ASIGNA EL PAGO A LOS CARROS CREADOS OJO NO FIFERENCIA CANTIDADES DE UN MISMO PRODUCTO
+const putCart = (id_cart ,payment_id,quantity) =>{
+  console.log(payment_id)
+  fetch(`/cart/many`,{
+    method: "PUT",
     body: JSON.stringify({
-      idClient: idClient,
-      idProduct: idProduct,
-      payment_id: payment_id
+      id_cart: id_cart,
+      payment_id: payment_id,
+      quantity,
     }),
     headers: {
       "content-type": "application/json",
@@ -20,47 +22,58 @@ const postCart = (idClient , idProduct ,payment_id) =>{
     })
     .then((res) => res.json())
     .catch((error) => console.error("Error:", error))
-    console.log([idClient , idProduct , payment_id])
 }
+
+const postCart = (idClient ,idProduct ,payment_id ,quantity) =>{
+  console.log(payment_id)
+  fetch(`/cart/many`, {
+    method: "POST",
+    body: JSON.stringify({
+      idClient,
+      idProduct,
+      payment_id,
+      quantity,
+    }),
+  })
+}
+
 
 function Succesful() {
   const { data: session } = useSession();
-  const [idClient, setIdClient] = useState("");
-  const [idProduct, setIdProduct] = useState("");
   const [email , setEmail] = useState()
   const searchParams = useSearchParams() ;
   const payment_id = searchParams.get("payment_id");
-
-    
-//debe enviar payment_id al PUT end point  /placeOrder/notify para asignarlo al cliente
+  const [executed , setExecuted] = useState(false)
 
 
 useEffect(()=>{
-
-  if (localStorage.getItem("email") || session) {
+if(!executed){
+  if (localStorage.getItem("email") ) {
     setEmail(localStorage.getItem("email"));
-    //setIdProduct(localStorage.getItem("_idProducto"));
     fetch(
       `/client/form/login/api/email?email=${localStorage.getItem("email")}`
     )
       .then((r) => r.json())
       .then((r) => {
-        console.log(r)
-        setIdClient(r.client[0].id)
-        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
+        console.log("esto",r.client[0].id)
+        if(localStorage.getItem("_compra") === "uno"){
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id , localStorage.getItem("_cantidad"));
+        }else{putCart(localStorage.getItem("id_cart"), payment_id , localStorage.getItem("_cantidadvarios"));}
       })
+      setExecuted(true)
   } 
- /*  else if (session && !localStorage.getItem("email")) {
+  else if (session ) {
     setEmail(session.user.email);
-    //setIdProduct(localStorage.getItem("_idProducto"));
-    fetch(`/client/form/login/api/email?email=${session.user.email}`)
+   fetch(`/client/form/login/api/email?email=${session.user.email}`)
       .then((r) => r.json())
       .then((r) => {
         console.log(r);
-        setIdClient(r.client[0].id);
-        postCart(r.client[0].id,localStorage.getItem("_idProducto"), payment_id);
+        if(localStorage.getItem("_compra") === "uno"){
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id);
+        }else{putCart(localStorage.getItem("id_cart"), payment_id);}
       });
-  } else {console.log("cliente?")} */
+      setExecuted(true)
+  } }
 },[])
 
 

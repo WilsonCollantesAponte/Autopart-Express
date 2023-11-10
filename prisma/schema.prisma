@@ -25,6 +25,8 @@ model Client {
   surname       String?
   email         String         @unique
   password      String?
+  type          String?        @default("client")
+  image         String?
   Accessibility Accessibility?
   Cart          Cart[]
 }
@@ -49,6 +51,9 @@ model Cart {
   idProduct  String
   Product    Product @relation(fields: [idProduct], references: [id])
   payment_id String?
+  feedback   String?
+  status     Boolean @default(true)
+  quantity   Int?
 
   // @@id([idClient, idProduct])
 }

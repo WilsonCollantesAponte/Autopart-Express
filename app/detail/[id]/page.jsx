@@ -3,26 +3,50 @@
 import { useEffect , useState} from "react"
 import { MoonLoader } from "react-spinners";
 import Botonmercado from "../componente/Botonmercado";
+import { useSession } from "next-auth/react";
+
 export default function ProductDetail ({params}) { 
 
     const {id} = params;
     const [product,setProduct] = useState()
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [cantidad,setCantidad] = useState(0);
-
+    const [id_cart,setId_cart] = useState();
+    const { data: session } = useSession();
+    const [mustBeLogged , setMustBeLogged] = useState(true)
 
     const restar = () => {
-        if(cantidad>0){
-            setCantidad(cantidad - 1);
-        }
+        setProduct((prevProduct) => {
+            const newQuantity = prevProduct.quantity - 1;
+            return{
+              ...prevProduct,
+              quantity: newQuantity > 0 ? newQuantity : 0,
+            };
+        })
     }
 
     const sumar = () => {
-        if(cantidad<product?.availability){
-            setCantidad(cantidad + 1);
-        }
+        setProduct((prevProduct) => {
+            const newQuantity = prevProduct.quantity + 1;
+            return{
+              ...prevProduct,
+              quantity: newQuantity > 0 ? newQuantity : 0,
+            };
+        })
     }
+
+    const handlerQuantity = (event) =>{
+        const newQuantity = parseInt(event.target.value);
+        if(!isNaN(newQuantity)){
+          setProduct((prevProduct)=> {
+            const upDateProduct = {
+                ...prevProduct,
+               quantity:newQuantity,
+              };
+             return upDateProduct;
+          })
+        }
+      }
 
     useEffect(() => {
        
@@ -30,12 +54,26 @@ export default function ProductDetail ({params}) {
         .then((r) => r.json())
         .then((r) => r.product)
         .then((r) => {
-            setProduct(r);
+            setProduct({
+                id: r.id,     
+                name: r.name,
+                price: Number(r.price),
+                availability: r.availability,
+                brand: r.brand,
+                model: r.model,
+                rating: r.rating,
+                image: r.image, 
+                quantity: 0,
+              });
+              setId_cart(r.id)
             setIsLoading(false);
         })
         .catch(() => {
             setError("Failed to load");
         });
+        if (localStorage.getItem("email")  || session) {
+            setMustBeLogged(false)
+        }
 
       },[id])
 
@@ -85,28 +123,31 @@ export default function ProductDetail ({params}) {
                         
                         <p>{`(${product?.availability} unidades disponibles)`}</p>
                     </div>
-                    {/* <div  className="flex flex-row h-10  rounded-lg relative bg-transparent mt-1 mb-5">
+                    <div  className="flex flex-row h-10  rounded-lg relative bg-transparent mt-1 mb-5">
                         <label className="mr-2">cantidad</label>
                         <button onClick={restar} className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
                             <span className="m-auto text-2xl font-thin">−</span>
                                 </button>
-                                <input type="number" className="outline-none focus:outline-none text-center  w-20 bg-gray-300 font-semibold text-md  focus:text-black  md:text-basecursor-default flex text-gray-700  " name="custom-input-number" value={`${cantidad}`}></input>
+                                <input 
+                                type="number"
+                                className="outline-none focus:outline-none text-center  w-20 bg-gray-300 font-semibold text-md  focus:text-black  md:text-basecursor-default flex text-gray-700  " 
+                                name="custom-input-number" 
+                                value={product?.quantity }
+                                onChange={() => handlerQuantity()}>
+                                </input>
                                 <button onClick={sumar} className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                             <span  className="m-auto text-2xl font-thin">+</span>
                         </button>
-                    </div> */}
+                    </div>
 
                     <div className="flex ">
                 
 
-                        {console.log(product?.name)}
-                       {/*  <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Agregar al carrito</button>  
-                         */}
-                        {product ? (
+                        {product?.quantity == 0 ? (
+                            <p className="font-medium text-red-700">debe seleccionar al menos un producto</p>
                             
-                            <Botonmercado cantidad={cantidad} producto={[product]}/>
-                        ) : (
-                            <p>no hay productos</p>
+                            ) : (
+                            <Botonmercado  producto={[product] } id_cart={id_cart} mustBeLogged={mustBeLogged}/>
                         )
                         }
 

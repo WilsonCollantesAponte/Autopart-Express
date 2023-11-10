@@ -23,15 +23,15 @@ export async function POST(request) {
                 };
             }) 
 
-             const URL = "https://cc4b-181-209-91-124.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
+             const URL = "https://a4c7-181-209-91-123.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy 
                
             let preference = {
      
                         items: arrayProductos,
 
                         back_urls: {
-                        failure: `${URL}/home/failure`,
-                        pending: `${URL}/home/pending`,
+                        failure: `${URL}/home`,
+                        pending: `${URL}/home`,
                         success: `${URL}/placeOrder/status`,
                         },
                        notification_url: `${URL}/placeOrder/notify`, //crear el end point  

@@ -9,6 +9,7 @@ export async function GET(request) {
       Client: {
         email,
       },
+      status: true,
     },
     include: {
       Product: true,
@@ -22,8 +23,8 @@ export async function POST(request) {
 
   const response = await DataBaseInteraction.cart.create({
     data: {
-      idClient,
-      idProduct,
+      idClient ,
+      idProduct ,
       payment_id,
     },
   });
@@ -51,6 +52,7 @@ export async function DELETE(request) {
   const response = await DataBaseInteraction.cart.delete({
     where: {
       id,
+      status: true,
     },
   });
 
