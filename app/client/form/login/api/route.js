@@ -12,6 +12,22 @@ export async function GET(request) {
       email,
       password,
     },
+    include:{
+      Cart:{
+        include:{
+          Product:{
+            select:{
+              name:true,
+              brand:true,
+              model:true,
+              image:true,
+              price:true
+            }
+          }
+        }
+      },
+      
+    }
   });
 
   return NextResponse.json({ userFound });
