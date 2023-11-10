@@ -417,7 +417,7 @@ const Home = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
-                      <Link href={`/detail/${value.id}`}>Comprar</Link>
+                      <Link href={`/detail/${value.id}`}>Ver</Link>
                     </button>
                     <div>
                       <AddToCartButton

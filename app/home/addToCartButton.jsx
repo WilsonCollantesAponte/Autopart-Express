@@ -12,7 +12,6 @@ export default function AddToCartButton({
   const [inTheCart, setInTheCart] = useState(inCart);
   const [loadingAddToCart, setloadingAddToCart] = useState(false);
   const [loadDeleteFromTheCart, setLoadDeleteFromTheCart] = useState(false);
-  
 
   function handleAddToCart() {
     if (!mustBeLogged) {
@@ -47,7 +46,10 @@ export default function AddToCartButton({
     }
   }
 
- 
+ useEffect(()=>{
+  setInTheCart(inCart)
+ },[inCart])
+
   return (
     <div>
       {!inTheCart  ? (
