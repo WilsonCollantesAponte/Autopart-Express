@@ -4,16 +4,18 @@ import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import Botonmercado from "../componente/Botonmercado";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export default function ProductDetail({ params }) {
   const { id } = params;
-  const [product, setProduct] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [id_cart, setId_cart] = useState();
-  const { data: session } = useSession();
+  const [id_cart, setId_cart] = useState("");
+  const { data: session } = useSession("");
   const [mustBeLogged, setMustBeLogged] = useState(true);
   const [comment, setComment] = useState("");
+  const [allComments, setallComments] = useState([]);
 
   const restar = () => {
     setProduct((prevProduct) => {
@@ -66,11 +68,16 @@ export default function ProductDetail({ params }) {
         });
         setId_cart(r.id);
         setIsLoading(false);
+        fetch(`/detail/api?idProduct=${id}`)
+          .then((_r) => _r.json())
+          .then((_r) => setallComments(_r));
       })
       .catch(() => {
+        setIsLoading(false);
         setError("Failed to load");
       });
     if (localStorage.getItem("email") || session) {
+      setIsLoading(false);
       setMustBeLogged(false);
     }
   }, [id]);
@@ -164,7 +171,8 @@ export default function ProductDetail({ params }) {
               </div>
             </div>
           </div>
-          <div className=" bg-red-400">
+          <div className=" bg-red-400 p-1">
+            {/* write */}
             <input
               className=" w-5/6"
               type="text"
@@ -174,14 +182,15 @@ export default function ProductDetail({ params }) {
                 setComment(e.target.value);
               }}
             />
+            {/* submit */}
             <button
               className=" w-1/6"
               onClick={() => {
-                fetch(`detail/api`, {
-                  method: "PUT",
+                fetch("/detail/api", {
+                  method: "POST",
                   body: JSON.stringify({
-                    email: localStorage.getItem("email"),
-                    idProduct: product.id,
+                    emailClient: localStorage.getItem("email"),
+                    idProduct: id,
                     comment,
                   }),
                 })
@@ -191,6 +200,17 @@ export default function ProductDetail({ params }) {
             >
               Comentar
             </button>
+            {/* show */}
+            <div>
+              {allComments.map((value, index) => (
+                <div key={index} className=" flex flex-col ">
+                  <div className=" border-4 border-yellow-500  ">
+                    By: {value.emailClient}
+                  </div>
+                  <div>Says: {value.comment}</div>
+                </div>
+              ))}
+            </div>
           </div>
           {/* </div> */}
         </div>
