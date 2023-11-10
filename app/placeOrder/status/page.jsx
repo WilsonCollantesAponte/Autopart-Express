@@ -43,9 +43,11 @@ function Succesful() {
   const [email , setEmail] = useState()
   const searchParams = useSearchParams() ;
   const payment_id = searchParams.get("payment_id");
+  const [executed , setExecuted] = useState(false)
+
 
 useEffect(()=>{
-
+if(!executed){
   if (localStorage.getItem("email") ) {
     setEmail(localStorage.getItem("email"));
     fetch(
@@ -57,8 +59,8 @@ useEffect(()=>{
         if(localStorage.getItem("_compra") === "uno"){
           postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id , localStorage.getItem("_cantidad"));
         }else{putCart(localStorage.getItem("id_cart"), payment_id , localStorage.getItem("_cantidadvarios"));}
-      
       })
+      setExecuted(true)
   } 
   else if (session ) {
     setEmail(session.user.email);
@@ -70,7 +72,8 @@ useEffect(()=>{
           postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id);
         }else{putCart(localStorage.getItem("id_cart"), payment_id);}
       });
-  } 
+      setExecuted(true)
+  } }
 },[])
 
 

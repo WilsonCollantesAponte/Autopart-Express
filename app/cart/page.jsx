@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Botonmercado from "../detail/componente/Botonmercado";
+import { MoonLoader } from "react-spinners";
 
 export default function Cart() {
   //   const [e, setE] = useState("");
@@ -223,11 +224,11 @@ useEffect(() => {
                        
                     </th>
                     <td className="px-6 py-4">
-                    {productList.length !==0 ? (
+                    {total !==0 ? (
                             
-                            <Botonmercado producto={productList} id_cart={id_cart}/>
+                            <Botonmercado producto={productList} id_cart={id_cart} mustBeLogged={mustBeLogged}/>
                         ) : (
-                            <p>loading..</p>
+                            <p>Selecciones al menos un producto</p>
                         )
                         }
                     </td>

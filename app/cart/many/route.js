@@ -23,17 +23,32 @@ export async function GET(request) {
 export async function POST(request) {
   const { idClient, idProduct, payment_id , quantity} = await request.json();
 
-  const response = await DataBaseInteraction.cart.create({
-    data: {
-      idClient ,
-      idProduct ,
-      payment_id,
-      status: false,
-      quantity,
-    },
-  });
 
-  return NextResponse.json(response);
+  const cart = await DataBaseInteraction.cart.findMany({
+    where:{
+      idClient,
+      idProduct,
+    }
+  })
+  console.log("traae",cart)
+  const verifica = cart.some(elemento => elemento.payment_id==payment_id)
+  console.log("verifi", verifica)
+  if(!verifica){
+    const response = await DataBaseInteraction.cart.create({
+      data: {
+        idClient ,
+        idProduct , 
+        payment_id,
+        status: false,
+        quantity: Number(quantity),
+      },
+    });
+  
+    return NextResponse.json(response);
+  }else{
+    return NextResponse.json("payment ya creado");
+  }
+
 }
 
 
