@@ -10,6 +10,7 @@ export async function GET(request) {
       idClient,
       idProduct,
     },
+    state: true,
   });
 
   return NextResponse.json(response);
