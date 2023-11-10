@@ -54,6 +54,8 @@ model Cart {
   feedback   String?
   status     Boolean @default(true)
   quantity   Int?
+  date       String?
+  dispatch   Boolean @default(false)
 
   // @@id([idClient, idProduct])
 }
