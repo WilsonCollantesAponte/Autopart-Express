@@ -41,6 +41,7 @@ model Product {
   model        String?
   rating       String?
   image        String?
+  status       Boolean  @default(true)
   Cart         Cart[]
   Review       Review[]
 }
@@ -69,4 +70,5 @@ model Review {
   Client      Client  @relation(fields: [emailClient], references: [email])
   idProduct   String
   Product     Product @relation(fields: [idProduct], references: [id])
+  comment     String
 }
