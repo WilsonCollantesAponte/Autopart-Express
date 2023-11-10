@@ -43,7 +43,7 @@ export default function Nav() {
           if (!r.client[0]?.Accessibility.status && r.client.length !== 0) {
             signOut({ callbackUrl: "/" }).then(() => {
               localStorage.clear();
-              alert("El usuario se encuantra desactivado");
+              alert("El usuario se encuentra desactivado");
             });
           } else {
             setIsLoading(false);
@@ -62,95 +62,96 @@ export default function Nav() {
 
   return (
     <section className="relative mx-auto">
-      <nav className="flex justify-between bg-gray-botton text-black w-screen">
-        <div className="px-5 xl:px-12 py-6 flex w-full items-center">
+      <nav className="flex flex-wrap items-center justify-between bg-gray-botton p-4 md:p-6">
+        <Link href="/">
           <img
-            className="h-20 w-auto"
+            className="h-16 w-auto cursor-pointer"
             src="/autoexpress-sinfondo.png"
             alt="logo"
           />
-          {/* nav-links */}
-          <div className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-            <Link className="hover:text-gray-200" href="/">
-              Inicio
-            </Link>
-            <Link className="hover:text-gray-200" href="/home">
-              Home
-            </Link>
-            <Link className="hover:text-gray-200" href="/dashboard/clients">
-              Admin
-            </Link>
-            <Link className="hover:text-gray-200" href="/client/form/about">
-              About
-            </Link>
-          </div>
-          {/* iconos */}
-          <div className="hidden xl:flex items-center space-x-5 ">
-            <Link
-              className="flex items-center hover:text-gray-200"
-              href="/cart"
+        </Link>
+
+        {/* Nav Links */}
+        <div className="flex font-semibold items-center space-x-4 md:space-x-12 mr-2">           <Link className="hover:text-gray-200" href="/">
+            Inicio
+          </Link>
+          <Link className="hover:text-gray-200" href="/home">
+            Home
+          </Link>
+          <Link className="hover:text-gray-200" href="/dashboard/clients">
+            Admin
+          </Link>
+          <Link className="hover:text-gray-200" href="/client/form/about">
+            About
+          </Link>
+
+          
+        </div>
+
+        <div className="flex flex-col items-center mt-4 md:mt-0 space-y-4 md:flex-row md:space-x-4">
+          {!isLoading ? (
+            <div className="flex items-center space-x-4">
+              {session || email ? (
+                <>
+                  <p className="text-gray-200">
+   		              {/* Hola! {formData.email} {formData.surname} */}
+
+                    {session && (
+                      <img
+                        className="rounded-lg"
+                        src={session?.user.image}
+                        width="70"
+                        alt="user image"
+                      />
+                    )}
+                  </p>
+                  <Link href="/client/form/profile">
+                    <button className="button" >Profile</button>
+                  </Link>
+                  <button
+                    className="button"
+                    onClick={handleLogout}>
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                {/* Cart Icon */}
+          <Link href="/cart">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-                {/* MARCADOR DE ELEMENTOS EN EL CARRITO */}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+ {/* MARCADOR DE ELEMENTOS EN EL CARRITO */}
                 {/* <span className="flex absolute -mt-5 ml-4">
                                             <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
                                             <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                                         </span> */}
-              </svg>
-            </Link>
-            {!isLoading ? (
-              <div className=" w-64">
-                {session || email ? (
-                  <div className="hidden xl:flex items-center space-x-5 ">
-                    <p>
-                      {/* Hola! {formData.email} {formData.surname} */}
-                      {session && (
-                       
-                       <img
-                          className=" rounded-lg"
-                          src={session?.user.image}
-                          width="70"
-                          alt="user image"
-                        />
-                    
-                      )}
-                    </p>
-                    <Link href="/client/form/profile">
-                      <button className="button">Profile</button>
-                    </Link>
-                    <button className="button" onClick={handleLogout}>
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="hidden xl:flex items-center space-x-5 ">
-                    <button className="button">
-                      <Link href="/client/form/signIn">Sing In</Link>
-                    </button>
-                    <button className="button">
-                      <Link href="/client/form/login"> Iniciar Sesión</Link>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className=" w-64  ">
-                <FadeLoader className="mx-auto" />
-              </div>
-            )}
-          </div>
+            </svg>
+          </Link>
+                  <button className="button">Git checkout -b
+                    <Link href="/client/form/signIn">Registro</Link>
+                  </button>
+                  <button className="button">
+                    <Link href="/client/form/login">Iniciar Sesión</Link>
+                  </button>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="w-64">
+              <FadeLoader className="mx-auto" />
+            </div>
+          )}
         </div>
       </nav>
     </section>
