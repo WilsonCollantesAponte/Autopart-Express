@@ -3,6 +3,8 @@
 import { useEffect , useState} from "react"
 import { MoonLoader } from "react-spinners";
 import Botonmercado from "../componente/Botonmercado";
+import { useSession } from "next-auth/react";
+
 export default function ProductDetail ({params}) { 
 
     const {id} = params;
@@ -10,6 +12,8 @@ export default function ProductDetail ({params}) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [id_cart,setId_cart] = useState();
+    const { data: session } = useSession();
+    const [mustBeLogged , setMustBeLogged] = useState(true)
 
     const restar = () => {
         setProduct((prevProduct) => {
@@ -67,6 +71,9 @@ export default function ProductDetail ({params}) {
         .catch(() => {
             setError("Failed to load");
         });
+        if (localStorage.getItem("email")  || session) {
+            setMustBeLogged(false)
+        }
 
       },[id])
 
@@ -140,7 +147,7 @@ export default function ProductDetail ({params}) {
                             <p className="font-medium text-red-700">debe seleccionar al menos un producto</p>
                             
                             ) : (
-                            <Botonmercado  producto={[product] } id_cart={id_cart}/>
+                            <Botonmercado  producto={[product] } id_cart={id_cart} mustBeLogged={mustBeLogged}/>
                         )
                         }
 
