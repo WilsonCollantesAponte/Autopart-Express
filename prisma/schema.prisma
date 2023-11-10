@@ -29,10 +29,11 @@ model Client {
   image         String?
   Accessibility Accessibility?
   Cart          Cart[]
+  Review        Review[]
 }
 
 model Product {
-  id           String  @id @default(uuid())
+  id           String   @id @default(uuid())
   name         String?
   price        String?
   availability String?
@@ -41,6 +42,7 @@ model Product {
   rating       String?
   image        String?
   Cart         Cart[]
+  Review       Review[]
 }
 
 //Node 2 - Integrated for: Cart, Client, Product || Cart "one-to-many" Client, Cart "one-to-many" Product
@@ -54,6 +56,17 @@ model Cart {
   feedback   String?
   status     Boolean @default(true)
   quantity   Int?
+  date       String?
+  dispatch   Boolean @default(false)
 
   // @@id([idClient, idProduct])
+}
+
+//Node 3 - Integrated for: Review, Client, Product || Client "one-to-many" Review, Product "one-to-many" Review
+model Review {
+  id          String  @id @default(uuid())
+  emailClient String
+  Client      Client  @relation(fields: [emailClient], references: [email])
+  idProduct   String
+  Product     Product @relation(fields: [idProduct], references: [id])
 }
