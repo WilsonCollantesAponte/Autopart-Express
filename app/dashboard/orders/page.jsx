@@ -1,269 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import ordersList from "./orders.json";
 export default function OrdersDashborad() {
-  const [orders, setOrders] = useState([
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-    {
-      date: "2022-01-01",
-      id: "276fbe10-7cc1-4142-ab87-0103193b8d1c",
-      idClient: "1a14bcaf-881e-4a8c-8342-4dbc80083bf3",
-      idProduct: "75f5113a-db3d-49f4-a96c-65424322c64c",
-      payment_id: "1319421233",
-      Product: [
-        {
-          id: "75f5113a-db3d-49f4-a96c-65424322c64c",
-          name: "Termostato de Refrigeración",
-          price: "6",
-          availability: "40",
-          brand: "Stant",
-          model: "SuperStat",
-          rating: "4",
-          image: "/img_products/termostato_stant_superstat.jpg",
-        },
-        {
-          id: "723d46d4-b71b-4db8-8897-fce2fafa41c5",
-          name: "Bujías de Encendido",
-          price: "8",
-          availability: "77",
-          brand: "NGK",
-          model: "V-Power",
-          rating: "4",
-          image: "/img_products/bujias_encendido_npk_vpower.jpg",
-        },
-      ],
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState({
     name: "",
@@ -277,13 +17,12 @@ export default function OrdersDashborad() {
     });
   };
 
-  //   useEffect(() => {
-  //     // Fetch orders data here
-  //     fetchOrders().then((orders) => {
-  //       setOrders(orders);
-  //       setIsLoading(false);
-  //     });
-  //   }, []);
+  const numeroDeOrdenes = orders.length;
+  useEffect(() => {
+    // Fetch orders data here
+    setOrders(ordersList);
+    console.log(orders);
+  }, []);
 
   return (
     <div className="">
@@ -326,11 +65,16 @@ export default function OrdersDashborad() {
                 <td className="px-4 py-2 border text-center">
                   {order.idClient}
                 </td>
-                <td className="px-4 py-2 border text-center">{order.id}</td>
+                <td className="px-4 py-2 border text-center">
+                  <Link href={`/dashboard/orders/${order.id}`}>{order.id}</Link>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <div>
+          <p>{`Ordenes Sin completar: ${numeroDeOrdenes}`}</p>
+        </div>
       </div>
     </div>
   );
