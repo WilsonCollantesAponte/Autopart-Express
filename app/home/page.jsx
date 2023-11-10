@@ -123,7 +123,7 @@ const Home = () => {
           setError("Failed to load");
         });
     }
-  }, [session?.user.email, page]);
+  }, [session?.user.email, page, filters]);
 
   if (isLoading)
     return (
