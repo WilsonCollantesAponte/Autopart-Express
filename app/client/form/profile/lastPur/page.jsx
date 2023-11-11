@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 
 
-export default function Perfil() {
+
+export default function LastPurchase() {
     const [dataFetched, setDataFetched] = useState(false);
     const [profileData, setProfileData] = useState();
   
@@ -11,13 +12,13 @@ export default function Perfil() {
       let isMounted = true;
   
       const fetchData = async () => {
-        const email = localStorage.getItem("email");
-        const name = localStorage.getItem("name");
+        const idClient = localStorage.getItem("idClient");
+        
   
-        if (email && name) {
+        if (idClient) {
           try {
             const responseIsActive = await fetch(
-              `/client/form/login/api/email?email=${email}`,
+              `/dashboard/clients/facturacion?idClient=${idClient}`,
               {
                 method: "GET",
               }
@@ -32,6 +33,7 @@ export default function Perfil() {
   
               // Marca que los datos han sido recuperados
               setDataFetched(true);
+            
             }
           } catch (error) {
             // Maneja errores de red o del servidor
@@ -50,18 +52,33 @@ export default function Perfil() {
     console.log(profileData);
   
     return (
-      <div>
+        <div>
         {dataFetched ? (
           <div>
-            {/* Muestra los datos del perfil */}
-            <h1>Perfil de Usuario</h1>
-            <p>Nombre: {profileData.client[0].name}</p>
-            <p>Apellido: {profileData.client[0].surname}</p>
-            <p>Email: {profileData.client[0].email}</p>
-            <p>Contraseña: {profileData.client[0].password}</p>
+
+            {Object.keys(profileData).map((paymentId) => (
+              <div key={paymentId}>
+                <h1>Payment ID: {paymentId}</h1>
+                <p>Date: {profileData[paymentId].date}</p>
+                
+                <h3>Products:</h3>
+                {profileData[paymentId].products.map((product, index) => (
+                  <div key={index}>
+                    <p>Name: {product.name}</p>
+                    <p>Brand: {product.brand}</p>
+                    <p>Price: {product.price}</p>
+                    <p>Quantity: {product.quantity}</p>
+                    <img src={product.image} alt={product.name} />
+
+                  </div>
+                ))}
+         <p>Total: {profileData[paymentId].total}</p>
+  
+              </div>
+            ))}
           </div>
         ) : (
-          <p>Cargando datos del perfil...</p>
+          <p>Waiting for data...</p>
         )}
       </div>
     );
