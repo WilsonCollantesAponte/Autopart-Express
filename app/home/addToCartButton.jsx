@@ -34,7 +34,7 @@ export default function AddToCartButton({
           .then((r) => r.json())
           .then((r) => {
             console.log(r)
-            fetch(`/cart/api?id=${r[r.length-1].id}`, {
+            fetch(`/cart/api?id=${r[r.length-1]?.id}`, {
               method: "DELETE",
             })
               .then(() => setInTheCart(0))
