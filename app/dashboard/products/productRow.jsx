@@ -53,10 +53,10 @@ export default function ProductRow({ productValue, setProducts, products }) {
             </div>
           </div> */}
           <div className="flex items-center">
-  <div className={`py-2.5 overflow-auto px-4 w-40 h-fit ${ stock === '0' ? 'bg-red-500': stock < 10 ? 'bg-yellow-500': ''}`}>
-    {productValue.availability}
-  </div>
-</div>
+            <div className={`py-2.5 overflow-auto px-4 w-40 h-fit ${ stock === '0' ? 'bg-red-500': stock < 10 ? 'bg-yellow-500': ''}`}>
+              {productValue.availability}
+            </div>
+          </div>
           <div className="flex items-center">
             <div className=" py-2.5 overflow-auto pl-4 w-52 h-fit">
               {productValue.brand}
