@@ -214,6 +214,8 @@ const Home = () => {
       </div>
     );
   if (error) return <div>{error}</div>;
+  
+  
 
   const filteredProducts = productsSupport
     .filter((product) =>
@@ -240,6 +242,7 @@ const Home = () => {
       }
     });
 
+
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     const orderFactor = ascendingOrder ? 1 : -1;
     return orderFactor * (a.price - b.price);
@@ -250,6 +253,9 @@ const Home = () => {
   const endIndex = startIndex + productsPerPage;
   const displayedProducts = sortedProducts.slice(startIndex, endIndex);
   //console.log(displayedProducts)
+console.log("filtro",displayedProducts)
+
+
 
   return (
     <div className="flex flex-col sm:flex-row">
@@ -387,51 +393,67 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-          {displayedProducts.map((value, index) => (
-            <div key={index} className="max-w-lg">
-              <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
-                <img
-                  className="w-full h-52 rounded-t-lg object-center object-contain max-h-full"
-                  src={value.image}
-                  alt=""
-                />
-                <div className="p-5 flex flex-col justify-between h-full">
-                  <div className="border-b border-gray-300 mb-1"></div>
-                  <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
-                    {value.brand}
-                  </p>
-                  <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-1">
-                    {value.name}
-                  </h5>
-                  <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
-                    {value.model}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <p className="font-bold text-blue-Nav text-2xl px-0 py-2">
-                      ${value.price}
-                    </p>
-                    <p className="font-normal text-gray-700 text-right px-1">
-                      Rating: {value.rating}
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
-                      <Link href={`/detail/${value.id}`}>Ver</Link>
-                    </button>
-                    <div>
-                      <AddToCartButton
-                        inCart={value.Cart.length}
-                        mustBeLogged={mustBeLogged}
-                        idClient={idClient}
-                        idProduct={value.id}
-                      />
+        <div>
+          {displayedProducts.length ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                  {displayedProducts.map((value, index) => (
+                <div key={index} className="max-w-lg">
+                  <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+                    <img
+                      className="w-full h-52 rounded-t-lg object-center object-contain max-h-full"
+                      src={value.image}
+                      alt=""
+                    />
+                    <div className="p-5 flex flex-col justify-between h-full">
+                      <div className="border-b border-gray-300 mb-1"></div>
+                      <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
+                        {value.brand}
+                      </p>
+                      <h5 className="text-blue-Nav font-bold text-3xl tracking-tight mb-1">
+                        {value.name}
+                      </h5>
+                      <p className="font-normal text-gray-700 mb-1 dark:text-gray-400">
+                        {value.model}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="font-bold text-blue-Nav text-2xl px-0 py-2">
+                          ${value.price}
+                        </p>
+                        <p className="font-normal text-gray-700 text-right px-1">
+                          Rating: {value.rating}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+                          <Link href={`/detail/${value.id}`}>Ver</Link>
+                        </button>
+                        <div>
+                          <AddToCartButton
+                            inCart={value.Cart.length}
+                            mustBeLogged={mustBeLogged}
+                            idClient={idClient}
+                            idProduct={value.id}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          ):(
+            
+            <section className="text-gray-600 body-font">
+              <div className="container px-5 py-24 mx-auto">
+                <div className="flex flex-col text-center w-full mb-12">
+                  <p className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">lo sentimos. No contamos con el producto solicitado en este mometno</p>
+                  <p className="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+                </div>
+              </div>
+            </section>
+        
+          )}
+          
         </div>
 
         <header className="flex gap-4 justify-center items-center mt-4">
