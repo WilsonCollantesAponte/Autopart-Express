@@ -7,14 +7,15 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 //ASIGNA EL PAGO A LOS CARROS CREADOS OJO NO FIFERENCIA CANTIDADES DE UN MISMO PRODUCTO
-const putCart = (id_cart ,payment_id,quantity) =>{
-  console.log(payment_id)
+const putCart = (id_cart ,payment_id,quantity, date) =>{
+
   fetch(`/cart/many`,{
     method: "PUT",
     body: JSON.stringify({
       id_cart: id_cart,
       payment_id: payment_id,
       quantity,
+      date,
     }),
     headers: {
       "content-type": "application/json",
@@ -24,7 +25,7 @@ const putCart = (id_cart ,payment_id,quantity) =>{
     .catch((error) => console.error("Error:", error))
 }
 
-const postCart = (idClient ,idProduct ,payment_id ,quantity) =>{
+const postCart = (idClient ,idProduct ,payment_id ,quantity, date) =>{
   console.log(payment_id)
   fetch(`/cart/many`, {
     method: "POST",
@@ -33,6 +34,7 @@ const postCart = (idClient ,idProduct ,payment_id ,quantity) =>{
       idProduct,
       payment_id,
       quantity,
+      date,
     }),
   })
 }
@@ -47,6 +49,9 @@ function Succesful() {
 
 
 useEffect(()=>{
+  const Fecha_hora = new Date();
+  const FechaHora = Fecha_hora.toLocaleString();
+
 if(!executed){
   if (localStorage.getItem("email") ) {
     setEmail(localStorage.getItem("email"));
@@ -57,8 +62,8 @@ if(!executed){
       .then((r) => {
         console.log("esto",r.client[0].id)
         if(localStorage.getItem("_compra") === "uno"){
-          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id , localStorage.getItem("_cantidad"));
-        }else{putCart(localStorage.getItem("id_cart"), payment_id , localStorage.getItem("_cantidadvarios"));}
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id , localStorage.getItem("_cantidad"),FechaHora);
+        }else{putCart(localStorage.getItem("id_cart"), payment_id , localStorage.getItem("_cantidadvarios"),FechaHora);}
       })
       setExecuted(true)
   } 
@@ -69,8 +74,8 @@ if(!executed){
       .then((r) => {
         console.log(r);
         if(localStorage.getItem("_compra") === "uno"){
-          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id);
-        }else{putCart(localStorage.getItem("id_cart"), payment_id);}
+          postCart(r.client[0].id , localStorage.getItem("_idProduct"), payment_id, localStorage.getItem("_cantidad"),FechaHora);
+        }else{putCart(localStorage.getItem("id_cart"), payment_id,localStorage.getItem("_cantidadvarios"),FechaHora);}
       });
       setExecuted(true)
   } }

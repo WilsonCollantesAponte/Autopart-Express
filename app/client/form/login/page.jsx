@@ -50,6 +50,7 @@ export default function Login() {
 
         localStorage.email = responsejson.userFound[0].email;
         localStorage.name = responsejson.userFound[0].name;
+       
         setIsLoading(false);
         location.replace("/");
         alert("Inicio de sesión exitoso");
