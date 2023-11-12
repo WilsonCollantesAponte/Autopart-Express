@@ -52,16 +52,49 @@ export default function Profile() {
     console.log(profileData);
   
     return (
-      <div>
+      <div className="max-w-md mx-auto p-4 space-y-2">
         {dataFetched ? (
           <div>
             {/* Muestra los datos del perfil */}
-            <h1>User Profile</h1>
-            <p>Name: {profileData.client[0].name}</p>
-            <p>Surname: {profileData.client[0].surname}</p>
-            <p>Email: {profileData.client[0].email}</p>
-            <p>Password: {profileData.client[0].password}</p>
-            <Link href="/client/form/profile/lastPur">Last Purchased</Link>
+            <h1 className="text-2xl font-bold text-center">Perfil de Usuario</h1>
+            <div className="mb-4">
+              <label htmlFor="name" className="block font-semibold">
+                Nombre de usuario:
+              </label>
+              <p className="w-full border-2 bg-white border-blue-Nav rounded-xl p-3 bg-transparent">
+                {profileData.client[0].name}
+              </p>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="surname" className="block font-semibold">
+                Apellido:
+              </label>
+              <p className="w-full border-2 bg-white border-blue-Nav rounded-xl p-3 bg-transparent">
+                {profileData.client[0].surname}
+              </p>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block font-semibold">
+                Email:
+              </label>
+              <p className="w-full border-2 bg-white border-blue-Nav rounded-xl p-3 bg-transparent">
+                {profileData.client[0].email}
+              </p>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block font-semibold">
+                Contraseña:
+              </label>
+              <p className="w-full border-2 bg-white border-blue-Nav rounded-xl p-3 bg-transparent">
+                {profileData.client[0].password}
+              </p>
+            </div>
+            <Link
+              href="/client/form/profile/lastPur"
+              className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Last Purchased
+            </Link>
           </div>
         ) : (
           <p>Waiting for data...</p>

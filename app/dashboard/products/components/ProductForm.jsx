@@ -145,19 +145,17 @@ export default function ProductForm() {
   };
 
   return (
-    <div className="flex flex-col justify-start items-start border-2 border-black-100">
-      <div>
+<>
         <form
-          className="max-w-md mx-10 my-4 p-4 space-y-1 border border-black-100"
+        className="max-w-md mx-auto p-4 space-y-2"
           onSubmit={handleSubmit}
         >
-          <label className="block font-semibold">Categoría del Producto</label>
+          <label className="block font-semibold">Modelo del Producto</label>
           <input
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
             type="text"
-            placeholder="'Bujia'"
-            name="name"
-            value={product.name}
+            name="model"
+            value={product.model}
             onChange={handleInputChange}
           ></input>
           <label className="block font-semibold">Nombre del Producto</label>
@@ -165,8 +163,8 @@ export default function ProductForm() {
             className="w-full border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent"
             type="text"
             placeholder="'Bujia'"
-            name="model"
-            value={product.model}
+            name="name"
+            value={product.name}
             onChange={handleInputChange}
           ></input>
           {errorMessage.model && (
@@ -184,7 +182,7 @@ export default function ProductForm() {
             <p className="text-red-500">{errorMessage.brand}</p>
           )}
           <label className="block font-semibold">
-            Descripcion del Producto
+            Descripción del Producto
           </label>
           <textarea
             className="w-full h-32 border-2 bg-white border-blue-Nav rounded-xl p-4 bg-transparent resize-none"
@@ -296,9 +294,8 @@ export default function ProductForm() {
             </div>
           )}
         </form>
-      </div>
 
-      <div className="">
+      <div className="max-w-md mx-auto p-4 space-y-2">
         <p>Preview del Producto</p>
 
         <div
@@ -346,6 +343,6 @@ export default function ProductForm() {
           Borrar Imagen del Producto
         </button>
       </div>
-    </div>
+      </>
   );
 }
