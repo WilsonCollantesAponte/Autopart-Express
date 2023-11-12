@@ -201,7 +201,7 @@ export default function Register() {
 
       <div>
         <label htmlFor="email" className="block font-semibold">
-          Correo electrónico:
+          Email:
         </label>
         <input
           type="email"

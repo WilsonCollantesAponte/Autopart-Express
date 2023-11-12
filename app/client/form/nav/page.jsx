@@ -138,7 +138,7 @@ export default function Nav() {
                                         </span> */}
             </svg>
           </Link>
-                  <button className="button">Git checkout -b
+                  <button className="button">
                     <Link href="/client/form/signIn">Registro</Link>
                   </button>
                   <button className="button">
