@@ -424,7 +424,7 @@ console.log("filtro",displayedProducts)
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center">
                           <Link href={`/detail/${value.id}`}>Ver</Link>
                         </button>
                         <div>
@@ -446,7 +446,7 @@ console.log("filtro",displayedProducts)
             <section className="text-gray-600 body-font">
               <div className="container px-5 py-24 mx-auto">
                 <div className="flex flex-col text-center w-full mb-12">
-                  <p className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">lo sentimos. No contamos con el producto solicitado en este mometno</p>
+                  <p className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Lo sentimos. No contamos con el producto solicitado en este momento</p>
                   <p className="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
                 </div>
               </div>
