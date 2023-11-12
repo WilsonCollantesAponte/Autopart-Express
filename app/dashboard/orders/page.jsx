@@ -35,7 +35,9 @@ export default function OrdersDashborad() {
 
   const getAllOrders = async () => {
     setIsLoading(true);
-    const response = await axios.get("/dashboard/carts/api");
+    const response = await axios.get(
+      "https://autopart-express.vercel.app/dashboard/carts/api"
+    );
     const data = await response.data;
     console.log(data);
     setAllOrders(data.carts);

@@ -9,7 +9,7 @@ export default function OrderDetail({ params }) {
   const [products, setProducts] = useState([]);
   const getAllOrders = async () => {
     const response = await axios.get(
-      "http://localhost:3000/dashboard/carts/api"
+      "https://autopart-express.vercel.app/dashboard/carts/api"
     );
     const data = await response.data;
     setAllOrders(data.carts);
