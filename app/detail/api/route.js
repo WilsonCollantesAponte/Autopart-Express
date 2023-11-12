@@ -8,6 +8,9 @@ export async function GET(request) {
     where: {
       idProduct,
     },
+    orderBy: {
+      order: "desc",
+    },
   });
 
   return NextResponse.json(response);
@@ -28,9 +31,28 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-  return NextResponse.json();
+  const { idReview, comment } = await request.json();
+
+  const response = await DataBaseInteraction.review.update({
+    where: {
+      id: idReview,
+    },
+    data: {
+      comment,
+    },
+  });
+
+  return NextResponse.json(response);
 }
 
 export async function DELETE(request) {
-  return NextResponse.json();
+  const idReview = request.nextUrl.searchParams.get("idReview");
+
+  const response = await DataBaseInteraction.review.delete({
+    where: {
+      id: idReview,
+    },
+  });
+
+  return NextResponse.json(response);
 }

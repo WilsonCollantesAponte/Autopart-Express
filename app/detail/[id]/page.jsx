@@ -1,10 +1,12 @@
 "use client";
 
+import timeZoneConverter from "time-zone-converter";
+import timeZone from "time-zone";
 import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import Botonmercado from "../componente/Botonmercado";
 import { useSession } from "next-auth/react";
-import axios from "axios";
+import OneComment from "../componente/oneComment";
 
 export default function ProductDetail({ params }) {
   const { id } = params;
@@ -16,6 +18,8 @@ export default function ProductDetail({ params }) {
   const [mustBeLogged, setMustBeLogged] = useState(true);
   const [comment, setComment] = useState("");
   const [allComments, setallComments] = useState([]);
+  const [loadingToComment, setLoadingToComment] = useState(false);
+  const [loadingComments, setLoadingComments] = useState(true);
 
   const restar = () => {
     setProduct((prevProduct) => {
@@ -70,12 +74,15 @@ export default function ProductDetail({ params }) {
         setIsLoading(false);
         fetch(`/detail/api?idProduct=${id}`)
           .then((_r) => _r.json())
-          .then((_r) => setallComments(_r));
+          .then((_r) => setallComments(_r))
+          .then(() => setLoadingComments(false));
       })
       .catch(() => {
         setIsLoading(false);
         setError("Failed to load");
+        setLoadingComments(false);
       });
+
     if (localStorage.getItem("email") || session) {
       setIsLoading(false);
       setMustBeLogged(false);
@@ -171,48 +178,102 @@ export default function ProductDetail({ params }) {
               </div>
             </div>
           </div>
-          <div className=" bg-red-400 p-1">
+          <div className="p-1">
             {/* write */}
-            <input
-              className=" w-5/6"
-              type="text"
-              value={comment}
-              onChange={(e) => {
-                // console.log(e.target.value);
-                setComment(e.target.value);
-              }}
-            />
-            {/* submit */}
-            <button
-              className=" w-1/6"
-              onClick={() => {
-                fetch("/detail/api", {
-                  method: "POST",
-                  body: JSON.stringify({
-                    emailClient: localStorage.getItem("email"),
-                    idProduct: id,
-                    comment,
-                  }),
-                })
-                  .then((r) => r.json())
-                  .then((r) => console.log(r));
-              }}
-            >
-              Comentar
-            </button>
-            {/* show */}
-            <div>
-              {allComments.map((value, index) => (
-                <div key={index} className=" flex flex-col ">
-                  <div className=" border-4 border-yellow-500  ">
-                    By: {value.emailClient}
-                  </div>
-                  <div>Says: {value.comment}</div>
+            <div className=" flex">
+              <input
+                className=" w-5/6 rounded-l-md outline-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
+                type="text"
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              {/* submit */}
+              {!loadingToComment ? (
+                <button
+                  className=" w-1/6 bg-indigo-500 text-white font-extrabold rounded-r-md  "
+                  onClick={() => {
+                    //Validar que exista un usuario
+                    if (!localStorage.getItem("email"))
+                      return alert("Must be logged");
+                    //Validar que exista un mensaje
+                    if (!comment) return alert("Commet can not be empty");
+
+                    setLoadingToComment(true);
+                    fetch("/detail/api", {
+                      method: "POST",
+                      body: JSON.stringify({
+                        emailClient: localStorage.getItem("email"),
+                        idProduct: id,
+                        comment,
+                      }),
+                    })
+                      .then((r) => r.json())
+                      .then((r) => {
+                        setallComments([r, ...allComments]);
+                        setLoadingToComment(false);
+                      });
+                  }}
+                >
+                  Comentar
+                </button>
+              ) : (
+                <div className=" w-1/6 bg-slate-300 flex items-center">
+                  <MoonLoader className=" mx-auto" size={20} />
                 </div>
-              ))}
+              )}
+              {/* show */}
             </div>
+
+            {!loadingComments ? (
+              <div>
+                {allComments.map((value) => {
+                  // De la base de datos se retorna con el siguiente formato, ejemplo: "2023-11-12T01:48:24.617Z"
+                  let [day, hour] = value.date.split("T");
+                  const [hours, minutes] = hour.split(":");
+                  const [age, month, currentDay] = day.split("-");
+
+                  //Se adapta al formato de la librería
+                  //Ejemplo:
+                  // const newDateTime = timeZoneConverter('2018/10/11 18:00:00', 8, -4, 'YYYY/MM/DD HH:mm:ss')
+                  hour = hours + ":" + minutes + ":00";
+                  day = age + "/" + month + "/" + currentDay;
+
+                  //Se usa la librería "timeZoneConverter" para convertir zonas horarias
+                  //Se usa la librería "timeZone" para obtener la diferencia horaria con respecto a la zona horaria mundial
+                  const newDateTime = timeZoneConverter(
+                    day + " " + hour,
+                    0, //Zona horaria mundial, original de la base de datos
+                    timeZone(), // Zona horaria del país en el que se encuentre la persona que realiza el comentario
+                    "YYYY/MM/DD HH:mm" //Formato
+                  );
+                  // console.log(newDateTime) => '2018/10/11 06:00:00'
+                  return (
+                    <OneComment
+                      value={value}
+                      newDateTime={newDateTime}
+                      lengthComments={allComments.length}
+                      setallComments={setallComments}
+                      allComments={allComments}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div className=" mt-4">
+                <div className=" grid grid-cols-6 animate-pulse gap-y-6 gap-x-3 p-4">
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-5"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                  <div className="h-4 bg-slate-400/70 rounded-lg col-span-full"></div>
+                </div>
+              </div>
+            )}
           </div>
-          {/* </div> */}
         </div>
       </section>
     </>

@@ -22,7 +22,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-spinners": "^0.13.8",
-    "supports-color": "^9.4.0"
+    "supports-color": "^9.4.0",
+    "time-zone": "^2.0.0",
+    "time-zone-converter": "^1.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",
