@@ -1,81 +1,131 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ordersList from "./orders.json";
+import axios from "axios";
 export default function OrdersDashborad() {
-  const [orders, setOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
+  const [order, setOrder] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState({
-    name: "",
-    code: "",
-  });
 
   const onChange = (e) => {
-    setSearch({
-      ...search,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "code") {
+      const uniquePaymentIds = new Set();
+      const resultCodes = [];
+      allOrders.forEach((order) => {
+        const paymentId = order.payment_id;
+        const isMatch = paymentId && paymentId.includes(e.target.value);
+
+        if (isMatch && !uniquePaymentIds.has(paymentId)) {
+          uniquePaymentIds.add(paymentId);
+          resultCodes.push(order);
+        }
+      });
+
+      if (resultCodes.length === 0) {
+        resultCodes.push({
+          Client: {
+            name: "Codigo No Existe",
+          },
+          payment_id: "",
+        });
+      }
+      setOrder(resultCodes);
+    }
   };
 
-  const numeroDeOrdenes = orders.length;
+  const getAllOrders = async () => {
+    setIsLoading(true);
+    const response = await axios.get("/dashboard/carts/api");
+    const data = await response.data;
+    console.log(data);
+    setAllOrders(data.carts);
+    setIsLoading(false);
+  };
+
+  const numeroDeOrdenes = order.length;
+
+  const filterOrdersByUniquePaymentId = (orders) => {
+    const paymentIdCounts = {};
+    const uniquePaymentIdOrders = [];
+
+    // Filter orders with unique payment_id
+    orders.forEach((order) => {
+      const paymentId = order.payment_id;
+      if (!paymentIdCounts[paymentId]) {
+        paymentIdCounts[paymentId] = 1;
+        uniquePaymentIdOrders.push(order);
+      }
+    });
+
+    return uniquePaymentIdOrders;
+  };
+
+  // Usage example with your provided data
+
   useEffect(() => {
-    // Fetch orders data here
-    setOrders(ordersList);
-    console.log(orders);
+    getAllOrders();
   }, []);
+
+  useEffect(() => {
+    setOrder(filterOrdersByUniquePaymentId(allOrders));
+  }, [allOrders]);
+
+  useEffect(() => {}, [order]);
 
   return (
     <div className="">
-      <div className="w-full flex m-2">
-        <label className="mr-3">Buscar Nombre</label>
+      <div className="w-full flex m-2 items-center">
+        <label className="m-2 flex justify-center text-center">
+          Buscar Codigo de Orden
+        </label>
         <input
           type="search"
-          value={search.name}
-          onChange={onChange}
-          name="name"
-        ></input>
-        <label>Buscar Codigo de Orden</label>
-        <input
-          type="search"
-          value={search.code}
+          // value={search.code}
           onChange={onChange}
           name="code"
-        ></input>
+          className="w-1/4 h-2 border-2 bg-white border-blue-Nav p-4 bg-transparent"
+        />
       </div>
-      <div>
-        <table className="w-full y-auto table-auto border-collapse">
-          <thead className="bg-black">
-            <tr>
-              <th className="px-4 py-2 border font-bold text-white">Fecha</th>
-              <th className="px-4 py-2 border font-bold text-white">
-                Nombre Cliente
-              </th>
-              <th className="px-4 py-2 border font-bold text-white">
-                Codigo de Orden
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr
-                key={order.id}
-                className={index % 2 === 0 ? "bg-gray-50" : ""}
-              >
-                <td className="px-4 py-2 border text-center">{order.date}</td>
-                <td className="px-4 py-2 border text-center">
-                  {order.idClient}
-                </td>
-                <td className="px-4 py-2 border text-center">
-                  <Link href={`/dashboard/orders/${order.id}`}>{order.id}</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {isLoading ? (
+        <div>Cargando...</div>
+      ) : (
         <div>
-          <p>{`Ordenes Sin completar: ${numeroDeOrdenes}`}</p>
+          <table className="w-full y-auto table-auto border-collapse">
+            <thead className="bg-black">
+              <tr>
+                <th className="px-4 py-2 border font-bold text-white">Fecha</th>
+                <th className="px-4 py-2 border font-bold text-white">
+                  Nombre Cliente
+                </th>
+                <th className="px-4 py-2 border font-bold text-white">
+                  Codigo de Orden
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {order.map((order, index) => (
+                <tr
+                  key={order.id}
+                  className={index % 2 === 0 ? "bg-gray-50" : ""}
+                >
+                  <td className="px-4 py-2 border text-center">{order.date}</td>
+                  <td className="px-4 py-2 border text-center">
+                    {order.Client.name}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    <Link href={`/dashboard/orders/${order.payment_id}`}>
+                      {order.payment_id}
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div>
+            <p>{`Ordenes Sin completar: ${numeroDeOrdenes}`}</p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
