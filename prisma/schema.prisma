@@ -65,10 +65,12 @@ model Cart {
 
 //Node 3 - Integrated for: Review, Client, Product || Client "one-to-many" Review, Product "one-to-many" Review
 model Review {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   emailClient String
-  Client      Client  @relation(fields: [emailClient], references: [email])
+  Client      Client   @relation(fields: [emailClient], references: [email])
   idProduct   String
-  Product     Product @relation(fields: [idProduct], references: [id])
+  Product     Product  @relation(fields: [idProduct], references: [id])
   comment     String
+  order       Int      @unique @default(autoincrement())
+  date        DateTime @default(now())
 }
