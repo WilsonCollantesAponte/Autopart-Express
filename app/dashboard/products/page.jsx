@@ -29,6 +29,7 @@ export default function UsersDashborad() {
           </div>
         </div>
       ) : products ? (
+        
         <div className=" mx-6 mb-3 border-x-2 border-gray-500 text-lg mt-10 rounded">
           <div className="flex divide-x-2 divide-gray-500 border-y-2 border-gray-500 font-semibold overflow-auto">
             <div className="flex items-center">
@@ -53,9 +54,13 @@ export default function UsersDashborad() {
               <div className=" py-2.5 pl-4 w-28">Imagen</div>
             </div>
             <div className="flex items-center">
+              <div className="py-2.5 pl-3 w-20">Status</div>
+            </div>
+            <div className="flex items-center">
               <div className=" py-2.5 pl-4">Opciones</div>
             </div>
           </div>
+        
           {products.map((value, index) => {
             return (
               <ProductRow
