@@ -21,6 +21,7 @@ export default function ProductRow({ productValue, setProducts, products }) {
     model: productValue.model,
     rating: productValue.rating,
     image: productValue.image,
+    status: productValue.status
   });
 
   function handleInitData(event) {
@@ -28,6 +29,8 @@ export default function ProductRow({ productValue, setProducts, products }) {
     setErrors(Validations({ ...initData, [name]: value }));
     setInitData({ ...initData, [name]: value });
   }
+
+  const stock = productValue.availability;
 
   return (
     // {/* <div className={hiddenRow ? "hidden" : ""}> */}
@@ -44,8 +47,13 @@ export default function ProductRow({ productValue, setProducts, products }) {
               {productValue.price}
             </div>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <div className=" py-2.5 overflow-auto px-4 w-40 h-fit">
+              {productValue.availability}
+            </div>
+          </div> */}
+          <div className="flex items-center">
+            <div className={`py-2.5 overflow-auto px-4 w-40 h-fit ${ stock === '0' ? 'bg-red-500': stock < 10 ? 'bg-yellow-500': ''}`}>
               {productValue.availability}
             </div>
           </div>
@@ -71,6 +79,11 @@ export default function ProductRow({ productValue, setProducts, products }) {
                 src={productValue.image}
                 alt="not available"
               />
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className=" py-2.5 overflow-auto pl-4 w-20 h-fit">
+              {productValue.status ? 'Yes' : 'No'}
             </div>
           </div>
 
@@ -314,6 +327,7 @@ export default function ProductRow({ productValue, setProducts, products }) {
               </p>
             ) : null}
           </div>
+          
           <div className="flex flex-col items-center">
             <input
               maxLength={45}
@@ -332,6 +346,25 @@ export default function ProductRow({ productValue, setProducts, products }) {
               </p>
             ) : null}
           </div>
+          <div className="flex flex-col items-center bg-white">
+            <input
+              type="checkbox"
+              className={
+                errors.status
+                  ? " py-2.5 overflow-auto pl-4 w-20 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-20 h-fit my-auto"
+              }
+              checked={initData.status}
+              name="status"
+              onChange={(e) => {
+                setInitData({
+                  ...initData,
+                  [e.target.name]: !initData.status,
+                });
+              }}
+            />
+          </div>
+          
           {!loadingUpdate ? (
             <div className=" flex gap-4 px-6  ">
               <button
@@ -354,6 +387,7 @@ export default function ProductRow({ productValue, setProducts, products }) {
                         productFound.model = initData.model;
                         productFound.rating = initData.rating;
                         productFound.image = initData.image;
+                        productFound.status = initData.status;
                         setProducts(products);
                       })
                       .then(() => setEdit(false))

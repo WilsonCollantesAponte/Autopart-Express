@@ -396,7 +396,7 @@ console.log("filtro",displayedProducts)
         <div>
           {displayedProducts.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                  {displayedProducts.map((value, index) => (
+                {displayedProducts.filter((value)=> value.availability > 0 && value.status  ).map((value, index) => (
                 <div key={index} className="max-w-lg">
                   <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
                     <img
