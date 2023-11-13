@@ -84,7 +84,7 @@ export default function Nav() {
           <Link className="hover:text-gray-200" href="/client/form/about">
             About
           </Link>
-
+          
           
         </div>
 
@@ -105,19 +105,7 @@ export default function Nav() {
                       />
                     )}
                   </p>
-                  <Link href="/client/form/profile">
-                    <button className="button" >Profile</button>
-                  </Link>
-                  <button
-                    className="button"
-                    onClick={handleLogout}>
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                {/* Cart Icon */}
-          <Link href="/cart">
+                  <Link href="/cart">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 cursor-pointer"
@@ -138,7 +126,23 @@ export default function Nav() {
                                         </span> */}
             </svg>
           </Link>
-                  <button className="button">Git checkout -b
+
+                  <Link href="/client/form/profile">
+                    <button className="button" >Profile</button>
+                  </Link>
+                  <button
+                    className="button"
+                    onClick={handleLogout}>
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                {/* Cart Icon */}
+          
+       
+          
+                  <button className="button">
                     <Link href="/client/form/signIn">Registro</Link>
                   </button>
                   <button className="button">
