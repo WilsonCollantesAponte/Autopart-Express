@@ -73,7 +73,6 @@ export default function Nav() {
 
         {/* Nav Links */}
         <div className="flex font-semibold items-center space-x-4 md:space-x-12 mr-2">
-          {" "}
           <Link className="hover:text-gray-200" href="/">
             Inicio
           </Link>

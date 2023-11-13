@@ -43,7 +43,7 @@ export default function Register() {
       !formData.email.includes(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test)
     ) {
       validateErrors.email =
-        "El correo electrónico es requerido o no es válido";
+        "El email es requerido o no es válido";
     }
 
     if (!formData.password || formData.password.length <= 8) {
@@ -245,9 +245,14 @@ export default function Register() {
 
       <button
         onClick={handelSubmitGoogle}
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="flex items-center justify-center w-full bg-white border-2 border-gray-300 text-gray-700 font-bold py-2 px-4 rounded"
       >
-        Google
+        <img
+          src="/googlelogo.png"  
+          alt="Google Logo"
+          className="w-6 h-6 mr-2"  
+        />
+        Acceder con Google
       </button>
     </form>
   );
