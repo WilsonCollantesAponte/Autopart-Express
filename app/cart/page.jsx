@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Botonmercado from "../detail/componente/Botonmercado";
 import { MoonLoader } from "react-spinners";
+import AddToCartButton from "../home/addToCartButton";
 
 export default function Cart() {
   //   const [e, setE] = useState("");
@@ -60,6 +61,7 @@ export default function Cart() {
         quantity: 0,
         newprice: 0,
         idCart: value.id,
+        idClient: value.idClient,
       }
     });
     setProductList(extractedProducts);
@@ -165,6 +167,7 @@ useEffect(() => {
                 </tr>
             </thead>
             <tbody>
+              
             {productList.map((value, index) => (
               <tr className="bg-white border-b  hover:bg-gray-50 ">
               <th  scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
@@ -195,6 +198,14 @@ useEffect(() => {
               </td>
               <td className="px-6 py-4">
               <span>{value.newprice}</span>
+              </td>
+              <td className="px-6 py-4">
+                <AddToCartButton
+                  inCart={productsInTheCart.length}
+                  mustBeLogged={mustBeLogged}
+                  idClient={value.idClient}
+                  idProduct={value.id}
+                />
               </td>
           </tr>
             ))}

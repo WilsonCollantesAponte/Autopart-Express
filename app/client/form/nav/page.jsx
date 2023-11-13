@@ -9,6 +9,8 @@ export default function Nav() {
 
   const [email, setEmail] = useState("");
   const { data: session } = useSession();
+  // para el item counter cart del icono
+  const [cartItemCounter, setCartItemCounter] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -53,7 +55,15 @@ export default function Nav() {
       setEmail(localStorage.getItem("email"));
       setIsLoading(false);
     }
+    
   }, [session?.user?.email]);
+
+  useEffect(()=>{
+    //itemCounter
+    const countItems = (JSON.parse(localStorage.getItem('productsInTheCart')) || []).length;
+    setCartItemCounter(countItems);
+    console.log("countItems: ", countItems);
+  },[])
 
   const handleLogout = () => {
     localStorage.clear();
@@ -88,7 +98,7 @@ export default function Nav() {
           
         </div>
 
-        <div className="flex flex-col items-center mt-4 md:mt-0 space-y-4 md:flex-row md:space-x-4">
+        <div className="flex flex-col items-center mt-4 md:mt-0 space-y-4 md:flex-row md:space-x-4 relative">
           {!isLoading ? (
             <div className="flex items-center space-x-4">
               {session || email ? (
@@ -137,8 +147,11 @@ export default function Nav() {
                                             <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                                         </span> */}
             </svg>
+            <span className="absolute top-0 -mt-1 ml-2 w-5 h-5 bg-green-500 text-white text-xs rounded-full flex justify-center items-center">
+              {cartItemCounter}
+            </span>
           </Link>
-                  <button className="button">Git checkout -b
+                  <button className="button">
                     <Link href="/client/form/signIn">Registro</Link>
                   </button>
                   <button className="button">
