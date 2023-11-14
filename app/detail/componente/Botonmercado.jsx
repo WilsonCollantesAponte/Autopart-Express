@@ -13,8 +13,12 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
   }
 
   useEffect(() => {
-    const productoLimpio = producto.filter((pro) => pro?.quantity !== 0);
-
+    const productoLimpio = producto.filter((pro) => pro?.quantity !== 0)
+    
+    /* productoLimpio.forEach(element => {
+      element.price= Number(element.price)
+    });
+ */
     console.log("envia post", productoLimpio);
     if (productoLimpio.length == 1) {
       localStorage.setItem("_cantidad", productoLimpio[0]?.quantity);
@@ -39,7 +43,7 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
           setUrl(r);
         })
         .then(() => setLoadingComprar(false))
-        .catch((error) => console.log(error.message));
+        .catch((error) => console.log(error));
     };
 
     getURL();
