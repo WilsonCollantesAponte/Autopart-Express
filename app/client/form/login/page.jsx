@@ -95,7 +95,7 @@ export default function Login() {
           {!isLoading ? (
             <button
               type="submit"
-              className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
               style={{ marginTop: "1rem" }}
             >
               Iniciar Sesión
@@ -110,9 +110,15 @@ export default function Login() {
               e.preventDefault();
               signIn(undefined, { callbackUrl: "/" });
             }}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          >
-            Google
+            className="flex items-center justify-center w-full bg-white border-2 border-gray-300 text-gray-700 font-bold py-2 px-4
+            rounded"
+      >
+        <img
+          src="/googlelogo.png"  
+          alt="Google Logo"
+          className="w-6 h-6 mr-2"  
+        />
+        Acceder con Google
           </button>
         </div>
       </form>
