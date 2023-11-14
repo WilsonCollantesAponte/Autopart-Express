@@ -1,6 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function DashboardLayout({ children }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (
+      !localStorage.getItem("userType") ||
+      localStorage.getItem("userType") !== "admin"
+    )
+      location.replace("/");
+    else setIsLoading(false);
+  }, []);
+
+  if (isLoading) return <div className=" text-2xl font-bold">Loading...</div>;
+
   return (
     <section className="">
       <div className=" flex bg-indigo-100 gap-5 py-6 px-4 text-center border-y  border-gray-400 pb-6 overflow-auto  ">
