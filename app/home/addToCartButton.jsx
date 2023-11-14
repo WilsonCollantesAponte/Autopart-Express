@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
-
+import { useCart } from "../hooks/useCart";
 export default function AddToCartButton({
   idClient,
   idProduct,
   mustBeLogged,
   inCart,
+  product,
 }) {
   const [inTheCart, setInTheCart] = useState(inCart);
   const [loadingAddToCart, setloadingAddToCart] = useState(false);
   const [loadDeleteFromTheCart, setLoadDeleteFromTheCart] = useState(false);
+  const {cart , addToCart, removeFromCart } = useCart();
 
   function handleAddToCart() {
     if (!mustBeLogged) {
@@ -46,16 +48,28 @@ export default function AddToCartButton({
     }
   }
 
- useEffect(()=>{
-  setInTheCart(inCart)
- },[inCart])
 
   return (
     <div>
-      {!inTheCart  ? (
+       {
+            inTheCart ? (
+              <div>
+                <button onClick={()=>removeFromCart(product)}>
+                  quitar carrito
+                </button>
+              </div>
+            ) : (
+              <div>
+                <button onClick={()=>addToCart(product)}>
+                  añadir al carrito
+                </button>
+              </div>
+            )
+      }
+   {/*    {!inTheCart  ? (
         <div>
           {!loadingAddToCart ? (
-          <button onClick={handleAddToCart} className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+          <button onClick={handleAddToCart}className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-6 py-2.5 text-center">
           Añadir al carrito
         </button>
           ) : (
@@ -75,7 +89,7 @@ export default function AddToCartButton({
             <MoonLoader size={22} />
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
