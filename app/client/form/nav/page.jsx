@@ -8,10 +8,14 @@ export default function Nav() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [email, setEmail] = useState("");
+  const [userType, setUserType] = useState(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     setIsLoading(true);
+
+    const storedUserType = localStorage.getItem("userType");
+    setUserType(storedUserType);
 
     if (!session && !localStorage.getItem("email")) {
       setIsLoading(false);
@@ -79,9 +83,11 @@ export default function Nav() {
           <Link className="hover:text-gray-200" href="/home">
             Home
           </Link>
-          <Link className="hover:text-gray-200" href="/dashboard/clients">
-            Admin
-          </Link>
+          {userType === "admin" && (
+            <Link className="hover:text-gray-200" href="/dashboard/clients">
+              Admin
+            </Link>
+          )}
           <Link className="hover:text-gray-200" href="/client/form/about">
             About
           </Link>
