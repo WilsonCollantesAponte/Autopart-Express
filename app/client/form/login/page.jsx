@@ -35,6 +35,8 @@ export default function Login() {
       const responsejson = await response.json();
 
       if (responsejson.userFound.length > 0) {
+        const userType = responsejson.userFound[0].type;
+        console.log(userType)
         const responseIsActive = await fetch(
           `/client/form/login/api/email?email=${formData.email}`,
           {
@@ -50,6 +52,7 @@ export default function Login() {
 
         localStorage.email = responsejson.userFound[0].email;
         localStorage.name = responsejson.userFound[0].name;
+        localStorage.setItem("userType", userType);
        
         setIsLoading(false);
         location.replace("/");
