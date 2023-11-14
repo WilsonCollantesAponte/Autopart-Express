@@ -57,8 +57,8 @@ export default function Cart() {
         model: value.Product?.model,
         rating: value.Product?.rating,
         image: value.Product?.image, 
-        quantity: 0,
-        newprice: 0,
+        quantity: 1,
+        newprice: value.Product?.price * 1,
         idCart: value.id,
       }
     });
@@ -165,6 +165,7 @@ useEffect(() => {
                 </tr>
             </thead>
             <tbody>
+              {console.log("productList", productList)}
             {productList.map((value, index) => (
               <tr className="bg-white border-b  hover:bg-gray-50 ">
               <th  scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
@@ -182,7 +183,7 @@ useEffect(() => {
                               </button>
                               <input
                                 type="number"
-                                className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
+                                className=" focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
                                 name="custom-input-number" 
                                 value={value.quantity}
                                 onChange={() => handlerQuantity(index)}>

@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import {useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useCart } from '@/app/hooks/useCart';
 
 //ASIGNA EL PAGO A LOS CARROS CREADOS OJO NO FIFERENCIA CANTIDADES DE UN MISMO PRODUCTO
 const putCart = (id_cart ,payment_id,quantity, date) =>{
@@ -46,7 +47,7 @@ function Succesful() {
   const searchParams = useSearchParams() ;
   const payment_id = searchParams.get("payment_id");
   const [executed , setExecuted] = useState(false)
-
+  const { cart , cleanCart} = useCart();
 
 useEffect(()=>{
   const Fecha_hora = new Date();
@@ -79,6 +80,8 @@ if(!executed){
       });
       setExecuted(true)
   } }
+
+  cleanCart();
 },[])
 
 
