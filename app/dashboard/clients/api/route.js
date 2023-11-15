@@ -36,7 +36,7 @@ export async function POST(request) {
 
 export async function PUT(request) {
   const idClient = request.nextUrl.searchParams.get("id");
-  const { name, surname, email, password, status } = await request.json();
+  const { name, surname, email, password, status, type } = await request.json();
 
   const updatedClient = await DataBaseInteraction.client.update({
     include: {
@@ -50,6 +50,7 @@ export async function PUT(request) {
       surname,
       email,
       password,
+      type,
       Accessibility: {
         update: {
           status,
