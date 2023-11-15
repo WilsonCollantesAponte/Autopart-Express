@@ -37,6 +37,7 @@ export async function GET(request) {
         });
         
         DataCompras[paymentId].products.push({
+          id: DataProducto.id,
           name: DataProducto.name,
           brand: DataProducto.brand,
           model: DataProducto.model,

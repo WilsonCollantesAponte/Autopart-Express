@@ -36,7 +36,7 @@ export default function ProductDetail({ params }) {
       const newQuantity = prevProduct.quantity + 1;
       return {
         ...prevProduct,
-        quantity: newQuantity > 0 ? newQuantity : 0,
+        quantity: newQuantity < prevProduct.availability ? newQuantity : prevProduct.availability,
       };
     });
   };
@@ -181,16 +181,17 @@ export default function ProductDetail({ params }) {
           <div className="p-1">
             {/* write */}
             <div className=" flex">
-              <input
+              <h4 className="mt-10">Nuestros Clientes</h4>
+              {/* <input
                 className=" w-5/6 rounded-l-md outline-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
                 type="text"
                 value={comment}
                 onChange={(e) => {
                   setComment(e.target.value);
                 }}
-              />
+              /> */}
               {/* submit */}
-              {!loadingToComment ? (
+              {/* {!loadingToComment ? (
                 <button
                   className=" w-1/6 bg-indigo-500 text-white font-extrabold rounded-r-md  "
                   onClick={() => {
@@ -222,7 +223,7 @@ export default function ProductDetail({ params }) {
                 <div className=" w-1/6 bg-slate-300 flex items-center">
                   <MoonLoader className=" mx-auto" size={20} />
                 </div>
-              )}
+              )} */}
               {/* show */}
             </div>
 

@@ -30,7 +30,7 @@
     });
     const [ascendingOrder, setAscendingOrder] = useState(true);
     const [priceRange, setPriceRange] = useState("");
-    
+    const [addtocart , setAddtocart] = useState(false)
 
     function handleProduct(event) {
       event.preventDefault()
@@ -112,6 +112,7 @@
                 setProducts(r);
                 setProductsSupport(r);
                 setIsLoading(false);
+                console.log("r prodcutos" , r)
               })
               .catch(() => {
                 setIsLoading(false);
@@ -138,6 +139,7 @@
                 setProducts(r);
                 setProductsSupport(r);
                 setIsLoading(false);
+                console.log("r",r)
               })
               .catch(() => {
                 setIsLoading(false);
@@ -160,6 +162,9 @@
       }
     }, [session?.user.email, ]);
 
+    useEffect(() => {
+      setAddtocart(false)
+    },[page])
     if (isLoading)
       return (
         <div className="flex animate-pulse">
@@ -288,9 +293,18 @@
     const endIndex = startIndex + productsPerPage;
     const displayedProducts = sortedProducts.slice(startIndex, endIndex);
 
-    const checkProductInCart = (product) => {
+    
+    const checkProductInCart =  (product) => {
+      //if(product.Cart.length !== 0 ) addToCart(product);
+      console.log("ver",[product.Cart ,product.Cart.length])
+      if(product.Cart.length==1 && !addtocart){
+        addToCart(product);
+        setAddtocart(true)
+      }
       return cart.some(item=> item.id === product.id)
     }
+
+
   return (
     <div className="flex flex-col sm:flex-row">
       <div className="w-full sm:w-1/5 p-4">
@@ -461,19 +475,21 @@
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center">
                           <Link href={`/detail/${value.id}`}>Ver</Link>
                         </button>
-                        <div>
+                        <div >
                           {/* adiero o quito del carrito */}
                            {
                               checkProductInCart(value) ? (
-                                <div>
-                                  <button onClick={()=>{removeFromCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value)) }}>
-                                    quitar carrito
+                                <div className="flex items-center justify-between">
+                                  <button className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                   onClick={()=>{removeFromCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value)) }}>
+                                    remove cart
                                   </button>
                                 </div>
                               ) : (
-                                <div>
-                                  <button onClick={()=>{addToCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value))}}>
-                                    añadir al carrito
+                                <div className="flex items-center justify-between">
+                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center"
+                                  onClick={()=>{addToCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value))}}>
+                                    add cart
                                   </button>
                                 </div>
                               )
