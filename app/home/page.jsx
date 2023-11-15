@@ -487,7 +487,7 @@
                                 </div>
                               ) : (
                                 <div className="flex items-center justify-between">
-                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center"
+                                  <button className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300  font-medium rounded-lg text-sm px-12 py-2.5 text-center"
                                   onClick={()=>{addToCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value))}}>
                                     add cart
                                   </button>
