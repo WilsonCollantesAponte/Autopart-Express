@@ -79,7 +79,38 @@ if(!executed){
       });
       setExecuted(true)
   } }
-},[])
+  
+  
+  //Cambios para la Notificaion por email
+  
+  if(email){
+  try {
+    
+    fetch('/placeOrder/email', {
+      method: 'POST',
+      body: JSON.stringify({
+        to: email,
+        subject: '¡Compra exitosa!',
+        text: `¡Hola!. Gracias por elegir nuestros productos.
+        Puedes retirarlo en nuestras sucursales.
+        Orden de compra: ${payment_id}`
+      }),
+    }).then(async (response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+      console.log('Response:', responseData);
+    }).catch((error) => {
+      console.log("Error in fetch:", error);
+    });
+  } catch (error) {
+    console.log("Error sending email:", error);
+  }
+}
+// se agrego email en el array de dependencia
+  
+},[email])
 
 
  
