@@ -60,7 +60,7 @@ const Footer = () => {
         
         <div className="mb-4 md:mb-0">
           <h3 className="text-lg font-semibold mb-2">CONTACTO</h3>
-          <p><a className="hover:text-gray-200" href="mailto:autopartexpress14@gmail.com">Enviar Mail</a></p>
+          <p><a className="hover:text-gray-200" href="mailto:autopartexpress14@gmail.com">Enviar Email</a></p>
         </div>
       </div>
       

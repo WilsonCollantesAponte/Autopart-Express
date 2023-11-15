@@ -58,16 +58,16 @@ export default function LastPurchase() {
 
             {Object.keys(profileData).map((paymentId) => (
               <div key={paymentId}>
-                <h1>Payment ID: {paymentId}</h1>
-                <p>Date: {profileData[paymentId].date}</p>
+                <h1>ID de Pago: {paymentId}</h1>
+                <p>Fecha: {profileData[paymentId].date}</p>
                 
-                <h3>Products:</h3>
+                <h3>Productos:</h3>
                 {profileData[paymentId].products.map((product, index) => (
                   <div key={index}>
-                    <p>Name: {product.name}</p>
-                    <p>Brand: {product.brand}</p>
-                    <p>Price: {product.price}</p>
-                    <p>Quantity: {product.quantity}</p>
+                    <p>Nombre: {product.name}</p>
+                    <p>Marca: {product.brand}</p>
+                    <p>Precio: {product.price}</p>
+                    <p>Cantidad: {product.quantity}</p>
                     <img src={product.image} alt={product.name} />
 
                   </div>
@@ -78,7 +78,7 @@ export default function LastPurchase() {
             ))}
           </div>
         ) : (
-          <p>Waiting for data...</p>
+          <p>Esperando los datos...</p>
         )}
       </div>
     );

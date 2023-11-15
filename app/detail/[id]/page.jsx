@@ -133,7 +133,7 @@ export default function ProductDetail({ params }) {
                 ${product?.price}
               </span>
               <div className="flex mb-4"></div>
-              <p className="leading-relaxed text-gray-600">Caracteristicas</p>
+              <p className="leading-relaxed text-gray-600">Características</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"></div>
               <div className="flex  mb-5">
                 <p className="mr-2  text-gray-600">Stock disponible</p>
@@ -141,7 +141,7 @@ export default function ProductDetail({ params }) {
                 <p>{`(${product?.availability} unidades disponibles)`}</p>
               </div>
               <div className="flex flex-row h-10  rounded-lg relative bg-transparent mt-1 mb-5">
-                <label className="mr-2">cantidad</label>
+                <label className="mr-2">Cantidad</label>
                 <button
                   onClick={restar}
                   className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
@@ -166,7 +166,7 @@ export default function ProductDetail({ params }) {
               <div className="flex ">
                 {product?.quantity == 0 ? (
                   <p className="font-medium text-red-700">
-                    debe seleccionar al menos un producto
+                    Debe seleccionar al menos un producto
                   </p>
                 ) : (
                   <Botonmercado
@@ -196,7 +196,7 @@ export default function ProductDetail({ params }) {
                   onClick={() => {
                     //Validar que exista un usuario
                     if (!localStorage.getItem("email"))
-                      return alert("Must be logged");
+                      return alert("Debe iniciar sesión para continuar");
                     //Validar que exista un mensaje
                     if (!comment) return alert("Commet can not be empty");
 
