@@ -19,6 +19,7 @@ export default function ClientRow({ clientValue, setClients, clients }) {
     email: clientValue.email,
     password: clientValue.password,
     status: clientValue.Accessibility.status,
+    type: clientValue.type,
   });
 
   function handleInitData(event) {
@@ -55,6 +56,12 @@ export default function ClientRow({ clientValue, setClients, clients }) {
           <div className="flex items-center">
             <div className=" py-2.5 px-3 overflow-auto w-24 h-fit">
               {clientValue.Accessibility.status ? "Yes" : "No"}
+            </div>
+          </div>
+
+          <div className="flex items-center">
+            <div className=" py-2.5 overflow-auto px-4 w-72 h-fit">
+              {clientValue.type}
             </div>
           </div>
 
@@ -279,6 +286,26 @@ export default function ClientRow({ clientValue, setClients, clients }) {
               }}
             />
           </div>
+
+          <div className="flex flex-col items-center">
+            <input
+              maxLength={45}
+              className={
+                errors.type
+                  ? " py-2.5 overflow-auto pl-4 w-72 h-fit ring-red-500 ring-inset ring-2"
+                  : " py-2.5 overflow-auto pl-4 w-72 h-fit"
+              }
+              value={initData.type}
+              name="type"
+              onChange={handleInitData}
+            />
+            {errors.type ? (
+              <p className=" mt-1 text-sm leading-6 text-red-600 px-3 w-72">
+                {/* <p> */}
+                {errors.email}
+              </p>
+            ) : null}
+          </div>
           {!loadingUpdate ? (
             <div className=" flex gap-4 px-6  ">
               <button
@@ -299,6 +326,7 @@ export default function ClientRow({ clientValue, setClients, clients }) {
                         clientFound.email = initData.email;
                         clientFound.password = initData.password;
                         clientFound.Accessibility.status = initData.status;
+                        clientFound.type = initData.type;
                         setClients(clients);
                       })
                       .then(() => setEdit(false))
