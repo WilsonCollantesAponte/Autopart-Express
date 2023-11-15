@@ -45,7 +45,7 @@ export default function Login() {
         );
         const responseIsActiveJson = await responseIsActive.json();
         if (!responseIsActiveJson.client[0]?.Accessibility.status) {
-          alert("El usuario se encuantra desactivado");
+          alert("El usuario se encuentra desactivado");
           setIsLoading(false);
           return;
         }

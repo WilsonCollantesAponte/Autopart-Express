@@ -78,7 +78,7 @@ export default function OrdersDashborad() {
     <div className="">
       <div className="w-full flex m-2 items-center">
         <label className="m-2 flex justify-center text-center">
-          Buscar Codigo de Orden
+          Buscar Código de Orden
         </label>
         <input
           type="search"
@@ -100,7 +100,7 @@ export default function OrdersDashborad() {
                   Nombre Cliente
                 </th>
                 <th className="px-4 py-2 border font-bold text-white">
-                  Codigo de Orden
+                  Código de Orden
                 </th>
               </tr>
             </thead>

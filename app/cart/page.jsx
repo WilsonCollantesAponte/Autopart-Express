@@ -151,13 +151,13 @@ useEffect(() => {
                         Imagen
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Product Name
+                        Producto
                     </th>
                     <th scope="col" className="px-6 py-3">
                         
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Price
+                        Precio
                     </th>
                     <th scope="col" className="px-6 py-3">
                         <span className="sr-only">Edit</span>
@@ -170,7 +170,7 @@ useEffect(() => {
               <tr className="bg-white border-b  hover:bg-gray-50 ">
               <th  scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
               <img src={value.image} alt="image" className=" w-24" />
-              <span>stock ({value.availability})</span>
+              <span>Stock ({value.availability})</span>
               </th>
               <td className="px-6 py-4">
               {value.name}

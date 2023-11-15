@@ -109,10 +109,10 @@ export default function Register() {
         validate();
 
         if (isFormValid && response.ok) {
-          alert("formulario valido");
+          alert("Formulario válido");
           setIsLoading(false);
         } else {
-          alert("formulario invalido");
+          alert("Formulario no válido");
           setIsLoading(false);
         }
       }
