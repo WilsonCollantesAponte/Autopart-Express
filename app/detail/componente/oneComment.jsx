@@ -22,7 +22,6 @@ export default function OneComment({
     setComment(value.comment);
   }, [lengthComments]);
 
-  console.log("value" , { })
   return (
     <div className=" flex flex-col border-2 border-gray-900/80 my-3 rounded-lg">
       <div className=" flex gap-4 border-b-2 border-gray-900/70 text-xs font-bold text-black justify-end px-1.5 py-0.5">
