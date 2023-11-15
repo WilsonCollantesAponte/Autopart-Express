@@ -480,16 +480,16 @@
                            {
                               checkProductInCart(value) ? (
                                 <div className="flex items-center justify-between">
-                                  <button className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                  <button className=" text-yellow-600 border-2 border-yellow-300 hover:bg-yellow-300 hover:text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center"
                                    onClick={()=>{removeFromCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value)) }}>
-                                    remove cart
+                                    Quitar del carrito
                                   </button>
                                 </div>
                               ) : (
                                 <div className="flex items-center justify-between">
-                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center"
+                                  <button className="text-red-botton border-2 border-red-botton hover:bg-red-botton hover:text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center"
                                   onClick={()=>{addToCart(value) ; handleAddToCart(idClient , value.id , mustBeLogged , checkProductInCart(value))}}>
-                                    add cart
+                                    Añadir al carrito
                                   </button>
                                 </div>
                               )
