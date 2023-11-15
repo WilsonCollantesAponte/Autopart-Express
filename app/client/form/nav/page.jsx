@@ -81,15 +81,15 @@ export default function Nav() {
             Inicio
           </Link>
           <Link className="hover:text-gray-200" href="/home">
-            Home
+            Tienda
           </Link>
           {userType === "admin" && (
             <Link className="hover:text-gray-200" href="/dashboard/clients">
-              Admin
+            Admin
             </Link>
           )}
           <Link className="hover:text-gray-200" href="/client/form/about">
-            About
+            Nosotros
           </Link>
         </div>
 
@@ -132,10 +132,10 @@ export default function Nav() {
                     )}
                   </p>
                   <Link href="/client/form/profile">
-                    <button className="button">Profile</button>
+                    <button className="button">Perfil</button>
                   </Link>
                   <button className="button" onClick={handleLogout}>
-                    Logout
+                    Cerrar Sesión
                   </button>
                 </>
               ) : (

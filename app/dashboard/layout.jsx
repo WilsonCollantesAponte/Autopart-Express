@@ -53,7 +53,7 @@ export default function DashboardLayout({ children }) {
             className=" col-span-2 bg-black  text-white text-sm  font-extrabold font-serif px-3 py-2 box-border w-40 hover:bg-slate-600/75"
             href="/dashboard/orders"
           >
-            Ordenes
+            Órdenes
           </Link>
         </div>
         {/* <div className=" flex col-span-2 divide-x-2 divide-gray-500 border-2 rounded border-gray-600">

@@ -93,11 +93,11 @@ export default function Profile() {
               href="/client/form/profile/lastPur"
               className="w-full bg-blue-Nav hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Last Purchased
+              Ver últimas compras
             </Link>
           </div>
         ) : (
-          <p>Waiting for data...</p>
+          <p>Esperando los datos...</p>
         )}
       </div>
     );

@@ -9,7 +9,7 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
   const [loadingComprar, setLoadingComprar] = useState(true);
 
   function handleLogged() {
-    alert("must be logged");
+    alert("Debe iniciar sesión para continuar");
   }
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
             onClick={handleLogged}
             className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
           >
-            comprar
+            Comprar
           </button>
         </div>
       ) : (
@@ -79,7 +79,7 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
               }}
               className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
             >
-              <Link href={`${url}`}>comprar</Link>
+              <Link href={`${url}`}>Comprar</Link>
             </button>
           )}
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import { Footer, Navbar } from ".";
 import Link from "next/link";
@@ -19,6 +19,16 @@ const Hero = () => {
   const nextImage = () => {
     setCurrentImage((currentImage + 1) % images.length);
   };
+
+  useEffect(() => {
+    const autoChangeImage = () => {
+      nextImage();
+    };
+
+    const intervalId = setInterval(autoChangeImage, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [currentImage]); 
 
   return (
     <div>
