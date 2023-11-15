@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 
 export default function OneComment({
-  value,
+  value, //item commentario {..}
   newDateTime,
-  lengthComments,
-  setallComments,
-  allComments,
+  lengthComments, //1
+  setallComments, //setCommentClient
+  allComments, //item
 }) {
   //Estados de carga
   const [edit, setEdit] = useState(false);
@@ -37,7 +37,8 @@ export default function OneComment({
           </div>
           {!willBeDeleted ? (
             <div className="p-2 flex gap-2 self-center w-20">
-              <button
+                {/* editar boton cambia estado edit*/}
+              <button 
                 onClick={() => {
                   if (value.emailClient !== localStorage.getItem("email"))
                     return alert("You are not the owner of this comment");
@@ -64,6 +65,7 @@ export default function OneComment({
                   <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
               </button>
+                {/* eliminar boton - cambia estado willbedeleted */}
               <button
                 onClick={() => {
                   if (value.emailClient !== localStorage.getItem("email"))
@@ -93,7 +95,7 @@ export default function OneComment({
                   <path d="M14 11v6" />
                 </svg>
               </button>
-            </div>
+            </div> /* desde aca si lo quiero eliminar */
           ) : (
             // <div className="p-2 flex gap-2">
             <div className="p-2 self-center w-20">
@@ -167,7 +169,7 @@ export default function OneComment({
               )}
             </div>
           )}
-        </div>
+        </div> /* desde aca si lo quiero editar */
       ) : (
         <div className=" flex">
           <textarea
