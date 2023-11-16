@@ -113,7 +113,7 @@ export default function LastPurchase() {
                           {product.brand}
                         </th>
                         <th scope="col" className="px-6 py-3">
-                          {product.quantity}
+                          {product.price}
                         </th>
                         <th scope="col" className="px-6 py-3">
                           {product.quantity}

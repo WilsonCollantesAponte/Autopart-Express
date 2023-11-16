@@ -75,6 +75,7 @@ function Succesful() {
                 localStorage.getItem("_cantidadvarios"),
                 FechaHora
               );
+              cleanCart();
             }
           });
         setExecuted(true);
@@ -99,13 +100,12 @@ function Succesful() {
                 localStorage.getItem("_cantidadvarios"),
                 FechaHora
               );
+              cleanCart();
             }
           });
         setExecuted(true);
       }
     }
-
-    cleanCart();
 
     //Cambios para la Notificaion por email
 
