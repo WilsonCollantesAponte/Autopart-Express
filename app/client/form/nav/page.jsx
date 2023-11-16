@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { FadeLoader } from "react-spinners";
+import { useCart } from "@/app/hooks/useCart";
+
 
 export default function Nav() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +12,7 @@ export default function Nav() {
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState(null);
   const { data: session } = useSession();
-
+  const { cart } = useCart();
   useEffect(() => {
     setIsLoading(true);
 
@@ -93,7 +95,7 @@ export default function Nav() {
           </Link>
         </div>
 
-        <div className="flex flex-col items-center mt-4 md:mt-0 space-y-4 md:flex-row md:space-x-4">
+        <div className="flex flex-col items-center mt-4 md:mt-0 space-y-4 md:flex-row md:space-x-4 relative">
           {!isLoading ? (
             <div className="flex items-center space-x-4">
               {session || email ? (
@@ -118,6 +120,10 @@ export default function Nav() {
                                             <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                                         </span> */}
                     </svg>
+                    <span className="absolute top-0 -mt-1 ml-2 w-5 h-5 bg-green-500 text-white text-xs rounded-full flex justify-center items-center">
+                         
+                       {cart.length}
+                    </span>
                   </Link>
                   <p className="text-gray-200">
                     {/* Hola! {formData.email} {formData.surname} */}
