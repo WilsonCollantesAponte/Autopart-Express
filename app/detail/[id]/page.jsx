@@ -118,7 +118,7 @@ export default function ProductDetail({ params }) {
                 {`${product?.name} | ${product?.model}`}{" "}
               </h1>
 
-              <div className="flex items-center">
+             {/*  <div className="flex items-center">
                 <p className="text-small title-font text-gray-900 mr-2">
                   Rating: {product?.rating}
                 </p>
@@ -127,7 +127,7 @@ export default function ProductDetail({ params }) {
                     ★
                   </span>
                 ))}
-              </div>
+              </div> */}
 
               <span className="title-font text-3xl text-gray-900">
                 ${product?.price}

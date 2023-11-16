@@ -10,7 +10,6 @@ export async function POST(request) {
   try {
     const productos = await request.json();
 
-    console.log(productos);
     const arrayProductos = productos.map((producto) => {
       return {
         id: producto.id,
