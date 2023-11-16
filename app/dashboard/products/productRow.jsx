@@ -67,11 +67,11 @@ export default function ProductRow({ productValue, setProducts, products }) {
               {productValue.model}
             </div>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <div className=" py-2.5 overflow-auto pl-4 w-20 h-fit">
               {productValue.rating}
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center">
             <div className=" w-28">
               <img

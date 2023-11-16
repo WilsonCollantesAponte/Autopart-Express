@@ -47,9 +47,9 @@ export default function UsersDashborad() {
             <div className="flex items-center">
               <div className=" py-2.5 pl-4 w-52">Modelo</div>
             </div>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <div className=" py-2.5 pl-3 w-20">Rating</div>
-            </div>
+            </div> */}
             <div className="flex items-center">
               <div className=" py-2.5 pl-4 w-28">Imagen</div>
             </div>
