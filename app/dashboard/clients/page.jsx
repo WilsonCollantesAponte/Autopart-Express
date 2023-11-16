@@ -49,6 +49,10 @@ export default function UsersDashborad() {
               <div className=" py-2.5 pl-4 w-24">Status</div>
             </div>
             <div className="flex items-center">
+              <div className=" pl-1.5 w-72">Tipo</div>
+            </div>
+            
+            <div className="flex items-center">
               <div className=" py-2.5 pl-4">Opciones</div>
             </div>
           </div>
