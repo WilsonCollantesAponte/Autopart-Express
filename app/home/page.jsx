@@ -68,7 +68,6 @@ const Home = () => {
         fetch(`/home/api?idClient=${idClient}&idProduct=${idProduct}`)
           .then((r) => r.json())
           .then((r) => {
-            console.log(r);
             fetch(`/cart/api?id=${r[r.length - 1]?.id}`, {
               method: "DELETE",
             }).catch(() => console.log(error));
@@ -110,7 +109,6 @@ const Home = () => {
               setProducts(r);
               setProductsSupport(r);
               setIsLoading(false);
-              console.log("r prodcutos", r);
             })
             .catch(() => {
               setIsLoading(false);
@@ -137,7 +135,6 @@ const Home = () => {
               setProducts(r);
               setProductsSupport(r);
               setIsLoading(false);
-              console.log("r", r);
             })
             .catch(() => {
               setIsLoading(false);
@@ -290,7 +287,7 @@ const Home = () => {
 
   const checkProductInCart = (product) => {
     //if(product.Cart.length !== 0 ) addToCart(product);
-    console.log("ver", [product.Cart, product.Cart.length]);
+    //console.log("ver", [product.Cart, product.Cart.length]);
     if (product.Cart.length == 1 && !addtocart) {
       addToCart(product);
       setAddtocart(true);
@@ -360,14 +357,14 @@ const Home = () => {
               ))}
             </select>
           </div>
-          <div className="mb-4">
-            <label
+          {/* <div className="mb-4"> */}
+           {/*  <label
               className="mx-1.5 text-gray-800 font-semibold"
               htmlFor="rating"
             >
               Rating
-            </label>
-            <select
+            </label> */}
+            {/* <select
               name="rating"
               onChange={handleProduct}
               value={filters.rating}
@@ -379,8 +376,8 @@ const Home = () => {
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </select>
-          </div>
+            </select> */}
+          {/* </div> */}
           <div className="mb-4">
             <label
               className="mx-1.5 text-gray-800 font-semibold"
@@ -462,9 +459,9 @@ const Home = () => {
                           <p className="font-bold text-blue-Nav text-2xl px-0 py-2">
                             ${value.price}
                           </p>
-                          <p className="font-normal text-gray-700 text-right px-1">
+                          {/* <p className="font-normal text-gray-700 text-right px-1">
                             Rating: {value.rating}
-                          </p>
+                          </p> */}
                         </div>
                         <div className="flex items-center justify-between">
                           <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-12 py-2.5 text-center">
@@ -492,7 +489,7 @@ const Home = () => {
                             ) : (
                               <div className="flex items-center justify-between">
                                 <button
-                                  className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300  font-medium rounded-lg text-sm px-12 py-2.5 text-center"
+                                  className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300  font-medium rounded-lg text-sm px-4 py-2.5 text-center"
                                   onClick={() => {
                                     addToCart(value);
                                     handleAddToCart(
@@ -528,7 +525,6 @@ const Home = () => {
             </section>
           )}
         </div>
-        {console.log(cart)}
         <header className="flex gap-4 justify-center items-center mt-4">
           <button
             className="bg-red-botton text-white font-bold py-1 px-4 rounded my-4"

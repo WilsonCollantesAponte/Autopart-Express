@@ -19,14 +19,14 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
       element.price= Number(element.price)
     });
  */
-    console.log("envia post", productoLimpio);
+   //console.log("envia post", productoLimpio);
     if (productoLimpio.length == 1) {
       localStorage.setItem("_cantidad", productoLimpio[0]?.quantity);
-      console.log("cuntti", productoLimpio[0]?.quantity);
+     // console.log("cuntti", productoLimpio[0]?.quantity);
     } else {
       const auxQuantity = productoLimpio.map((value) => value.quantity);
       localStorage.setItem("_cantidadvarios", JSON.stringify(auxQuantity));
-      console.log("varios", auxQuantity);
+      //console.log("varios", auxQuantity);
     }
 
     const getURL = () => {
@@ -69,11 +69,9 @@ const Botonmercado = ({ producto, id_cart, mustBeLogged }) => {
               onClick={() => {
                 if (Array.isArray(id_cart)) {
                   localStorage.setItem("id_cart", JSON.stringify(id_cart));
-                  console.log("dentro", id_cart);
                   localStorage.setItem("_compra", "muchos");
                 } else {
                   localStorage.setItem("_idProduct", id_cart);
-                  console.log(id_cart);
                   localStorage.setItem("_compra", "uno");
                 }
               }}
