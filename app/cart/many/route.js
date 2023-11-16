@@ -56,9 +56,10 @@ export async function PUT(request) {
     try {
       const { id_cart , payment_id , quantity , date} = await request.json();
        
+      console.log(quantity)
         const idCart = id_cart.slice(1,-1).split(',').map((item) => item.replace(/"/g, ''));;
         const aux_quantity = quantity.slice(1,-1).split(',');
-      
+      console.log(aux_quantity)
         let i = 0;
         for(const cartid of idCart){
             await DataBaseInteraction.cart.update({     

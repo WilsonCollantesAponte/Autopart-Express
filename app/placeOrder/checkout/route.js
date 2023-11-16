@@ -22,8 +22,8 @@ export async function POST(request) {
       };
     });
 
-    //  const URL = "https://64e7-181-209-91-123.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy
-    const URL = "https://autopart-express.vercel.app"; //http://localhost3000 deveria https:// o el deploy
+     //const URL = "https://7933-181-209-91-123.ngrok-free.app" //http://localhost3000 deveria https:// o el deploy
+        const URL = "https://autopart-express.vercel.app"; //http://localhost3000 deveria https:// o el deploy
 
     let preference = {
       items: arrayProductos,
